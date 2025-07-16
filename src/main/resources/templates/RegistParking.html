@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+	<head>
+		
+	<meta charset ="utf-8"/>
+	
+<!--   ブラウザのタイトル　-->
+	</head>
+	
+	<body>
+
+		<!--   遷移先とオブジェクト名は仮定　-->
+		<form id="registParkingform" method ="post" th:action ="@{/RegistParking/post}" th:object="${form}">
+			
+			<div>
+				<label>
+					都道府県名 : <input th:field="*{address1}" id="address1" required/>
+				</label>
+			</div>
+			
+			<div>
+				<label>
+					市区町村 : <input th:field="*{address2}" id="address2" required/>
+				</label>
+			</div>
+			
+			<div>
+				<label>
+					丁目 : <input th:field="*{address3}"id="address3" required/>
+				</label>
+			</div>
+			
+			<div>
+				<label>
+					駐車場名 : <input th:field="*{name}" id="name" required/>
+				</label>
+			</div>
+			
+			<div>
+				<label>
+					収容台数 :<input th:field="*{capacity}" id="capacity" required/>
+				</label>
+			</div>
+			
+			<div>
+				<label>
+					１時間当たりの料金 : <input th:field="*{hourlyRate}" id="hourlyRate" required/>
+				</label>
+			</div>
+
+            <button type="button" id="submitBtn">登録</button>
+			<!-- <button type="submit" onclick ="alertClick()">登録</button> -->
+	
+		</form>
+		
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const form = document.getElementById("registParkingform");
+
+                  document.getElementById("submitBtn").addEventListener("click", function () {
+                if (!form.checkValidity()) {
+                    form.reportValidity(); // ← ここでブラウザの警告（吹き出し）が出る
+                return;
+                }
+                    const address1 = document.getElementById("address1").value;
+                    const address2 = document.getElementById("address2").value;
+                    const address3 = document.getElementById("address3").value;
+                    const name = document.getElementById("name").value;
+                    const capacity = document.getElementById("capacity").value;
+                    const hourlyRate = document.getElementById("hourlyRate").value;
+            
+                    const message = `この内容で登録しますか？\n\n県名: ${address1}\n市町村: ${address2}\n丁目: ${address3}\n駐車場名: ${name}\n収容台数: ${capacity}\n１時間当たりの料金: ${hourlyRate}`;
+            
+                    const result = confirm(message);
+                    if (result) {
+                      document.getElementById("registParkingform").requestSubmit();
+                    }
+                  });
+                });
+				
+              </script>
+            
+	</body>
+</html>
