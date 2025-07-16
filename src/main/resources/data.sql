@@ -1,0 +1,1 @@
+INSERT INTO parkinglot(address1,address2,address3,name,capacity,hourlyRate,updateDate) values ('東京都','品川区西五反田','1丁目','タイムズパーク24グループ本社ビル',50,1320,'2025-07-20');
