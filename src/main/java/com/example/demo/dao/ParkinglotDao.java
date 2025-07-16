@@ -12,9 +12,9 @@ import com.example.demo.entity.ParkinglotEntity;
 
 @Repository
 public class ParkinglotDao {
-	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+	
 	
 	//登録
 	public void insert(ParkinglotEntity ent) {
