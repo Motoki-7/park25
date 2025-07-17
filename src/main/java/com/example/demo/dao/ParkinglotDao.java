@@ -94,7 +94,7 @@ public class ParkinglotDao {
 	
 	//削除
 	public void delete(int id) {
-		String query = "DELETE parkinglot WHERE id = ?";
+		String query = "DELETE FROM parkinglot WHERE id = ?";
 		jdbcTemplate.update(query,id);
 		
 	}
