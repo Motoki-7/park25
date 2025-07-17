@@ -3,6 +3,8 @@
 	<head>
 		
 	<meta charset ="utf-8"/>
+	<script type="text/javascript" th:src="@{js/jquery-3.7.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/HomeAdmin.js}"></script>
 	
 <!--   ブラウザのタイトル　-->
 	</head>
@@ -14,10 +16,12 @@
 			
 			<div>
 				<label>
-					都道府県名 : <input th:field="*{address1}" id="address1" required/>
-					
+				<select id="id_address1" name="address1">
+				<option value="" disabled selected>プルダウン：都道府県選択</option>
+				</select><br>
 				</label>
 			</div>
+			
 			
 			<div>
 				<label>
@@ -64,7 +68,7 @@
                     form.reportValidity(); // ← ここでブラウザの警告（吹き出し）が出る
                 return;
                 }
-                    const address1 = document.getElementById("address1").value;
+                    const address1 = document.getElementById("id_address1").value;
                     const address2 = document.getElementById("address2").value;
                     const address3 = document.getElementById("address3").value;
                     const name = document.getElementById("name").value;
@@ -81,6 +85,5 @@
                 });
 				
               </script>
-            
 	</body>
 </html>
