@@ -17,6 +17,6 @@ public class RegistParkingController {
 	@PostMapping("/RegistParking/post")
 	public String insert(Model model, RegistParkingForm form) {
 		service.insert(form);
-		return "/HomeAdmin";
+		return "redirect:/HomeAdmin";
 	}
 }
