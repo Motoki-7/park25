@@ -4,18 +4,20 @@
 <head>
 	<meta charset="utf-8" />
 	<script type="text/javascript" th:src="@{js/jquery-3.7.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/utils.js}"></script>
 	<script type="text/javascript" th:src="@{/js/HomeAdmin.js}"></script>
 </head>
 
 <body>
-	<form th:action="@{/RegistParking}" method="get">
-		<input type="submit" value="新規">
-	</form>
 	<input type="text" id="id_name" placeholder="検索窓：名称"><br>
 	<select id="id_address1" name="address1">
 		<option value="" disabled selected>プルダウン：都道府県選択</option>
 	</select><br>
+	<input type="button" id="id_searchAll" value="一覧表示"></input>
 	<input type="button" id="id_search" value="検索"></input><br>
+	<form th:action="@{/RegistParking}" method="get">
+		<input type="submit" value="新規">
+	</form>
 	<div id="resultList"></div>
 </body>
 
