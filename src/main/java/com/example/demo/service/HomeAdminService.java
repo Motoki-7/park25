@@ -29,10 +29,4 @@ public class HomeAdminService {
 		
 		return parkinglotList;
 	}
-	
-	//削除
-//	public void delete(int id) {
-//		parkinglotDao.delete(id);
-//	}
-//	
 }
