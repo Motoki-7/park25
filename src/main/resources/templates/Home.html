@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<script type="text/javascript" th:src="@{js/jquery-3.7.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/utils.js}"></script>
+	<script type="text/javascript" th:src="@{/js/Home.js}"></script>
+</head>
+
+<body>
+	<input type="text" id="id_name" placeholder="検索窓：名称"><br>
+	<select id="id_address1" name="address1">
+		<option value="" disabled selected>プルダウン：都道府県選択</option>
+	</select><br>
+	<div id="id_errorMsg" style="color: red;"></div>
+	<input type="button" id="id_searchAll" value="一覧表示"></input>
+	<input type="button" id="id_search" value="検索"></input><br>
+	<div id="resultList"></div>
+</body>
+
+</html>
