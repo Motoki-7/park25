@@ -1,5 +1,5 @@
-function findParking() {
-	var url = "/demourl";
+function findParking(listStyle) {
+	var url = "/rest";
 	url += '?name=' + $('#id_name').val();
 	url += '&address1=' + $('#id_address1').val();
 	var result = [
@@ -54,7 +54,7 @@ function findParking() {
 			"updateDate": "2025-07-12"
 		}
 	];
-	makeParkingList(result);
+	listStyle(result);
 	console.log(url);
 	console.log("実行");
 
@@ -65,15 +65,15 @@ function findParking() {
 		})
 		.then((result) => {
 			console.log(result);
-			//makeItemList(result);
+			//listStyle(result);
 		})
 		.catch((error) => {
 			throw new Error("Get失敗");
 		});
 }
 
-function findParkingAll() {
-	var url = "/demourl?name=&address1=null";
+function findParkingAll(listStyle) {
+	var url = "/rest?name=&address1=null";
 	var result = [
 		{
 			"id": 1,
@@ -126,7 +126,7 @@ function findParkingAll() {
 			"updateDate": "2025-07-12"
 		}
 	];
-	makeParkingList(result);
+	listStyle(result);
 	console.log(url);
 	console.log("実行");
 
@@ -137,14 +137,14 @@ function findParkingAll() {
 		})
 		.then((result) => {
 			console.log(result);
-			//makeItemList(result);
+			//listStyle(result);
 		})
 		.catch((error) => {
 			throw new Error("Get失敗");
 		});
 }
 
-function makeParkingList(parkingList) {
+function makeAdminParkingList(parkingList) {
 	$("#resultList").empty();
 	var $list = $('<table border="1"></table>');
 	$list.append('<tr><th>住所1</th><th>住所2</th><th>住所3</th><th>名前</th><th>台数</th><th>料金</th><th>更新日</th><th></th><th></th></tr>');
@@ -166,6 +166,30 @@ function makeParkingList(parkingList) {
 						</td>
 						<td>
 							<input type="submit" class="class_delete" data-id="${parking.id}" value="削除">
+						</td>
+					</tr>
+				`;
+
+		$list.append(row);
+	});
+	$('#resultList').append($list);
+}
+
+function makeParkingList(parkingList) {
+	$("#resultList").empty();
+	var $list = $('<table border="1"></table>');
+	$list.append('<tr><th>名前</th><th>住所</th><th>料金</th><th></th></tr>');
+
+	$.each(parkingList, function(index, parking) {
+		const row = `
+					<tr>
+						<td>${parking.name}</td>
+						<td>${parking.address1}${parking.address2}${parking.address3}</td>
+						<td>${parking.hourlyRate}</td>
+						<td>
+							<form action="/#/${parking.id}" method="get">
+								<input type="submit" value="詳細">
+							</form>
 						</td>
 					</tr>
 				`;

@@ -1,15 +1,15 @@
 $(document).ready(() => {
 	//初回実行時
-	findParking();
+	findParking(makeAdminParkingList);
 	createAddress1Pulldown();
 	//アクション
-	$('#id_search').click(findParking);
-	$('#id_searchAll').click(findParkingAll);
+	$('#id_search').click(()=>findParking(makeAdminParkingList));
+	$('#id_searchAll').click(()=>findParkingAll(makeAdminParkingList));
 	$('#resultList').on("click", ".class_delete", function () {
 		if (!confirm('本当に削除しますか？')) {
 			return; // キャンセルなら処理中断
 		}
-		var url = "/demourl";
+		var url = "/rest";
 		console.log("削除");
 
 		var data = {
