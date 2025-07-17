@@ -38,13 +38,8 @@ public class HomeAdminController {
 	//EditParking.htmlに遷移
 	@GetMapping("/EditParking/{id}")
 	public String moveToEditParking(Model model, @PathVariable int id) {
-		homeAdminService.selectById(id);
-		model.addAttribute("form", new EditParkingForm());
+		EditParkingForm form = EditParkingForm.fromEntity(homeAdminService.selectById(id).get(0));
+		model.addAttribute("form", form);
 		return "EditParking";
 	}
-	
-	//削除
-//	@RequestMapping("/del/{id}")
-//	public String
-//	
 }

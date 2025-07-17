@@ -33,4 +33,16 @@ public class EditParkingForm {
 		ent.setUpdateDate(this.updateDate);
 		return ent;
 	}
+	public static EditParkingForm fromEntity(ParkinglotEntity entity) {
+		EditParkingForm form = new EditParkingForm();
+        form.setId(entity.getId());
+        form.setName(entity.getName());
+        form.setAddress1(entity.getAddress1());
+        form.setAddress2(entity.getAddress2());
+        form.setAddress3(entity.getAddress3());
+        form.setCapacity(entity.getCapacity());
+        form.setHourlyRate(entity.getHourlyRate());
+        form.setUpdateDate(entity.getUpdateDate());
+        return form;
+    }
 }
