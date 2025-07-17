@@ -23,9 +23,9 @@ public class HomeAdminService {
 	}
 	
 	//詳細表示
-	public List<ParkinglotEntity>selectOne(int id){
+	public List<ParkinglotEntity>selectById(int id){
 		
-		List<ParkinglotEntity>parkinglotList = parkinglotDao.selectOne(id);
+		List<ParkinglotEntity>parkinglotList = parkinglotDao.selectById(id);
 		
 		return parkinglotList;
 	}
