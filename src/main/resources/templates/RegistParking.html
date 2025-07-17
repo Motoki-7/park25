@@ -14,10 +14,11 @@
 
 		<!--   遷移先とオブジェクト名は仮定　-->
 		<form id="registParkingform" method ="post" th:action ="@{/RegistParking/post}" th:object="${form}">
+			<input type="hidden" th:field="*{updateDate}" id="updateDate" />
 			
 			<div>
 				<label>
-					<select id="id_address1" name="address1">
+					<select id="id_address1" name="address1"required>
 						<option value="" disabled selected>プルダウン：都道府県選択</option>
 					</select>
 				
@@ -64,6 +65,9 @@
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     const form = document.getElementById("registParkingform");
+					
+					const today = new Date().toISOString().split('T')[0];
+					document.getElementById("updateDate").value = today;
 
                   document.getElementById("submitBtn").addEventListener("click", function () {
                 if (!form.checkValidity()) {
