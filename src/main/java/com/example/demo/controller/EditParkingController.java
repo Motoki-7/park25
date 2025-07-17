@@ -19,6 +19,6 @@ public class EditParkingController {
 	@PostMapping("/EditParking/put")
 	public String update(Model model, EditParkingForm form) {
 		service.update(form);
-		return "/HomeAdmin";
+		return "redirect:/HomeAdmin";
 	}
 }

@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ParkingDetailController {
 	@GetMapping("/Home")
 	public String moveToHome() {
-		return "/Home";
+		return "redirect:/Home";
 	}
 }
