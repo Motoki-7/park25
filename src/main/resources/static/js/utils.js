@@ -2,6 +2,7 @@ function findParking(listStyle) {
 	if($('#id_name').val() == "" && $('#id_address1').val() == null){
 		$('#id_errorMsg').text("値を入力してください");
 	}else{
+		$('#id_errorMsg').text("");
 		var url = "/rest";
 		url += '?name=' + $('#id_name').val();
 		if($('#id_address1').val() == null){
