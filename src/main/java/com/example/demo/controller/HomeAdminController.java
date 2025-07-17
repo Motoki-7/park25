@@ -2,12 +2,14 @@ package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.demo.form.EditParkingForm;
+import com.example.demo.form.RegistParkingForm;
 import com.example.demo.service.HomeAdminService;
 
-import ch.qos.logback.core.model.Model;
 
 @Controller
 public class HomeAdminController {
@@ -26,8 +28,9 @@ public class HomeAdminController {
 	}
 	
 	//RegistParking.htmlに遷移
-	@GetMapping("")
+	@GetMapping("/RegistParking")
 	public String moveToRegistParking(Model model) {
+		model.addAttribute("form", new RegistParkingForm());
 		return "RegistParking";
 	}
 	
@@ -35,8 +38,8 @@ public class HomeAdminController {
 	//EditParking.htmlに遷移
 	@GetMapping("/EditParking/{id}")
 	public String moveToEditParking(Model model, @PathVariable int id) {
-		homeAdminService.selectOne(id);
-		
+		homeAdminService.selectById(id);
+		model.addAttribute("form", new EditParkingForm());
 		return "EditParking";
 	}
 	
