@@ -33,7 +33,7 @@ public class HomeAdminController {
 	
 	
 	//EditParking.htmlに遷移
-	@GetMapping("editparking/{id}")
+	@GetMapping("/EditParking/{id}")
 	public String moveToEditParking(Model model, @PathVariable int id) {
 		homeAdminService.selectOne(id);
 		
