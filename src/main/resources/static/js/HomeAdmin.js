@@ -1,6 +1,6 @@
 $(document).ready(() => {
 	//初回実行時
-	findParking(makeAdminParkingList);
+	findParkingAll(makeAdminParkingList);
 	createAddress1Pulldown();
 	//アクション
 	$('#id_search').click(()=>findParking(makeAdminParkingList));

@@ -1,79 +1,88 @@
 function findParking(listStyle) {
-	var url = "/rest";
-	url += '?name=' + $('#id_name').val();
-	url += '&address1=' + $('#id_address1').val();
-	var result = [
-		{
-			"id": 1,
-			"address1": "東京都",
-			"address2": "品川区",
-			"address3": "西五反田2丁目",
-			"name": "park本社駐車場",
-			"capacity": 100,
-			"hourlyRate": 500,
-			"updateDate": "2025-07-15"
-		},
-		{
-			"id": 2,
-			"address1": "東京都",
-			"address2": "渋谷区",
-			"address3": "道玄坂1丁目",
-			"name": "渋谷センター駐車場",
-			"capacity": 60,
-			"hourlyRate": 600,
-			"updateDate": "2025-07-14"
-		},
-		{
-			"id": 3,
-			"address1": "神奈川県",
-			"address2": "横浜市西区",
-			"address3": "みなとみらい3丁目",
-			"name": "横浜みなと駐車場",
-			"capacity": 120,
-			"hourlyRate": 550,
-			"updateDate": "2025-07-13"
-		},
-		{
-			"id": 4,
-			"address1": "大阪府",
-			"address2": "大阪市北区",
-			"address3": "梅田1丁目",
-			"name": "梅田パーキング",
-			"capacity": 80,
-			"hourlyRate": 400,
-			"updateDate": "2025-07-10"
-		},
-		{
-			"id": 5,
-			"address1": "愛知県",
-			"address2": "名古屋市中村区",
-			"address3": "名駅3丁目",
-			"name": "名駅前駐車場",
-			"capacity": 90,
-			"hourlyRate": 450,
-			"updateDate": "2025-07-12"
+	if($('#id_name').val() == "" && $('#id_address1').val() == null){
+		$('#id_errorMsg').text("値を入力してください");
+	}else{
+		var url = "/rest";
+		url += '?name=' + $('#id_name').val();
+		if($('#id_address1').val() == null){
+			url += '&address1=';
+		}else{
+			url += '&address1=' + $('#id_address1').val();
 		}
-	];
-	listStyle(result);
-	console.log(url);
-	console.log("実行");
+		var result = [
+			{
+				"id": 1,
+				"address1": "東京都",
+				"address2": "品川区",
+				"address3": "西五反田2丁目",
+				"name": "park本社駐車場",
+				"capacity": 100,
+				"hourlyRate": 500,
+				"updateDate": "2025-07-15"
+			},
+			{
+				"id": 2,
+				"address1": "東京都",
+				"address2": "渋谷区",
+				"address3": "道玄坂1丁目",
+				"name": "渋谷センター駐車場",
+				"capacity": 60,
+				"hourlyRate": 600,
+				"updateDate": "2025-07-14"
+			},
+			{
+				"id": 3,
+				"address1": "神奈川県",
+				"address2": "横浜市西区",
+				"address3": "みなとみらい3丁目",
+				"name": "横浜みなと駐車場",
+				"capacity": 120,
+				"hourlyRate": 550,
+				"updateDate": "2025-07-13"
+			},
+			{
+				"id": 4,
+				"address1": "大阪府",
+				"address2": "大阪市北区",
+				"address3": "梅田1丁目",
+				"name": "梅田パーキング",
+				"capacity": 80,
+				"hourlyRate": 400,
+				"updateDate": "2025-07-10"
+			},
+			{
+				"id": 5,
+				"address1": "愛知県",
+				"address2": "名古屋市中村区",
+				"address3": "名駅3丁目",
+				"name": "名駅前駐車場",
+				"capacity": 90,
+				"hourlyRate": 450,
+				"updateDate": "2025-07-12"
+			}
+		];
+		listStyle(result);
+		console.log(url);
+		console.log("実行");
 
-	fetch(url)
-		.then((response) => {
-			if (!response.ok) throw new Error(`通信エラー: ${response.status}`);
-			return response.json();
-		})
-		.then((result) => {
-			console.log(result);
-			//listStyle(result);
-		})
-		.catch((error) => {
-			throw new Error("Get失敗");
-		});
+		fetch(url)
+			.then((response) => {
+				if (!response.ok) throw new Error(`通信エラー: ${response.status}`);
+				return response.json();
+			})
+			.then((result) => {
+				console.log(result);
+				//listStyle(result);
+			})
+			.catch((error) => {
+				throw new Error("Get失敗");
+			});
+	}
+
 }
 
 function findParkingAll(listStyle) {
-	var url = "/rest?name=&address1=null";
+	var url = "/rest?name=&address1=";
 	var result = [
 		{
 			"id": 1,
