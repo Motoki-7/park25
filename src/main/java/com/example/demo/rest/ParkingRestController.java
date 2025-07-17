@@ -21,12 +21,10 @@ public class ParkingRestController {
 	
 	@GetMapping("/rest")
 	public List<ParkinglotEntity> select(
-			@RequestParam("name") String name,
-			@RequestParam("address1") String address1 ){
+			@RequestParam(name="name",required=false) String name,
+			@RequestParam(name="address1",required=false) String address1 ){
 		
-		List<ParkinglotEntity> parkinglotList = parkingRestService.select(name, address1);
-		
-		return parkinglotList;
+		return parkingRestService.select(name, address1);
 	}
 	
 	@DeleteMapping("/rest")
