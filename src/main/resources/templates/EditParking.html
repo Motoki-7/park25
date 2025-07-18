@@ -11,13 +11,14 @@
 	</head>
 	
 	<body>
-
+		
 		<!--   遷移先とオブジェクト名は仮定　-->
-		<form id="editParkingform" method ="post" th:action ="@{/editParking/put}" th:object="${form}">
+		<form id="editParkingform" method ="post" th:action ="@{/EditParking/put}" th:object="${form}">
 			<input type="hidden" th:field="*{id}" />
 			<input type="hidden" th:field="*{updateDate}" id="updateDate" />
 			<div>
 				<label>
+
 				<select id="id_address1" name="address1" required>
 				<option value="" disabled selected>プルダウン：都道府県選択</option>
 				</select><br>
@@ -54,10 +55,19 @@
 				</label>
 			</div>
 
+			
+			
             <button type="button" id="submitBtn">更新</button>
 			<!-- <button type="submit" onclick ="alertClick()">登録</button> -->
 	
 		</form>
+		
+		<form>
+			
+			<button type="button" onclick="location.href='/HomeAdmin'">戻る</button>
+			
+		</form>
+
 		
 
             <script>
