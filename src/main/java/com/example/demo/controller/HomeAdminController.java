@@ -22,7 +22,7 @@ public class HomeAdminController {
 	@GetMapping("/HomeAdmin")
 	public String showHomeAdmin(Model model) {
 		
-		homeAdminService.selectAll();
+//		homeAdminService.selectAll();
 		
 		return "HomeAdmin";
 	}
