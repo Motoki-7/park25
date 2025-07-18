@@ -116,7 +116,7 @@ function makeParkingList(parkingList) {
 						<td>${parking.address1}${parking.address2}${parking.address3}</td>
 						<td>${parking.hourlyRate}</td>
 						<td>
-							<form action="/#/${parking.id}" method="get">
+							<form action="/ParkingDetail/${parking.id}" method="get">
 								<input type="submit" value="詳細">
 							</form>
 						</td>
