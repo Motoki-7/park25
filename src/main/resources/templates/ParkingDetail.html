@@ -8,62 +8,11 @@
 	
 	
 	<body>
-		<div>
-			都道府県名:　<span th:text="${form.}"
-		</div>
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-		<div>
-			<label>
-				市区町村 : <input th:field="*{address2}" id="address2" required/>
-			</label>
-		</div>
-
-		<div>
-			<label>
-				丁目 : <input th:field="*{address3}"id="address3" required/>
-			</label>
-		</div>
-
-		<div>
-			<label>
-				駐車場名 : <input th:field="*{name}" id="name" required/>
-			</label>
-		</div>
-
-		<div>
-			<label>
-				収容台数 :<input th:field="*{capacity}" id="capacity" required/>
-			</label>
-		</div>
-
-		<div>
-			<label>
-				１時間当たりの料金 : <input th:field="*{hourlyRate}" id="hourlyRate" required/>
-			</label>
-		</div>
-		
+		<form th:object="${form}" method="get">
+			<div>住所：<span th:text="${form.address1} + ${form.address2} + ${form.address3}"></span></div>
+			<div>駐車場名：<span th:text="${form.name}"></span></div>
+			<div>収容台数：<span th:text="${form.capacity}"></span>台</div>
+			<div>１時間当たりの料金：<span th:text="${form.hourlyRate}"></span>円</div>
+		</form>
 	</body>
-	
+	</html>
