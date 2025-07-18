@@ -1,18 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		
-	<meta charset ="utf-8"/>
+<html xmlns:th="http://www.thymeleaf.org" th:with="form=${form}">
+<head>
+  <meta charset="UTF-8">
+  <title>Parking Detail Map</title>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    /* 地図コンテナに高さを指定 */
+    #map {
+      width: 100%;
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+  <div>住所：<span th:text="${form.address1} + ${form.address2} + ${form.address3}"></span></div>
+  <div>駐車場名：<span th:text="${form.name}"></span></div>
+  <div>収容台数：<span th:text="${form.capacity}"></span>台</div>
+  <div>１時間当たりの料金：<span th:text="${form.hourlyRate}"></span>円</div>
 
-	</head>
-	
-	
-	<body>
-		<form th:object="${form}" method="get">
-			<div>住所：<span th:text="${form.address1} + ${form.address2} + ${form.address3}"></span></div>
-			<div>駐車場名：<span th:text="${form.name}"></span></div>
-			<div>収容台数：<span th:text="${form.capacity}"></span>台</div>
-			<div>１時間当たりの料金：<span th:text="${form.hourlyRate}"></span>円</div>
-		</form>
-	</body>
-	</html>
+  <!-- 地図表示用コンテナ -->
+  <div id="map"></div>
+
+  <!-- form モデルを JS に注入 (必ず外部JSの前に配置) -->
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    const form = /*[[${form}]]*/ {};
+    /*]]>*/
+  </script>
+
+  <!-- Leaflet.js の読み込み -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- 外部スクリプト読み込み -->
+  <script th:src="@{/js/ParkingDetail.js}"></script>
+</body>
+</html>

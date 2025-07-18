@@ -1,42 +1,41 @@
-$(document).ready(() => {
-	//初回実行時
-	const address = "東京都品川区西五反田３丁目";
-	const label = "本社";
-	async function changeToLatAndLon(address){
-	  const response = await fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(address) + '&format=json');
-	  const data = await response.json();
-	
-	  if (data.length > 0) {
-	    const lat = data[0].lat;
-	    const lon = data[0].lon;
-	    console.log("緯度:", lat, "経度:", lon);
-	    return [lat, lon];
-	  } else {
-	    console.log("位置情報が見つかりませんでした");
-	    return null;
-	  }
-	}
-});
+// === 外部スクリプト例: ParkingDetail.js (/src/main/resources/static/js/ParkingDetail.js) ===
 
-function displayMap(lat, lon, label, zoom){
-  // 地図の初期化（緯度, 経度, ズームレベル）
-  var map = L.map('map').setView([lat, lon], zoom);
-
-  // OSMのタイルを読み込む
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
-
-  // マーカーを追加
-  L.marker([lat, lon]).addTo(map)
-      .bindPopup(label)
-      .openPopup();
+// 住所から緯度経度を取得する関数
+async function changeToLatAndLon(address) {
+  if (!address) return null;
+  const encoded = encodeURIComponent(address);
+  const url = `https://nominatim.openstreetmap.org/search?q=${encoded}&format=json`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.length > 0) {
+      const { lat, lon } = data[0];
+      return [lat, lon];
+    }
+  } catch (e) {
+    console.error('API 呼び出しエラー:', e);
+  }
+  return null;
 }
 
-(async () => {
+// Leaflet.js を使って地図を初期化し、マーカーを表示する関数
+function displayMap(lat, lon, label, zoom = 15) {
+  const map = L.map('map').setView([lat, lon], zoom);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+  L.marker([lat, lon]).addTo(map)
+    .bindPopup(label)
+    .openPopup();
+}
+
+// DOMContentLoaded イベントで初期化
+window.addEventListener('DOMContentLoaded', async () => {
+  const address = `${form.address1 || ''}${form.address2 || ''}${form.address3 || ''}`;
+  const label = `${form.name || ''}`;
   const result = await changeToLatAndLon(address);
   if (result) {
     const [lat, lon] = result;
-    displayMap(lat, lon, label, 20)
+    displayMap(lat, lon, label, 18);
   }
-	})();
+});
