@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.form.EditParkingForm;
@@ -14,11 +15,15 @@ public class EditParkingController {
 	EditParkingService service;
 	
 
-//	編集の確認とデータの更新
-	//	ソースは仮
+	// 編集の確認とデータの更新
 	@PostMapping("/EditParking/put")
 	public String update(Model model, EditParkingForm form) {
 		service.update(form);
 		return "redirect:/HomeAdmin";
+	}
+	// 戻るボタン押下
+	@GetMapping("/EditParking/back")
+	public String back(Model model) {
+		return "/HomeAdmin";
 	}
 }
