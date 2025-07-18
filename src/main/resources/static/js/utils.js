@@ -1,5 +1,5 @@
 function findParking(listStyle) {
-	if ($('#id_name').val() == "" && $('#id_address1').val() == null) {
+	if ($('#id_name').val() == "" && !$('#id_address1').val()) {
 		$('#id_errorMsg').text("値を入力してください");
 	} else {
 		$('#id_errorMsg').text("");
@@ -141,6 +141,7 @@ function createAddress1Pulldown(initValue) {
 	];
 
 	const select = document.getElementById("id_address1");
+	
 	prefectures.forEach(pref => {
 		const option = document.createElement("option");
 		option.value = pref;
@@ -148,7 +149,6 @@ function createAddress1Pulldown(initValue) {
 		select.appendChild(option);
 	});
 	if(initValue){
-		console.log("aaaaaa");
 		select.value = initValue;
 	}
 }
