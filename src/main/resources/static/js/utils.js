@@ -1,12 +1,13 @@
 function findParking(listStyle) {
-	if($('#id_name').val() == "" && $('#id_address1').val() == null){
+	if ($('#id_name').val() == "" && $('#id_address1').val() == null) {
 		$('#id_errorMsg').text("値を入力してください");
-	}else{
+	} else {
+		$('#id_errorMsg').text("");
 		var url = "/rest";
 		url += '?name=' + $('#id_name').val();
-		if($('#id_address1').val() == null){
+		if ($('#id_address1').val() == null) {
 			url += '&address1=';
-		}else{
+		} else {
 			url += '&address1=' + $('#id_address1').val();
 		}
 
@@ -27,8 +28,9 @@ function findParking(listStyle) {
 }
 
 function findParkingAll(listStyle) {
+	$('#id_errorMsg').text("");
 	var url = "/rest?name=&address1=";
-	
+
 	fetch(url)
 		.then((response) => {
 			if (!response.ok) throw new Error(`通信エラー: ${response.status}`);
@@ -41,6 +43,34 @@ function findParkingAll(listStyle) {
 		.catch((error) => {
 			throw new Error("Get失敗");
 		});
+}
+
+function deleteParking(id) {
+	if (!confirm('本当に削除しますか？')) {
+		return; // キャンセルなら処理中断
+	}
+	$('#id_errorMsg').text("");
+	var url = "/rest";
+	const data = { id: id };
+	console.log("削除");
+	var option = {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		},
+		body: JSON.stringify(data)
+	};
+	fetch(url, option)
+		.then(response => {
+			if (!response.ok) throw new Error('削除に失敗しました');
+			const savedSelected = localStorage.getItem("adminSelected");
+			if (savedSelected === "findParking") {
+				findParking(makeAdminParkingList);
+			} else if (savedSelected === "findParkingAll") {
+				findParkingAll(makeAdminParkingList);
+			}
+		})
 }
 
 function makeAdminParkingList(parkingList) {
@@ -98,7 +128,7 @@ function makeParkingList(parkingList) {
 	$('#resultList').append($list);
 }
 
-function createAddress1Pulldown(){
+function createAddress1Pulldown(initValue) {
 	const prefectures = [
 		"北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
 		"茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
@@ -117,4 +147,8 @@ function createAddress1Pulldown(){
 		option.textContent = pref;
 		select.appendChild(option);
 	});
+	if(initValue){
+		console.log("aaaaaa");
+		select.value = initValue;
+	}
 }
