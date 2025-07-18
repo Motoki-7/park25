@@ -7,17 +7,18 @@
 	<script type="text/javascript" th:src="@{/js/utils.js}"></script>
 	<script type="text/javascript" th:src="@{/js/RegistParking.js}"></script>
 	
-<!--   ブラウザのタイトル　-->
+
 	</head>
 	
 	<body>
+		
 
-		<!--   遷移先とオブジェクト名は仮定　-->
 		<form id="registParkingform" method ="post" th:action ="@{/RegistParking/post}" th:object="${form}">
 			<input type="hidden" th:field="*{updateDate}" id="updateDate" />
 			
 			<div>
 				<label>
+					
 					<select id="id_address1" name="address1"required>
 						<option value="" disabled selected>プルダウン：都道府県選択</option>
 					</select>
@@ -57,10 +58,16 @@
 			</div>
 
             <button type="button" id="submitBtn">登録</button>
-			<!-- <button type="submit" onclick ="alertClick()">登録</button> -->
+
 	
 		</form>
 		
+			<form>
+				
+				<button type="button" onclick="location.href='/HomeAdmin'">戻る</button>
+				
+			</form>
+			
 
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
