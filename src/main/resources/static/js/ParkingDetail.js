@@ -1,24 +1,29 @@
-// === 外部スクリプト例: ParkingDetail.js (/src/main/resources/static/js/ParkingDetail.js) ===
-
-// 住所から緯度経度を取得する関数
-async function changeToLatAndLon(address) {
-  if (!address) return null;
+// 住所から緯度経度を取得する関数（callback方式）
+function changeToLatAndLon(address, callback) {
+  if (!address) {
+    return callback(null);
+  }
   const encoded = encodeURIComponent(address);
   const url = `https://nominatim.openstreetmap.org/search?q=${encoded}&format=json`;
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    if (data.length > 0) {
-      const { lat, lon } = data[0];
-      return [lat, lon];
-    }
-  } catch (e) {
-    console.error('API 呼び出しエラー:', e);
-  }
-  return null;
+
+  // jQuery の getJSON で Ajax リクエスト
+  $.getJSON(url)
+    .done(function(data) {
+      if (data.length > 0) {
+        // 成功時：最初の結果から lat, lon を渡す
+        callback([ data[0].lat, data[0].lon ]);
+      } else {
+        // 結果なし
+        callback(null);
+      }
+    })
+    .fail(function(jqxhr, textStatus, error) {
+      console.error('API 呼び出しエラー:', textStatus, error);
+      callback(null);
+    });
 }
 
-// Leaflet.js を使って地図を初期化し、マーカーを表示する関数
+// Leaflet を使って地図を表示する関数（そのまま流用）
 function displayMap(lat, lon, label, zoom = 15) {
   const map = L.map('map').setView([lat, lon], zoom);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -29,13 +34,17 @@ function displayMap(lat, lon, label, zoom = 15) {
     .openPopup();
 }
 
-// DOMContentLoaded イベントで初期化
-window.addEventListener('DOMContentLoaded', async () => {
+// DOM 準備が整ったら実行
+$(function() {
+  // Thymeleaf から渡された form オブジェクトを利用
   const address = `${form.address1 || ''}${form.address2 || ''}${form.address3 || ''}`;
-  const label = `${form.name || ''}`;
-  const result = await changeToLatAndLon(address);
-  if (result) {
-    const [lat, lon] = result;
-    displayMap(lat, lon, label, 18);
-  }
+  const label   = form.name || '';
+
+  // Ajax で緯度経度を取得し、コールバックで地図を描画
+  changeToLatAndLon(address, function(coords) {
+    if (coords) {
+      const [lat, lon] = coords;
+      displayMap(lat, lon, label, 18);
+    }
+  });
 });

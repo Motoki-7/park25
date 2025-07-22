@@ -6,11 +6,7 @@
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    /* 地図コンテナに高さを指定 */
-    #map {
-      width: 100%;
-      height: 400px;
-    }
+    #map { width:100%; height:400px; }
   </style>
 </head>
 <body>
@@ -19,19 +15,20 @@
   <div>収容台数：<span th:text="${form.capacity}"></span>台</div>
   <div>１時間当たりの料金：<span th:text="${form.hourlyRate}"></span>円</div>
 
-  <!-- 地図表示用コンテナ -->
   <div id="map"></div>
 
-  <!-- form モデルを JS に注入 (必ず外部JSの前に配置) -->
+  <!-- Thymeleaf で form を JS に渡す -->
   <script th:inline="javascript">
-    /*<![CDATA[*/
-    const form = /*[[${form}]]*/ {};
+    /*<![CDATA[*/  
+    const form = /*[[${form}]]*/ {};  
     /*]]>*/
   </script>
 
-  <!-- Leaflet.js の読み込み -->
+  <!-- jQuery の読み込み（Ajax 用） -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- Leaflet.js -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <!-- 外部スクリプト読み込み -->
+  <!-- 書き換え後の外部スクリプト -->
   <script th:src="@{/js/ParkingDetail.js}"></script>
 </body>
 </html>
