@@ -2,7 +2,7 @@
 .page-title{
   font-size:1.8em;
   font-weight:bold;
-  margin:.5em 0 1em;
+  margin:0.5em 0 1em;
   text-align:center;
   color:var(--accent);
 }
@@ -41,11 +41,7 @@ input[type="submit"]{
 /* 検索入力欄 */
 #id_name{ min-width:15em; }
 
-/* ===================== */
-/* テーブル               */
-/* ===================== */
-
-/* 生成JSで付与する想定：<table class="parking-table"> */
+/* テーブル */
 .parking-table{
   width:100%;
   border-collapse:collapse;

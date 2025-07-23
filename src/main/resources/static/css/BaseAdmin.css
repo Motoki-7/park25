@@ -61,7 +61,7 @@ body {
 
 main, form {
   width: 100%;
-  max-width: 700px;
+  max-width: 1200px;
   text-align: center;
 }
 
@@ -81,7 +81,7 @@ main, form {
 
 
 /* ▼ 全体の上に固定ヘッダー（アイコン＋管理者）表示 */
-.header {
+header {
   width: 100%;
   background-color: var(--primary);
   color: var(--accent);
@@ -90,11 +90,11 @@ main, form {
   box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1em;
 }
 
-.header img {
+header img {
   height: 40px;
   width: 40px;
   object-fit: contain;
@@ -103,9 +103,4 @@ main, form {
 .header-title {
   font-size: 1.5em;
   font-weight: bold;
-}
-
-/* ヘッダーの下にスペース確保 */
-body {
-  margin-top: 80px;
 }

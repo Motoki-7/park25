@@ -11,32 +11,36 @@
 </head>
 
 <body>
-	<!--Webタイトル-->
-	<div class="header">
-		<img src="/img/icon.png" alt="アイコン">
+	<!--ホームアイコン：全ページ共通-->
+	<header>
+		<a href="/" class="home-link">
+			<img src="/img/icon.png" alt="アイコン">
+		</a>
 		<div class="header-title">ParkingLot</div>
-	</div>
-
-	<div class="page-title">ホーム</div>
-
-	<!-- 検索窓 -->
-	<div class="input-block">
-	    <input type="text" id="id_name" placeholder="検索窓：名称">
-	    <select id="id_address1" name="address1">
-	        <option value="">プルダウン：都道府県選択</option>
-		</selec>
-	</div>
-
-	<!-- エラーメッセージ -->
-	<div id="id_errorMsg" style="color: red;"></div>
-
-	<!-- 検索ボタン -->
-	<div class="search-buttons">
-	 	<input type="button" id="id_searchAll" value="一覧表示">
-		<input type="button" id="id_search" value="検索">
-	</div>
-
-	<div id="resultList"></div>
+	</header>
+	
+	<main>
+		<div class="page-title">ホーム</div>
+	
+		<!-- 検索窓 -->
+		<div class="input-block">
+		    <input type="text" id="id_name" placeholder="検索窓：名称">
+		    <select id="id_address1" name="address1">
+		        <option value="">プルダウン：都道府県選択</option>
+			</select>
+		</div>
+	
+		<!-- エラーメッセージ -->
+		<div id="id_errorMsg" style="color: red;"></div>
+	
+		<!-- 検索ボタン -->
+		<div class="search-buttons">
+		 	<input type="button" id="id_searchAll" value="一覧表示">
+			<input type="button" id="id_search" value="検索">
+		</div>
+	
+		<div id="resultList"></div>
+	</main>
 </body>
 
 </html>
