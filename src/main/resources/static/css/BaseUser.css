@@ -1,0 +1,110 @@
+/* 基本カラーはサナブリレモン（https://sanaburilemon.com/）のイメージより */
+:root {
+  --main-bg: #fffbea;
+  --primary: #f9e06c;
+  --accent: #3a322f;
+  --sub-accent: #fcf3d7;
+  --danger: #d9534f;
+  --border: #e1dab9;
+}
+
+/* 全体背景・基本フォント */
+body {
+  background: var(--main-bg);
+  color: var(--accent);
+  font-family: 'Noto Sans JP', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* 入力欄 */
+input[type="text"], select {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 1em;
+  padding: 0.5em;
+  background: #fff;
+  color: var(--accent);
+  margin-bottom: 0.5em;
+}
+
+/* ボタン全般 */
+input[type="button"], input[type="submit"], button {
+  background: var(--primary);
+  color: var(--accent);
+  border: none;
+  border-radius: 4px;
+  padding: 0.45em 1.2em;
+  margin: 0.2em;
+  font-size: 1em;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+input[type="button"]:hover, input[type="submit"]:hover, button:hover {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+/* エラーメッセージ・強調 */
+#errorMsg, .error, #id_errorMsg {
+  color: var(--danger);
+}
+
+/* 全体中央寄せ + 上部余白 */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main, form {
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+}
+
+.input-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+
+.input-block input[type="text"],
+.input-block select {
+  width: 60%;
+  min-width: 250px;
+}
+
+
+/* ▼ 全体の上に固定ヘッダー（アイコン＋管理者）表示 */
+.header {
+  width: 100%;
+  background-color: var(--primary);
+  color: var(--accent);
+  text-align: center;
+  padding: 1em 0;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+.header img {
+  height: 40px;
+  width: 40px;
+  object-fit: contain;
+}
+
+.header-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* ヘッダーの下にスペース確保 */
+body {
+  margin-top: 80px;
+}

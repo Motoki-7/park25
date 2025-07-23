@@ -3,32 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>Parking Detail Map</title>
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <style>
-    #map { width:100%; height:400px; }
-  </style>
+  <!-- Thymeleaf のコンテキストパスを考慮した絶対パス指定 -->
+  <link rel="stylesheet" th:href="@{/css/BaseUser.css}">
+  <link rel="stylesheet" th:href="@{/css/ParkingDetail.css}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 </head>
 <body>
-  <div>住所：<span th:text="${form.address1} + ${form.address2} + ${form.address3}"></span></div>
-  <div>駐車場名：<span th:text="${form.name}"></span></div>
-  <div>収容台数：<span th:text="${form.capacity}"></span>台</div>
-  <div>１時間当たりの料金：<span th:text="${form.hourlyRate}"></span>円</div>
+  <!-- 1. タイトル追加 -->
+  <div class="page-title">詳細情報</div>
 
-  <div id="map"></div>
+  <!-- 3. 情報と地図を横並びにするラッパー -->
+  <div class="detail-container">
+    <div class="detail-info">
+      <div>住所：<span th:text="${form.address1} + ${form.address2} + ${form.address3}"></span></div>
+      <div>駐車場名：<span th:text="${form.name}"></span></div>
+      <div>収容台数：<span th:text="${form.capacity}"></span>台</div>
+      <div>１時間当たりの料金：<span th:text="${form.hourlyRate}"></span>円</div>
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <!-- 1. 戻るボタンの追加 -->
+  <form th:action="@{/}">
+    <button type="submit">戻る</button>
+  </form>
 
   <!-- Thymeleaf で form を JS に渡す -->
   <script th:inline="javascript">
-    /*<![CDATA[*/  
-    const form = /*[[${form}]]*/ {};  
+    /*<![CDATA[*/
+    const form = /*[[${form}]]*/ {};
     /*]]>*/
   </script>
-
-  <!-- jQuery の読み込み（Ajax 用） -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <!-- Leaflet.js -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <!-- 書き換え後の外部スクリプト -->
   <script th:src="@{/js/ParkingDetail.js}"></script>
 </body>
 </html>

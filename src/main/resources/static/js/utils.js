@@ -75,7 +75,7 @@ function deleteParking(id) {
 
 function makeAdminParkingList(parkingList) {
 	$("#resultList").empty();
-	var $list = $('<table border="1"></table>');
+	var $list = $('<table class="parking-table"></table>');
 	$list.append('<tr><th>住所1</th><th>住所2</th><th>住所3</th><th>名前</th><th>台数</th><th>料金</th><th>更新日</th><th></th><th></th></tr>');
 
 	$.each(parkingList, function(index, parking) {
@@ -106,7 +106,7 @@ function makeAdminParkingList(parkingList) {
 
 function makeParkingList(parkingList) {
 	$("#resultList").empty();
-	var $list = $('<table border="1"></table>');
+	var $list = $('<table class="parking-table-user"></table>');
 	$list.append('<tr><th>名前</th><th>住所</th><th>料金</th><th></th></tr>');
 
 	$.each(parkingList, function(index, parking) {
