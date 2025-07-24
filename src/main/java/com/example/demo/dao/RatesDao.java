@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.entity.ParkinglotEntity;
+import com.example.demo.entity.RatesEntity;
 
 @Repository
 public class RatesDao {
@@ -17,182 +17,62 @@ public class RatesDao {
 
 	
 	//登録
-		public void insert(RatesEntity ent) {
-			String query = "INSERT INTO rates (amount) values (?,?,?,?,?,?,?)";
-			jdbcTemplate.update(query,ent.getAddress1(),ent.getAddress2(),ent.getAddress3(),ent.getName(),ent.getCapacity(),ent.getHourlyRate(),ent.getUpdateDate());
-			
-			/* FK用KeyHolder
-			String sql = "INSERT INTO range (startTime, endTime, monday, tuesday, ... holiday) VALUES (?, ?, ?, ?, ..., ?)";
-		    
-		    KeyHolder keyHolder = new GeneratedKeyHolder();
+	public void insert(RatesEntity ent, int parkinglotId, int rangeId) {
+		String query = 
+				"INSERT INTO rates (parkinglotId,rangeId,amount,time,maxRateTimely,maxRate24h,maxRateDaily) values (?,?,?,?,?,?,?)";
+		jdbcTemplate.update(query, 
+				parkinglotId, rangeId, ent.getAmount(), ent.getTime(), ent.getMaxRateTimely(), ent.getMaxRate24h(), ent.getMaxRateDaily());
+	}
 
-		    jdbcTemplate.update(connection -> {
-		        PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-		        ps.setInt(1, range.getStartTime());
-		        ps.setInt(2, range.getEndTime());
-		        ps.setBoolean(3, range.isMonday());
-		        // ...他の曜日のsetBoolean
-		        return ps;
-		    }, keyHolder);
+	// 検索：parkinglotIdをキーにRatesEntityを全件return
+	public List<RatesEntity> selectByParkinglotId(int parkinglotId) {
+		List<RatesEntity> resultList = new ArrayList<>();
+		String query = "SELECT * FROM rates WHERE parkinglotId = ?";
+		List<Map<String, Object>> searchResultList = jdbcTemplate.queryForList(query, parkinglotId);
+		
+		for (Map<String, Object> resultMap : searchResultList) {
+			RatesEntity ent = new RatesEntity();
+			ent.setRatesId((Integer) resultMap.get("ratesId"));
+			ent.setParkinglotId((Integer) resultMap.get("parkinglotId"));
+			ent.setRangeId((Integer) resultMap.get("rangeId"));
+			ent.setAmount((Integer) resultMap.get("amount"));
+			ent.setTime((Integer) resultMap.get("time"));
+			ent.setMaxRateTimely((Integer) resultMap.get("maxRateTimely"));
+			ent.setMaxRate24h((Integer) resultMap.get("maxRate24h"));
+			ent.setMaxRateDaily((Integer) resultMap.get("maxRateDaily"));
 
-		    return keyHolder.getKey().longValue();
-		    */
-			
+			resultList.add(ent);
+		}
+		return resultList;
+	}
+	
+	// 検索：parkinglotIdをキーにrengeIdをreturn
+	public List<RatesEntity> selectIdListByParkinglotId (int parkinglotId) {
+		List<RatesEntity> resultList = new ArrayList<>();
+		String query = "SELECT ratesId, rangeId FROM rates WHERE parkinglotId = ?";	// 2つのIdのみ取得
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(query, parkinglotId);
+		
+		for (Map<String, Object> row : rows) {
+			RatesEntity ent = new RatesEntity();
+			ent.setRatesId((Integer) row.get("ratesId"));
+			ent.setRangeId((Integer) row.get("rangeId"));
+			ent.setParkinglotId(parkinglotId);
+			resultList.add(ent);
 		}
 		
-		//全件表示
-		public List<ParkinglotEntity> selectAll(){
-			
-			List<ParkinglotEntity> resultParkinglotList = new ArrayList<ParkinglotEntity>();
-			String query = "SELECT * FROM parkinglot";
-			
-			List<Map<String,Object>>searchResultList = jdbcTemplate.queryForList(query);
-			
-			for(Map<String,Object>resultMap : searchResultList) {
-				ParkinglotEntity ent = new ParkinglotEntity();
-				ent.setId((Integer)resultMap.get("id"));
-				ent.setAddress1((String)resultMap.get("address1"));
-				ent.setAddress2((String)resultMap.get("address2"));
-				ent.setAddress3((String)resultMap.get("address3"));
-				ent.setName((String)resultMap.get("name"));
-				ent.setCapacity((Integer)resultMap.get("capacity"));
-				ent.setHourlyRate((Integer)resultMap.get("hourlyRate"));
-				java.sql.Date sqlDate = (java.sql.Date) resultMap.get("updateDate");
-				ent.setUpdateDate(sqlDate.toLocalDate());
-				resultParkinglotList.add(ent);
-			}
-			System.out.println(resultParkinglotList);
-			return resultParkinglotList;
-			
-		}
-		
-		/*
-		//条件検索
-		public List<ParkinglotEntity>selectParkings(){
-			
-			
-			
-		}
-		*/
-		
-		//address1で検索
-		public List<ParkinglotEntity> selectByAddress1(String address1){
-			List<ParkinglotEntity> resultList = new ArrayList<ParkinglotEntity>();
-			String query = "SELECT * FROM parkinglot WHERE address1 = ?";
-			List<Map<String,Object>> searchResultList = jdbcTemplate.queryForList(query,address1);
-			System.out.println(searchResultList);
-			//１件だけ取得
-			for(Map<String,Object> resultMap : searchResultList) {
-				ParkinglotEntity ent = new ParkinglotEntity();
-				ent.setId((Integer)resultMap.get("id"));
-				ent.setAddress1((String)resultMap.get("address1"));
-				ent.setAddress2((String)resultMap.get("address2"));
-				ent.setAddress3((String)resultMap.get("address3"));
-				ent.setName((String)resultMap.get("name"));
-				ent.setCapacity((Integer)resultMap.get("capacity"));
-				ent.setHourlyRate((Integer)resultMap.get("hourlyRate"));
-				java.sql.Date sqlDate = (java.sql.Date) resultMap.get("updateDate");
-				ent.setUpdateDate(sqlDate.toLocalDate());
-				
-				resultList.add(ent);
-			}
-			System.out.println(resultList);
-			return resultList;
+		return resultList;
+	}
 
-		}
-		
-		//nameで検索
-		public List<ParkinglotEntity> selectByName(String name){
-			List<ParkinglotEntity> resultList = new ArrayList<ParkinglotEntity>();
-			String query = "SELECT * FROM parkinglot WHERE name = ?";
-			List<Map<String,Object>> searchResultList = jdbcTemplate.queryForList(query,name);
-			System.out.println(searchResultList);
-			//１件だけ取得
-			for(Map<String,Object> resultMap : searchResultList) {
-				ParkinglotEntity ent = new ParkinglotEntity();
-				ent.setId((Integer)resultMap.get("id"));
-				ent.setAddress1((String)resultMap.get("address1"));
-				ent.setAddress2((String)resultMap.get("address2"));
-				ent.setAddress3((String)resultMap.get("address3"));
-				ent.setName((String)resultMap.get("name"));
-				ent.setCapacity((Integer)resultMap.get("capacity"));
-				ent.setHourlyRate((Integer)resultMap.get("hourlyRate"));
-				java.sql.Date sqlDate = (java.sql.Date) resultMap.get("updateDate");
-				ent.setUpdateDate(sqlDate.toLocalDate());
-				
-				resultList.add(ent);
-			}
-			System.out.println(resultList);
-			return resultList;
+	// 更新：rates を更新
+	public void update(RatesEntity ent) {
+		String query = "UPDATE rates SET amount=?, time=?, maxRateTimely=?, maxRate24h=?, maxRateDaily=? WHERE ratesId = ?";
+		jdbcTemplate.update(query, 
+			ent.getAmount(), ent.getTime(), ent.getMaxRateTimely(), ent.getMaxRate24h(), ent.getMaxRateDaily(), ent.getRatesId());
+	}
 
-		}
-		
-		//両方で検索
-		public List<ParkinglotEntity> selectByNameAndAddress1(String name,String address1){
-			List<ParkinglotEntity> resultList = new ArrayList<ParkinglotEntity>();
-			String query = "SELECT * FROM parkinglot WHERE name = ? AND address1 = ?";
-			List<Map<String,Object>> searchResultList = jdbcTemplate.queryForList(query,name,address1);
-			System.out.println(searchResultList);
-			//１件だけ取得
-			for(Map<String,Object> resultMap : searchResultList) {
-				ParkinglotEntity ent = new ParkinglotEntity();
-				ent.setId((Integer)resultMap.get("id"));
-				ent.setAddress1((String)resultMap.get("address1"));
-				ent.setAddress2((String)resultMap.get("address2"));
-				ent.setAddress3((String)resultMap.get("address3"));
-				ent.setName((String)resultMap.get("name"));
-				ent.setCapacity((Integer)resultMap.get("capacity"));
-				ent.setHourlyRate((Integer)resultMap.get("hourlyRate"));
-				java.sql.Date sqlDate = (java.sql.Date) resultMap.get("updateDate");
-				ent.setUpdateDate(sqlDate.toLocalDate());
-				
-				resultList.add(ent);
-			}
-			System.out.println(resultList);
-			return resultList;
-
-		}
-		
-		//詳細表示
-		public List<ParkinglotEntity>selectById(int id){
-			
-			List<ParkinglotEntity> resultList = new ArrayList<ParkinglotEntity>();
-			String query = "SELECT * FROM parkinglot WHERE id = ?";
-			
-			List<Map<String,Object>> searchResultList = jdbcTemplate.queryForList(query,id);
-			System.out.println(searchResultList);
-			//１件だけ取得
-			for(Map<String,Object> resultMap : searchResultList) {
-				ParkinglotEntity ent = new ParkinglotEntity();
-				ent.setId((Integer)resultMap.get("id"));
-				ent.setAddress1((String)resultMap.get("address1"));
-				ent.setAddress2((String)resultMap.get("address2"));
-				ent.setAddress3((String)resultMap.get("address3"));
-				ent.setName((String)resultMap.get("name"));
-				ent.setCapacity((Integer)resultMap.get("capacity"));
-				ent.setHourlyRate((Integer)resultMap.get("hourlyRate"));
-				java.sql.Date sqlDate = (java.sql.Date) resultMap.get("updateDate");
-				ent.setUpdateDate(sqlDate.toLocalDate());
-				
-				resultList.add(ent);
-			}
-			System.out.println(resultList);
-			return resultList;
-			
-		}
-
-		
-		//更新
-		public void update(ParkinglotEntity ent) {
-			String query = "UPDATE parkinglot set address1=?,address2=?,address3=?,name=?,capacity=?,hourlyRate=?,updateDate=? WHERE id = ?";
-			jdbcTemplate.update(query,ent.getAddress1(),ent.getAddress2(),ent.getAddress3(),ent.getName(),ent.getCapacity(),ent.getHourlyRate(),ent.getUpdateDate(),ent.getId());
-			
-		}
-		
-		//削除
-		public void delete(int id) {
-			String query = "DELETE FROM parkinglot WHERE id = ?";
-			jdbcTemplate.update(query,id);
-			
-		}
+	// 削除：rates を削除
+	public void delete(int id) {
+		String query = "DELETE FROM rates WHERE ratesId = ?";
+		jdbcTemplate.update(query, id);
+	}
 }
