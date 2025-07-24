@@ -98,6 +98,15 @@
   }
 }
 
+/* タイトル */
+.page-title{
+  font-size:1.8em;
+  font-weight:bold;
+  margin:0.5em 0 1em;
+  text-align:center;
+  color:var(--accent);
+}
+
 /* 登録/戻るボタンの共通スタイル */
 #submitBtn,
 form > button[type="button"] {
