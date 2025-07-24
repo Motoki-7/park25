@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegistParkingForm {
+public class ParkingDetailForm {
 	private int id;
 	private String address1;
 	private String address2;
@@ -23,8 +23,7 @@ public class RegistParkingForm {
 	
 	public ParkinglotEntity toEntity() {
 		ParkinglotEntity ent = new ParkinglotEntity();
-//		Regist は id がAUTO_INCREMENT のため View で含めずに Controller へ
-//		ent.setId(this.id);
+		ent.setId(this.id);
 		ent.setAddress1(this.address1);
 		ent.setAddress2(this.address2);
 		ent.setAddress3(this.address3);
@@ -34,4 +33,19 @@ public class RegistParkingForm {
 		ent.setUpdateDate(this.updateDate);
 		return ent;
 	}
+	
+	public static ParkingDetailForm fromEntity(ParkinglotEntity entity) {
+		ParkingDetailForm form = new ParkingDetailForm();
+		form.setId(entity.getId());
+		form.setName(entity.getName());
+		form.setAddress1(entity.getAddress1());
+		form.setAddress2(entity.getAddress2());
+		form.setAddress3(entity.getAddress3());
+		form.setCapacity(entity.getCapacity());
+		form.setHourlyRate(entity.getHourlyRate());
+		form.setUpdateDate(entity.getUpdateDate());
+		return form;
+	}
+	
+	
 }
