@@ -1,11 +1,15 @@
 package com.example.demo.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.ParkinglotEntity;
@@ -17,9 +21,21 @@ public class ParkinglotDao {
 	
 	
 	//登録
-	public void insert(ParkinglotEntity ent) {
+	public int insert(ParkinglotEntity ent) {
 		String query = "INSERT INTO parkinglot (address1,address2,address3,name,capacity,hourlyRate,updateDate) values (?,?,?,?,?,?,?)";
-		jdbcTemplate.update(query,ent.getAddress1(),ent.getAddress2(),ent.getAddress3(),ent.getName(),ent.getCapacity(),ent.getHourlyRate(),ent.getUpdateDate());
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(connection -> {
+		    PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+		    ps.setString(1, ent.getAddress1());
+		    ps.setString(2, ent.getAddress2());
+		    ps.setString(3, ent.getAddress3());
+		    ps.setString(4, ent.getName());
+		    ps.setInt(5, ent.getCapacity());
+		    ps.setInt(6, ent.getHourlyRate());
+		    ps.setDate(7, java.sql.Date.valueOf(ent.getUpdateDate()));
+		    return ps;
+		}, keyHolder);
+		return keyHolder.getKey().intValue();
 		
 	}
 	

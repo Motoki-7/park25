@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import lombok.Data;
+
+@Data
 public class RangeEntity {
 	private int rangeId;
 	private int startTime;
