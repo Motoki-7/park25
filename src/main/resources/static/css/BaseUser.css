@@ -103,3 +103,16 @@ header img {
   font-size: 1.5em;
   font-weight: bold;
 }
+
+.header-link {
+  display: flex;         /* アイコン＋タイトルを横並びに */
+  align-items: center;   /* 高さ中央揃え */
+  gap: 0.5em;            /* アイコンと文字の間隔 */
+  text-decoration: none; /* 下線を消す */
+  color: inherit;        /* header の color を継承 */
+}
+
+/* ホバーしても色が変わらないように */
+.header-link:hover {
+  color: inherit;
+}
