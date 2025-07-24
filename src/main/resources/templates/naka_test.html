@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+
+
+	<title>テーブル</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th,
+		td {
+			border: 1px solid #ccc;
+			padding: 8px 12px;
+			text-align: center;
+		}
+
+		th {
+			background-color: #f2f2f2;
+		}
+	</style>
+
+</head>
+
+<body>
+	<h2>基本料金</h2>
+	<table>
+		<tr>
+			<td>
+				<input type="radio" name="fee" value="0" onclick="baseFeeRadioChange(this)">
+				<label class="id_basefee0">終日固定</label>
+			</td>
+			<td class="id_basefee0">
+				<input type="text" class="id_basefee0" placeholder="検索窓：名称">
+				<label>分</label>
+				<input type="text" class="id_basefee0" placeholder="検索窓：名称">
+				<label>円</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="radio" name="fee" value="1" onclick="baseFeeRadioChange(this)">
+				<label class="id_basefee1">時間別</label>
+			</td>
+			<td class="id_basefee1">
+				<table>
+					<tr>
+						<th>月曜</th>
+						<th>火曜</th>
+						<th>水曜</th>
+						<th>木曜</th>
+						<th>金曜</th>
+						<th>土曜</th>
+						<th>日曜</th>
+						<th>祝日</th>
+					</tr>
+					<tr>
+						<td><input class="id_basefee1" type="checkbox" name="monday"></td>
+						<td><input class="id_basefee1" type="checkbox" name="tuesday"></td>
+						<td><input class="id_basefee1" type="checkbox" name="wednesday"></td>
+						<td><input class="id_basefee1" type="checkbox" name="thursday"></td>
+						<td><input class="id_basefee1" type="checkbox" name="friday"></td>
+						<td><input class="id_basefee1" type="checkbox" name="saturday"></td>
+						<td><input class="id_basefee1" type="checkbox" name="sunday"></td>
+						<td><input class="id_basefee1" type="checkbox" name="holiday"></td>
+					</tr>
+				</table>
+				<input type="text" class="id_basefee1" placeholder="検索窓：名称">
+				<label>分</label>
+				<input type="text" class="id_basefee1" placeholder="検索窓：名称">
+				<label>円</label>
+				<input type="text" class="id_basefee1" placeholder="検索窓：名称">
+				<label>最大料金　円</label>
+			</td>
+		</tr>
+	</table>
+
+	<h2>オプション</h2>
+	<table>
+		<tr>
+			<td>
+				<input type="radio" name="option" value="0" onclick="optionRadioChange(this)">
+				<label class="id_option0">最大料金なし</label>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>
+				<input type="radio" name="option" value="1" onclick="optionRadioChange(this)">
+				<label class="id_option1">当日最大</label>
+			</td>
+			<td class="id_option1">
+				<input type="text" class="id_option1" placeholder="検索窓：名称">
+				<label>円</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="radio" name="option" value="2" onclick="optionRadioChange(this)">
+				<label class="id_option2">駐車後24時間最大</label>
+			</td>
+			<td class="id_option2">
+				<input type="text" class="id_option2" placeholder="検索窓：名称">
+				<label>円</label>
+			</td>
+		</tr>
+	</table>
+
+	<script>
+		function optionRadioChange(selected) {
+			const id_input0List = document.querySelectorAll(".id_option0");
+			const id_input1List = document.querySelectorAll(".id_option1");
+			const id_input2List = document.querySelectorAll(".id_option2");
+			const allInputs = [
+				...id_input0List,
+				...id_input1List,
+				...id_input2List
+			];
+			allInputs.forEach(input => {
+				input.disabled = true;
+				input.style.opacity = 0.5;
+			});
+			if (selected.value === "0") {
+				id_input0List.forEach(input => {
+					input.disabled = false;
+					input.style.opacity = 1;
+				});
+			} else if (selected.value === "1") {
+				id_input1List.forEach(input => {
+					input.disabled = false;
+					input.style.opacity = 1;
+				});
+			} else if (selected.value === "2") {
+				id_input2List.forEach(input => {
+					input.disabled = false;
+					input.style.opacity = 1;
+				});
+			}
+		}
+	</script>
+	<script>
+		function baseFeeRadioChange(selected) {
+			const id_basefee0List = document.querySelectorAll(".id_basefee0");
+			const id_basefee1List = document.querySelectorAll(".id_basefee1");
+			const allInputs = [
+				...id_basefee0List,
+				...id_basefee1List,
+			];
+			allInputs.forEach(input => {
+				input.disabled = true;
+				input.style.opacity = 0.5;
+			});
+			if (selected.value === "0") {
+				id_basefee0List.forEach(input => {
+					input.disabled = false;
+					input.style.opacity = 1;
+				});
+			} else if (selected.value === "1") {
+				id_basefee1List.forEach(input => {
+					input.disabled = false;
+					input.style.opacity = 1;
+				});
+			}
+		}
+	</script>
+</body>
+
+</html>
