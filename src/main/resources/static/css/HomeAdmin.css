@@ -28,15 +28,12 @@ input[type="submit"]{
   position:absolute;
   top:0;
   right:0;
-  background:var(--accent);
-  color:#fff;
   font-weight:bold;
   padding:.6em 1.2em;
   border-radius:6px;
   box-shadow:0 2px 6px #ccc;
   transition:background .2s;
 }
-.button-new:hover{ background:var(--danger); }
 
 /* 検索入力欄 */
 #id_name{ min-width:15em; }
