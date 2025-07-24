@@ -1,166 +1,136 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		
+<head>		
 	<meta charset ="utf-8"/>
+	<link rel="stylesheet" href="/css/BaseAdmin.css">
+	<link rel="stylesheet" href="/css/EditParking.css">
 	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/utils.js}"></script>
-<!--	<script type="text/javascript" th:src="@{/js/RegistParking.js}"></script>-->
-<script th:inline="javascript">
-	$(document).ready(() => {
-		const address1Value = /*[[${form.address1}]]*/ "";
-		createAddress1Pulldown(address1Value);
-	});
-</script>
-	
-<!--   ブラウザのタイトル　-->
-	</head>
-	
-	<body>
+	<script th:inline="javascript">
+		$(document).ready(() => {
+			const address1Value = /*[[${form.address1}]]*/ "";
+			createAddress1Pulldown(address1Value);
+		});
+	</script>
+</head>
+
+<body>
+	<!--ホームアイコン：全ページ共通-->
+	<header>
+		<a href="/HomeAdmin" class="home-link">
+			<img src="/img/icon.png" alt="アイコン">
+		</a>
+		<div class="header-title">ParkingLot / 管理者</div>
+	</header>
+
+	<main>
+		<div class="page-title">編集画面</div>
 		
-		<!--   遷移先とオブジェクト名は仮定　-->
 		<form id="editParkingform" method ="post" th:action ="@{/EditParking/put}" th:object="${form}">
 			<input type="hidden" th:field="*{id}" />
 			<input type="hidden" th:field="*{updateDate}" id="updateDate" />
-			<div>
-				<label>
-				<select id="id_address1" name="address1" required>
-				<option value="" disabled selected>プルダウン：都道府県選択</option>
-				</select><br>
-				</label>
-			</div>
 			
-			<div>
-				<label>
-					市区町村 : <input th:field="*{address2}" id="address2" required/>
-				</label>
-			</div>
-			
-			<div>
-				<label>
-					丁目 : <input th:field="*{address3}"id="address3" required/>
-				</label>
-			</div>
-			
-			<div>
-				<label>
-					駐車場名 : <input th:field="*{name}" id="name" required/>
-				</label>
-			</div>
-			
-<!--			<div>-->
-<!--				<label>-->
-<!--					収容台数 :<input th:field="*{capacity}" id="capacity" required/>-->
-<!--				</label>-->
-<!--			</div>-->
-			<div>
-			  <label>
-			    収容台数 :
-			    <input
-			      th:field="*{capacity}"
-			      id="capacity"
-			      type="text"
-			      pattern="^[0-9]+$"
-			      title="半角数字のみを入力してください"
-			      required
-			    />
-			  </label>
-			</div>
-			
-			<div>
-			  <label>
-			    収容台数 :
-			    <input
-			      th:field="*{hourlyRate}"
-			      id="hourlyRate"
-			      type="text"
-			      pattern="^[0-9]+$"
-			      title="半角数字のみを入力してください"
-			      required
-			    />
-			  </label>
-			</div>
-
-			
-<!--			<div>-->
-<!--				<label>-->
-<!--					１時間当たりの料金 : <input th:field="*{hourlyRate}" id="hourlyRate" required/>-->
-<!--				</label>-->
-<!--			</div>-->
-
-			
-			
-            <button type="button" id="submitBtn">更新</button>
-			<!-- <button type="submit" onclick ="alertClick()">登録</button> -->
+			<div class="form-row">
+			    <label for="id_address1">都道府県：</label>
+			    <select id="id_address1" name="address1" required>
+			      <option value="" disabled selected>プルダウン：都道府県選択</option>
+			    </select>
+			  </div>
 	
+			  <div class="form-row">
+			    <label for="address2">市区町村：</label>
+			    <input th:field="*{address2}" id="address2" required/>
+			  </div>
+	
+			  <div class="form-row">
+			    <label for="address3">丁目：</label>
+			    <input th:field="*{address3}" id="address3" required/>
+			  </div>
+	
+			  <div class="form-row">
+			    <label for="name">駐車場名：</label>
+			    <input th:field="*{name}" id="name" required/>
+			  </div>
+	
+			  <div class="form-row">
+			    <label for="capacity">収容台数：</label>
+			    <input th:field="*{capacity}" id="capacity" type="text"
+			           pattern="^[0-9]+$" title="半角数字のみを入力してください" required/>
+			  </div>
+	
+			  <div class="form-row">
+			    <label for="hourlyRate">1時間当たりの料金：</label>
+			    <input th:field="*{hourlyRate}" id="hourlyRate" type="text"
+			           pattern="^[0-9]+$" title="半角数字のみを入力してください" required/>
+			  </div>	
+			
+				<button type="button" id="submitBtn">更新</button>
 		</form>
-		
+			
 		<form>
-			
 			<button type="button" onclick="location.href='/HomeAdmin'">戻る</button>
-			
 		</form>
-
 		
-
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    const form = document.getElementById("editParkingform");
-					
-					const today = new Date().toISOString().split('T')[0];
-					document.getElementById("updateDate").value = today;
-					
-					
-                  document.getElementById("submitBtn").addEventListener("click", function () {
-                if (!form.checkValidity()) {
-                    form.reportValidity(); // ← ここでブラウザの警告（吹き出し）が出る
-                return;
-                }
-				
-				
-				const capacity = document.getElementById("capacity").value.trim();
-				const hourlyRate = document.getElementById("hourlyRate").value.trim();
-
-
-
-				let isValid = true;
-				let errorMessage = "";
-
-				// capacity：1以上の整数
-				if (!/^[1-9][0-9]*$/.test(capacity)) {
-				  errorMessage += "収容台数は1以上の数値で入力してください。\n";
-				  isValid = false;
-				}
-
-				// hourlyRate：0以上の数値（整数 or 小数）
-				if (!/^(0|[1-9]\d*)(\.\d+)?$/.test(hourlyRate)) {
-				  errorMessage += "1時間当たりの料金は0以上の数値で入力してください。\n";
-				  isValid = false;
-				}
-
-				if (!isValid) {
-				  alert(errorMessage);
-				  return;
-				}
-				
-				
-				
-				
 	
-                    const address1 = document.getElementById("id_address1").value;
-                    const address2 = document.getElementById("address2").value;
-                    const address3 = document.getElementById("address3").value;
-                    const name = document.getElementById("name").value;
-
-                    const message = `この内容で登録しますか？\n\n県名: ${address1}\n市町村: ${address2}\n丁目: ${address3}\n駐車場名: ${name}\n収容台数: ${capacity}\n１時間当たりの料金: ${hourlyRate}`;
-            
-                    const result = confirm(message);
-                    if (result) {
-                      document.getElementById("editParkingform").requestSubmit();
-                    }
-                  });
-                });
+	    <script>
+	        document.addEventListener("DOMContentLoaded", function () {
+	            const form = document.getElementById("editParkingform");
 				
-             </script> 
-	</body>
+				const today = new Date().toISOString().split('T')[0];
+				document.getElementById("updateDate").value = today;
+				
+				
+	          document.getElementById("submitBtn").addEventListener("click", function () {
+	        if (!form.checkValidity()) {
+	            form.reportValidity(); // ← ここでブラウザの警告（吹き出し）が出る
+	        return;
+	        }
+			
+			
+			const capacity = document.getElementById("capacity").value.trim();
+			const hourlyRate = document.getElementById("hourlyRate").value.trim();
+	
+	
+	
+			let isValid = true;
+			let errorMessage = "";
+	
+			// capacity：1以上の整数
+			if (!/^[1-9][0-9]*$/.test(capacity)) {
+			  errorMessage += "収容台数は1以上の数値で入力してください。\n";
+			  isValid = false;
+			}
+	
+			// hourlyRate：0以上の数値（整数 or 小数）
+			if (!/^(0|[1-9]\d*)(\.\d+)?$/.test(hourlyRate)) {
+			  errorMessage += "1時間当たりの料金は0以上の数値で入力してください。\n";
+			  isValid = false;
+			}
+	
+			if (!isValid) {
+			  alert(errorMessage);
+			  return;
+			}
+			
+			
+			
+			
+	
+	            const address1 = document.getElementById("id_address1").value;
+	            const address2 = document.getElementById("address2").value;
+	            const address3 = document.getElementById("address3").value;
+	            const name = document.getElementById("name").value;
+	
+	            const message = `この内容で登録しますか？\n\n県名: ${address1}\n市町村: ${address2}\n丁目: ${address3}\n駐車場名: ${name}\n収容台数: ${capacity}\n１時間当たりの料金: ${hourlyRate}`;
+	    
+	            const result = confirm(message);
+	            if (result) {
+	              document.getElementById("editParkingform").requestSubmit();
+	            }
+	          });
+	        });
+			
+	     </script> 
+	</main>
+</body>
 </html>

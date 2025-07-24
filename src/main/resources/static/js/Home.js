@@ -1,6 +1,6 @@
 $(document).ready(() => {
 	//初回実行時
-	makeAdminParkingList(JSON.parse(localStorage.getItem("parkingResult")));
+	makeParkingList(JSON.parse(localStorage.getItem("parkingResult")));
 	createAddress1Pulldown();
 	//localStorageから復元
 	const savedName = localStorage.getItem("userSearchName");

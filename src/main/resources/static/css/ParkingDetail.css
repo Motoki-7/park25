@@ -1,0 +1,77 @@
+/* タイトル */
+.page-title {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin: 0.5em 0 1em;
+  text-align: center;
+  color: var(--accent);
+}
+
+
+.detail-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+  width: 95%;
+  max-width: 1200px;
+  margin-bottom: 1em;
+}
+
+.detail-info {
+  flex: 1;
+  min-height: 600px;
+  background: var(--sub-accent);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2em;
+  color: var(--accent);
+  box-sizing: border-box;
+}
+
+.detail-info div {
+  margin-bottom: 0.7em;
+  font-size: 1.1em;
+}
+
+/* 地図エリア */
+#map {
+  flex: 1;
+  height: 600px;
+  width: 600px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+/* 戻るボタン */
+form > button[type="submit"] {
+  width: 100%;
+  padding: 0.7em;
+  margin-top: 1em;
+  font-size: 1.1em;
+  border-radius: 4px;
+  border: none;
+  background: #eee;
+  color: var(--accent);
+  transition: background 0.2s, color 0.2s;
+}
+form > button[type="submit"]:hover {
+  background: var(--primary);
+  color: var(--accent);
+}
+
+/* レスポンシブ：狭い画面では縦並びに */
+@media (max-width: 600px) {
+  .detail-container {
+    flex-direction: column;
+  }
+  #map,
+  .detail-info {
+    width: 100%;
+    height: auto; /* 高さ固定を解除 */
+  }
+  .detail-info {
+    justify-content: flex-start; /* 縦詰め */
+  }
+}
