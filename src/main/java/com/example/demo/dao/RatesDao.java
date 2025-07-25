@@ -17,7 +17,7 @@ public class RatesDao {
 
 	
 	//登録
-	public void insert(RatesEntity ent, int parkinglotId, int rangeId) {
+	public void insert(RatesEntity ent, int parkinglotId, Integer rangeId) {
 		String query = 
 				"INSERT INTO rates (parkinglotId,rangeId,amount,time,maxRateTimely,maxRate24h,maxRateDaily) values (?,?,?,?,?,?,?)";
 		jdbcTemplate.update(query, 
