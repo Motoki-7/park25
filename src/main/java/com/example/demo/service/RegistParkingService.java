@@ -29,10 +29,8 @@ public class RegistParkingService {
 		Integer rangeId;
 		if (form.getBaseFeeRadio() == 0) {
 			rangeId = null;
-			for (int i=0; i<form.getDailyList().size(); i++) {
-				RatesEntity ratesEnt = ratesEntList.get(i);
-				ratesDao.insert(ratesEnt, parkinglotId, rangeId);
-			}
+			RatesEntity ratesEnt = ratesEntList.get(0);
+			ratesDao.insert(ratesEnt, parkinglotId, rangeId);
 		}
 		else if (form.getBaseFeeRadio() == 1) {
 			List<RangeEntity> rangeEntList = form.toRangeEntityList();
