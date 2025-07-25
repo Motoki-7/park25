@@ -1,6 +1,7 @@
 package com.example.demo.form;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.example.demo.entity.ParkinglotEntity;
 
@@ -12,7 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegistParkingForm {
-	private int id;
+	// 駐車場情報
+	private int id; //parkinglotId
 	private String address1;
 	private String address2;
 	private String address3;
@@ -21,7 +23,16 @@ public class RegistParkingForm {
 	private int hourlyRate;
 	private  LocalDate updateDate;
 	
-	public ParkinglotEntity toEntity() {
+	// 料金情報
+	private int baseFeeRadio;	// 基本料金ブロックのセレクター
+	private int optionRadio; // オプションブロックのセレクター
+	private int amountDaily; // 終日料金[￥]
+	private int timeDailly;  // 終日単位時間[分]
+	private int maxRate24h; // 駐車後24時間ごとの最大料金
+	private int maxRateDaily; // 日付締めでの最大料金
+	private List<RatesRangeDto> dailyList;
+	
+	public ParkinglotEntity toParkinglotEntity() {
 		ParkinglotEntity ent = new ParkinglotEntity();
 //		Regist は id がAUTO_INCREMENT のため View で含めずに Controller へ
 //		ent.setId(this.id);
@@ -34,4 +45,6 @@ public class RegistParkingForm {
 		ent.setUpdateDate(this.updateDate);
 		return ent;
 	}
+	
+	
 }

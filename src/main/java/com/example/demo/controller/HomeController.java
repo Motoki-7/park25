@@ -18,9 +18,6 @@ public class HomeController {
 	//ユーザーホーム画面
 	@GetMapping("/")
 	public String showHome(Model model) {
-		
-//		homeService.selectAll();
-		
 		return "Home";
 		
 	}

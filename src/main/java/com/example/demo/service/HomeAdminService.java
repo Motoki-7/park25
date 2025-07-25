@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.ParkinglotDao;
 import com.example.demo.entity.ParkinglotEntity;
-import com.example.demo.form.RatesListWrapper;
 
 @Service
 public class HomeAdminService {
@@ -20,13 +19,12 @@ public class HomeAdminService {
 		List<ParkinglotEntity>parkinglotList = parkinglotDao.selectAll();
 		return parkinglotList;
 	}
-	
-	// 
-	public RatesListWrapper selectRatesRangeList(int parkinglotId) {
-		RatesListWrapper ratesList;
-		
-		return ratesList;
-	}
+//	
+//	// 
+//	public RatesListWrapper selectRatesRangeList(int parkinglotId) {
+//		RatesListWrapper ratesList = new RatesListWrapper();
+//		return ratesList;
+//	}
 	
 	
 	//詳細表示
