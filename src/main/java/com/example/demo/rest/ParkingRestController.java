@@ -23,13 +23,12 @@ public class ParkingRestController {
 	public List<ParkinglotEntity> select(
 			@RequestParam(name="name",required=false) String name,
 			@RequestParam(name="address1",required=false) String address1 ){
-		
 		return parkingRestService.select(name, address1);
 	}
 	
+	// 削除：parkinglotIdをキーに関連データも削除
 	@DeleteMapping("/rest")
 	public void delete(@RequestBody EditParkingForm form) {
 		parkingRestService.delete(form.getId());
 	}
-	
 }
