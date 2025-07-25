@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+</head>
+
+<body>
+	<form action="#" method="get">
+	  <table>
+	  	<tr>
+	  		<td>
+	  			<label>入庫時刻</label>
+	  		</td>
+	  		<td>
+				<input type="date" id="date" name="date" required>
+				<input type="time" id="time" name="time" required>
+			</td>
+	  	</tr>
+	  	<tr>
+	  		<td>
+	  			<label>出庫時刻</label>
+	  		</td>
+	  		<td>
+				<input type="date" id="date" name="date" required>
+				<input type="time" id="time" name="time" required>
+	  		</td>
+	  	</tr>
+	  </table>
+	  <input type="submit" value="送信">
+	</form>
+</body>
+
+</html>
