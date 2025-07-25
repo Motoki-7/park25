@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class RangeEntity {
 	private int rangeId;
-	private int startTime;
-	private int endTime;
+	private Integer startTime;
+	private Integer endTime;
 	private boolean monday;
 	private boolean tuesday;
 	private boolean wednesday;

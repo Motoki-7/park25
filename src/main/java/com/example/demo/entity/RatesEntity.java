@@ -6,10 +6,10 @@ import lombok.Data;
 public class RatesEntity {
 	private int ratesId;
 	private int parkinglotId;
-	private int rangeId;
+	private Integer rangeId;
 	private int amount;
 	private int time;
-	private int maxRateTimely;
-	private int maxRate24h;
-	private int maxRateDaily;
+	private Integer maxRateTimely;
+	private Integer maxRate24h;
+	private Integer maxRateDaily;
 }

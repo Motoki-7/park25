@@ -35,6 +35,8 @@ public class RegistParkingForm {
 	private Integer maxRateDaily; // 日付締めでの最大料金
 	private List<RatesRangeDto> dailyList;
 
+	
+	
 	public ParkinglotEntity toParkinglotEntity() {
 		ParkinglotEntity ent = new ParkinglotEntity();
 		/*Regist は id がAUTO_INCREMENT のため View で含めずに Controller へ
@@ -48,18 +50,20 @@ public class RegistParkingForm {
 		ent.setUpdateDate(this.updateDate);
 		return ent;
 	}
-
+	
+	
 	public List<RatesEntity> toRatesEntityList() {
 		List<RatesEntity> entList = new ArrayList<>();
-		RatesEntity ent = new RatesEntity();
 
 		// 基本料金が終日固定
 		if (this.baseFeeRadio == 0) {
+			RatesEntity ent = new RatesEntity();
 			// 料金
 			ent.setAmount(this.amountDaily);
 			ent.setTime(this.timeDailly);
 			// オプション
-			if (this.optionRadio == 0)
+			if(this.optionRadio == null) {}
+			else if (this.optionRadio == 0)
 				ent.setMaxRate24h(this.maxRate24h);
 			else if (this.optionRadio == 1)
 				ent.setMaxRateDaily(this.maxRateDaily);
@@ -68,12 +72,14 @@ public class RegistParkingForm {
 		// 基本料金が時間別
 		else if (this.baseFeeRadio == 1) {
 			for (RatesRangeDto dto : this.dailyList) {
+				RatesEntity ent = new RatesEntity();
 				// 料金
 				ent.setAmount(dto.getAmount());
 				ent.setTime(dto.getTime());
 				ent.setMaxRateTimely(dto.getMaxRateTimely());
 				// オプション
-				if (this.optionRadio == 0)
+				if(this.optionRadio == null) {}
+				else if (this.optionRadio == 0)
 					ent.setMaxRate24h(this.maxRate24h);
 				else if (this.optionRadio == 1)
 					ent.setMaxRateDaily(this.maxRateDaily);
@@ -82,23 +88,28 @@ public class RegistParkingForm {
 		}
 		return entList;
 	}
-
+	
+	
 	public List<RangeEntity> toRangeEntityList() {
 		List<RangeEntity> entList = new ArrayList<>();
-		RangeEntity ent = new RangeEntity();
 		for (RatesRangeDto dto : this.dailyList) {
+			RangeEntity ent = new RangeEntity();
 			ent.setStartTime(dto.getStartTime());
 			ent.setEndTime(dto.getEndTime());
-			ent.setMonday(dto.getMonday());
-			ent.setTuesday(dto.getTuesday);
-			ent.setWednesday(dto.getWednesday);
-			ent.setThursday(dto.getThursday);
-			ent.setFriday(dto.getFriday);
-			ent.setSaturday(dto.getSaturday);
-			ent.setSunday(dto.getSunday);
-			ent.setHoliday(dto.getHoliday);
+			ent.setMonday(dto.isMonday());
+			ent.setTuesday(dto.isTuesday());
+			ent.setWednesday(dto.isWednesday());
+			ent.setThursday(dto.isThursday());
+			ent.setFriday(dto.isFriday());
+			ent.setSaturday(dto.isSaturday());
+			ent.setSunday(dto.isSunday());
+			ent.setHoliday(dto.isHoliday());
+			System.out.println("Display ent");
+			System.out.println(ent);
 			entList.add(ent);
 		}
+		System.out.println("Display entList");
+		System.out.println(entList);
 		return entList;
 	}
 }
