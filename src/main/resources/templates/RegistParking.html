@@ -4,13 +4,18 @@
 <head>
 
 	<meta charset="utf-8" />
-<!--	<link rel="stylesheet" href="/css/BaseAdmin.css">-->
-<!--	<link rel="stylesheet" href="/css/RegistParking.css">-->
+	<!--	<link rel="stylesheet" href="/css/BaseAdmin.css">-->
+	<!--	<link rel="stylesheet" href="/css/RegistParking.css">-->
 	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/utils.js}"></script>
 	<script type="text/javascript" th:src="@{/js/RegistParking.js}"></script>
-
-
+	<script type="text/javascript" th:src="@{/js/feeSimUtils.js}"></script>
+	<script>
+		$(document).ready(() => {
+			initBaseFeeRadioChange("[[${form.baseFeeRadio}]]");
+			initOptionRadioChange("[[${form.optionRadio}]]");
+		});
+	</script>
 </head>
 
 <body>
@@ -63,89 +68,125 @@
 						title="半角数字のみを入力してください" required />
 				</div>
 			</div>
-			<div th:object="${list}">
-					<h2>基本料金</h2>
-					<table>
-						<tr>
-							<td>
-								<input type="radio" name="fee" value="0" onclick="baseFeeRadioChange(this)">
-								<label class="id_basefee0">終日固定</label>
-							</td>
-							<td class="id_basefee0">
-								<input type="number" class="id_basefee0" placeholder="検索窓：名称" min="0">
-								<label>分</label>
-								<input type="number" class="id_basefee0" placeholder="検索窓：名称" min="0">
-								<label>円</label>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="radio" name="fee" value="1" onclick="baseFeeRadioChange(this)">
-								<label class="id_basefee1">時間別</label>
-							</td>
-							<td class="id_basefee1">
-								<button type="button" onclick="addBaseFee()">クリック</button>
-								<div id="baseFee"></div>
-							</td>
-						</tr>
-					</table>
+			<div>
+				<h2>基本料金</h2>
+				<table>
+					<tr>
+						<td>
+							<input type="radio" th:field="*{baseFeeRadio}" value="0" onclick="baseFeeRadioChange(this)">
+							<label class="id_basefee0">終日固定</label>
+						</td>
+						<td class="id_basefee0">
+							<input type="number" class="id_basefee0" th:field="*{amountDaily}" placeholder="終日固定料金"
+								min="0" required>
+							<label>円</label>
+							<input type="number" class="id_basefee0" th:field="*{timeDailly}" placeholder="終日固定時間"
+								min="0" required>
+							<label>分</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="radio" th:field="*{baseFeeRadio}" value="1" onclick="baseFeeRadioChange(this)">
+							<label class="id_basefee1">時間別</label>
+						</td>
+						<td class="id_basefee1">
+							<button type="button" onclick="addBaseFee()">クリック</button>
+							<div id="baseFee"></div>
+						</td>
+					</tr>
+				</table>
 
-					<h2>オプション</h2>
-					<table>
-						<tr>
-							<td>
-								<input type="radio" name="option" value="0" onclick="optionRadioChange(this)">
-								<label class="id_option0">最大料金なし</label>
-							</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>
-								<input type="radio" name="option" value="1" onclick="optionRadioChange(this)">
-								<label class="id_option1">当日最大</label>
-							</td>
-							<td class="id_option1">
-								<input type="number" class="id_option1" placeholder="検索窓：名称" min="0">
-								<label>円</label>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="radio" name="option" value="2" onclick="optionRadioChange(this)">
-								<label class="id_option2">駐車後24時間最大</label>
-							</td>
-							<td class="id_option2">
-								<input type="number" class="id_option2" placeholder="検索窓：名称" min="0">
-								<label>円</label>
-							</td>
-						</tr>
-					</table>
+				<h2>オプション</h2>
+				<table>
+					<tr>
+						<td>
+							<input class="optionCheckbox" type="checkbox" th:field="*{optionRadio}" value="0" onclick="optionRadioChange(this)">
+							<label class="id_option0">駐車後24時間最大</label>
+						</td>
+						<td class="id_option0">
+							<input type="number" class="id_option0" th:field="*{maxRate24h}" placeholder="駐車後24時間最大"
+								min="0" required>
+							<label>円</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input class="optionCheckbox" type="checkbox" th:field="*{optionRadio}" value="1" onclick="optionRadioChange(this)">
+							<label class="id_option1">当日最大</label>
+						</td>
+						<td class="id_option1">
+							<input type="number" class="id_option1" th:field="*{maxRateDaily}" placeholder="当日最大"
+								min="0" required>
+							<label>円</label>
+						</td>
+					</tr>
+				</table>
 				<script>
+					function setOptionInputs(value) {
+					  const id_input0List = document.querySelectorAll(".id_option0");
+					  const id_input1List = document.querySelectorAll(".id_option1");
+					  const allInputs = [...id_input0List, ...id_input1List];
+
+					  // 一旦全て無効化
+					  allInputs.forEach(input => {
+					    input.disabled = true;
+					    input.style.opacity = 0.5;
+					  });
+
+					  // 指定のvalueに該当するクラスを有効化
+					  if (value === "0") {
+					    id_input0List.forEach(input => {
+					      input.disabled = false;
+					      input.style.opacity = 1;
+					    });
+					  } else if (value === "1") {
+					    id_input1List.forEach(input => {
+					      input.disabled = false;
+					      input.style.opacity = 1;
+					    });
+					  }
+					}
+
 					function optionRadioChange(selected) {
-						const id_input0List = document.querySelectorAll(".id_option0");
-						const id_input1List = document.querySelectorAll(".id_option1");
-						const id_input2List = document.querySelectorAll(".id_option2");
+					  const checkboxes = document.querySelectorAll(".optionCheckbox");
+					  if (!selected.checked) {
+					    // チェック外れた場合は全部無効化
+					    setOptionInputs(null);
+					    return;
+					  }
+					  // 他のチェックボックスはoff
+					  checkboxes.forEach(cb => {
+					    if (cb !== selected) cb.checked = false;
+					  });
+					  setOptionInputs(selected.value);
+					}
+
+					function initOptionRadioChange(selectedValue) {
+						const checkboxes = document.querySelectorAll(".optionCheckbox");
+						checkboxes.forEach(cb => {
+						  cb.checked = (cb.value === selectedValue);
+						});
+					  setOptionInputs(selectedValue);
+					}
+					function initBaseFeeRadioChange(selected) {
+						const id_basefee0List = document.querySelectorAll(".id_basefee0");
+						const id_basefee1List = document.querySelectorAll(".id_basefee1");
 						const allInputs = [
-							...id_input0List,
-							...id_input1List,
-							...id_input2List
+							...id_basefee0List,
+							...id_basefee1List,
 						];
 						allInputs.forEach(input => {
 							input.disabled = true;
 							input.style.opacity = 0.5;
 						});
-						if (selected.value === "0") {
-							id_input0List.forEach(input => {
+						if (selected === "0") {
+							id_basefee0List.forEach(input => {
 								input.disabled = false;
 								input.style.opacity = 1;
 							});
-						} else if (selected.value === "1") {
-							id_input1List.forEach(input => {
-								input.disabled = false;
-								input.style.opacity = 1;
-							});
-						} else if (selected.value === "2") {
-							id_input2List.forEach(input => {
+						} else if (selected === "1") {
+							id_basefee1List.forEach(input => {
 								input.disabled = false;
 								input.style.opacity = 1;
 							});
@@ -178,6 +219,7 @@
 					}
 				</script>
 				<script>
+					var index = 0;
 					function addBaseFee() {
 						const $list = $(`
 					      <div class="baseFeeBlock">
@@ -193,30 +235,30 @@
 					            <th>祝日</th>
 								<th></th>
 					          </tr>
-					          <tr>
-								<td><input class="id_basefee1" type="radio" name="monday" value="monday"></td>
-								<td><input class="id_basefee1" type="radio" name="tuesday" value="tuesday"></td>
-								<td><input class="id_basefee1" type="radio" name="wednesday" value="wednesday"></td>
-								<td><input class="id_basefee1" type="radio" name="thursday" value="thursday"></td>
-								<td><input class="id_basefee1" type="radio" name="friday" value="friday"></td>
-								<td><input class="id_basefee1" type="radio" name="saturday" value="saturday"></td>
-								<td><input class="id_basefee1" type="radio" name="sunday" value="sunday"></td>
-								<td><input class="id_basefee1" type="radio" name="holiday" value="holiday"></td>
-								<td><button type="button" class="deleteBaseFeeBtn">削除</button></td>
-					          </tr>
+							  <tr>
+							    <td><input class="id_basefee1" type="checkbox" name="dailyList[${index}].monday" value="true"></td>
+							    <td><input class="id_basefee1" type="checkbox" name="dailyList[${index}].tuesday" value="true"></td>
+							    <td><input class="id_basefee1" type="checkbox" name="dailyList[${index}].wednesday" value="true"></td>
+							    <td><input class="id_basefee1" type="checkbox" name="dailyList[${index}].thursday" value="true"></td>
+							    <td><input class="id_basefee1" type="checkbox" name="dailyList[${index}].friday" value="true"></td>
+							    <td><input class="id_basefee1" type="checkbox" name="dailyList[${index}].saturday" value="true"></td>
+							    <td><input class="id_basefee1" type="checkbox" name="dailyList[${index}].sunday" value="true"></td>
+							    <td><input class="id_basefee1" type="checkbox" name="dailyList[${index}].holiday" value="true"></td>
+							    <td><button type="button" class="deleteBaseFeeBtn">削除</button></td>
+							  </tr>
 					        </table>
 					        <div>
 								<label>開始時刻:</label>
-								<select class="hour-select" name="start_hour"></select>
+								<select class="hour-select" name="dailyList[${index}].startTime"></select>
 								<label>時</label>
 								<label>　終了時刻:</label>
-								<select class="hour-select" name="end_hour"></select>
+								<select class="hour-select" name="dailyList[${index}].endTime"></select>
 								<label>時</label><br>
-					          <input type="number" class="id_basefee1" name="minutes" placeholder="検索窓：名称" min="0">
+					          <input type="number" class="id_basefee1" name="dailyList[${index}].time" min="0" required>
 					          <label>分</label>
-					          <input type="number" class="id_basefee1" name="minutes" placeholder="検索窓：名称" min="0">
+					          <input type="number" class="id_basefee1" name="dailyList[${index}].amount" min="0" required>
 					          <label>円</label>
-					          <input type="number" class="id_basefee1" name="minutes" placeholder="検索窓：名称" min="0">
+					          <input type="number" class="id_basefee1" name="dailyList[${index}].maxRateTimely" min="0">
 					          <label>最大料金 円</label>
 					        </div>
 					      </div>
@@ -231,8 +273,22 @@
 						// 削除ボタンにイベントを追加
 						$list.find(".deleteBaseFeeBtn").on("click", function () {
 							$(this).closest(".baseFeeBlock").remove();
+							reindexBaseFeeBlocks();
 						});
 						$("#baseFee").append($list);
+						index++;
+						
+						function reindexBaseFeeBlocks() {
+							const blocks = document.querySelectorAll(".baseFeeBlock");
+							blocks.forEach((block, newIndex) => {
+								block.querySelectorAll("input, select").forEach(el => {
+									if (el.name) {
+										el.name = el.name.replace(/dailyList\[\d+\]/, `dailyList[${newIndex}]`);
+									}
+								});
+							});
+						}
+
 					}
 				</script>
 			</div>

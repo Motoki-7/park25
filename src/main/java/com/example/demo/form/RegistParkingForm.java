@@ -25,11 +25,11 @@ public class RegistParkingForm {
 	
 	// 料金情報
 	private int baseFeeRadio;	// 基本料金ブロックのセレクター
-	private int optionRadio; // オプションブロックのセレクター
-	private int amountDaily; // 終日料金[￥]
-	private int timeDailly;  // 終日単位時間[分]
-	private int maxRate24h; // 駐車後24時間ごとの最大料金
-	private int maxRateDaily; // 日付締めでの最大料金
+	private Integer optionRadio; // オプションブロックのセレクター
+	private Integer amountDaily; // 終日料金[￥]
+	private Integer timeDailly;  // 終日単位時間[分]
+	private Integer maxRate24h; // 駐車後24時間ごとの最大料金
+	private Integer maxRateDaily; // 日付締めでの最大料金
 	private List<RatesRangeDto> dailyList;
 	
 	public ParkinglotEntity toParkinglotEntity() {
