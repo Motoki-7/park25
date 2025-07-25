@@ -65,15 +65,6 @@ public class ParkinglotDao {
 		
 	}
 	
-	/*
-	//条件検索
-	public List<ParkinglotEntity>selectParkings(){
-		
-		
-		
-	}
-	*/
-	
 	//address1で検索
 	public List<ParkinglotEntity> selectByAddress1(String address1){
 		List<ParkinglotEntity> resultList = new ArrayList<ParkinglotEntity>();
