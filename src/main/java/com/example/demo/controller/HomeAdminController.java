@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.form.EditParkingForm;
+import com.example.demo.form.RatesListWrapper;
 import com.example.demo.form.RegistParkingForm;
 import com.example.demo.service.HomeAdminService;
 
@@ -21,9 +22,6 @@ public class HomeAdminController {
 	//管理者ホーム画面
 	@GetMapping("/HomeAdmin")
 	public String showHomeAdmin(Model model) {
-		
-//		homeAdminService.selectAll();
-		
 		return "HomeAdmin";
 	}
 	
@@ -31,6 +29,7 @@ public class HomeAdminController {
 	@GetMapping("/RegistParking")
 	public String moveToRegistParking(Model model) {
 		model.addAttribute("form", new RegistParkingForm());
+		model.addAttribute("list", new RatesListWrapper());
 		return "RegistParking";
 	}
 	
@@ -38,8 +37,10 @@ public class HomeAdminController {
 	//EditParking.htmlに遷移
 	@GetMapping("/EditParking/{id}")
 	public String moveToEditParking(Model model, @PathVariable int id) {
-		EditParkingForm form = EditParkingForm.fromEntity(homeAdminService.selectById(id).get(0));
+		EditParkingForm form = EditParkingForm.fromEntity(homeAdminService.selectByParkinglotId(id));
+		RatesListWrapper wrapper = homeAdminService.selectRatesRangeList(id);
 		model.addAttribute("form", form);
+		model.addAttribute("list", wrapper);
 		return "EditParking";
 	}
 }
