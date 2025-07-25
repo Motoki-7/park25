@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.demo.form.RatesListWrapper;
 import com.example.demo.form.RegistParkingForm;
 import com.example.demo.service.RegistParkingService;
 
@@ -16,8 +15,8 @@ public class RegistParkingController {
 	
 	
 	@PostMapping("/RegistParking/post")
-	public String insert(Model model, RegistParkingForm form, RatesListWrapper wrapper) {
-		service.insert(form, wrapper);
+	public String insert(Model model, RegistParkingForm form) {
+		service.insert(form);
 		return "redirect:/HomeAdmin";
 	}
 }

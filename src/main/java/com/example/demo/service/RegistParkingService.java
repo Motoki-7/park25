@@ -13,7 +13,7 @@ public class RegistParkingService {
 	ParkinglotDao dao;
 	
 	public void insert(RegistParkingForm form) {
-		ParkinglotEntity ent = form.toEntity();
+		ParkinglotEntity ent = form.toParkinglotEntity();
 		dao.insert(ent);
 	}
 }

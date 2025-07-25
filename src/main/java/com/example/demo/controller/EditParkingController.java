@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.form.EditParkingForm;
-import com.example.demo.form.RatesListWrapper;
 import com.example.demo.service.EditParkingService;
 
 @Controller
@@ -17,8 +16,8 @@ public class EditParkingController {
 
 	// 編集の確認とデータの更新
 	@PostMapping("/EditParking/put")
-	public String update(Model model, EditParkingForm form, RatesListWrapper wrapper) {
-		service.update(form, wrapper);
+	public String update(Model model, EditParkingForm form) {
+		service.update(form);
 		return "redirect:/HomeAdmin";
 	}
 }
