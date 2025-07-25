@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-	
-<meta charset ="utf-8"/>
-<link rel="stylesheet" href="/css/BaseAdmin.css">
-<link rel="stylesheet" href="/css/RegistParking.css">
-<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/utils.js}"></script>
-<script type="text/javascript" th:src="@{/js/RegistParking.js}"></script>
+
+	<meta charset="utf-8" />
+<!--	<link rel="stylesheet" href="/css/BaseAdmin.css">-->
+<!--	<link rel="stylesheet" href="/css/RegistParking.css">-->
+	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/utils.js}"></script>
+	<script type="text/javascript" th:src="@{/js/RegistParking.js}"></script>
 
 
 </head>
@@ -24,109 +25,283 @@
 	<main>
 		<!-- ヘッダー直下に画面タイトルを追加 -->
 		<div class="page-title">新規登録画面</div>
-	
+
 		<form id="registParkingform" method="post" th:action="@{/RegistParking/post}" th:object="${form}">
-		  <input type="hidden" th:field="*{updateDate}" id="updateDate"/>
-	
-		  <div class="form-row">
-		    <label for="id_address1">都道府県：</label>
-		    <select id="id_address1" name="address1" required>
-		      <option value="" disabled selected>プルダウン：都道府県選択</option>
-		    </select>
-		  </div>
-	
-		  <div class="form-row">
-		    <label for="address2">市区町村：</label>
-		    <input th:field="*{address2}" id="address2" required/>
-		  </div>
-	
-		  <div class="form-row">
-		    <label for="address3">丁目：</label>
-		    <input th:field="*{address3}" id="address3" required/>
-		  </div>
-	
-		  <div class="form-row">
-		    <label for="name">駐車場名：</label>
-		    <input th:field="*{name}" id="name" required/>
-		  </div>
-	
-		  <div class="form-row">
-		    <label for="capacity">収容台数：</label>
-		    <input th:field="*{capacity}" id="capacity" type="text"
-		           pattern="^[0-9]+$" title="半角数字のみを入力してください" required/>
-		  </div>
-	
-		  <div class="form-row">
-		    <label for="hourlyRate">1時間当たりの料金：</label>
-		    <input th:field="*{hourlyRate}" id="hourlyRate" type="text"
-		           pattern="^[0-9]+$" title="半角数字のみを入力してください" required/>
-		  </div>
-	
-		  <button type="button" id="submitBtn">登録</button>
-		</form>		
-		
-		
-		<form>		
-				<button type="button" onclick="location.href='/HomeAdmin'">戻る</button>
-			</form>
-	
-	        <script>
-	            document.addEventListener("DOMContentLoaded", function () {
-	                const form = document.getElementById("registParkingform");
-					
-					const today = new Date().toISOString().split('T')[0];
-					document.getElementById("updateDate").value = today;
-	
-	              document.getElementById("submitBtn").addEventListener("click", function () {
-	            if (!form.checkValidity()) {
-	                form.reportValidity(); // ← ここでブラウザの警告（吹き出し）が出る
-	            return;
-	            }
-				
+			<input type="hidden" th:field="*{updateDate}" id="updateDate" />
+			<div>
+				<div class="form-row">
+					<label for="id_address1">都道府県：</label>
+					<select id="id_address1" name="address1" required>
+						<option value="" disabled selected>プルダウン：都道府県選択</option>
+					</select>
+				</div>
+
+				<div class="form-row">
+					<label for="address2">市区町村：</label>
+					<input th:field="*{address2}" id="address2" required />
+				</div>
+
+				<div class="form-row">
+					<label for="address3">丁目：</label>
+					<input th:field="*{address3}" id="address3" required />
+				</div>
+
+				<div class="form-row">
+					<label for="name">駐車場名：</label>
+					<input th:field="*{name}" id="name" required />
+				</div>
+
+				<div class="form-row">
+					<label for="capacity">収容台数：</label>
+					<input th:field="*{capacity}" id="capacity" type="text" pattern="^[0-9]+$" title="半角数字のみを入力してください"
+						required />
+				</div>
+
+				<div class="form-row">
+					<label for="hourlyRate">1時間当たりの料金：</label>
+					<input th:field="*{hourlyRate}" id="hourlyRate" type="text" pattern="^[0-9]+$"
+						title="半角数字のみを入力してください" required />
+				</div>
+			</div>
+			<div th:object="${list}">
+					<h2>基本料金</h2>
+					<table>
+						<tr>
+							<td>
+								<input type="radio" name="fee" value="0" onclick="baseFeeRadioChange(this)">
+								<label class="id_basefee0">終日固定</label>
+							</td>
+							<td class="id_basefee0">
+								<input type="number" class="id_basefee0" placeholder="検索窓：名称" min="0">
+								<label>分</label>
+								<input type="number" class="id_basefee0" placeholder="検索窓：名称" min="0">
+								<label>円</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="radio" name="fee" value="1" onclick="baseFeeRadioChange(this)">
+								<label class="id_basefee1">時間別</label>
+							</td>
+							<td class="id_basefee1">
+								<button type="button" onclick="addBaseFee()">クリック</button>
+								<div id="baseFee"></div>
+							</td>
+						</tr>
+					</table>
+
+					<h2>オプション</h2>
+					<table>
+						<tr>
+							<td>
+								<input type="radio" name="option" value="0" onclick="optionRadioChange(this)">
+								<label class="id_option0">最大料金なし</label>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<input type="radio" name="option" value="1" onclick="optionRadioChange(this)">
+								<label class="id_option1">当日最大</label>
+							</td>
+							<td class="id_option1">
+								<input type="number" class="id_option1" placeholder="検索窓：名称" min="0">
+								<label>円</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="radio" name="option" value="2" onclick="optionRadioChange(this)">
+								<label class="id_option2">駐車後24時間最大</label>
+							</td>
+							<td class="id_option2">
+								<input type="number" class="id_option2" placeholder="検索窓：名称" min="0">
+								<label>円</label>
+							</td>
+						</tr>
+					</table>
+				<script>
+					function optionRadioChange(selected) {
+						const id_input0List = document.querySelectorAll(".id_option0");
+						const id_input1List = document.querySelectorAll(".id_option1");
+						const id_input2List = document.querySelectorAll(".id_option2");
+						const allInputs = [
+							...id_input0List,
+							...id_input1List,
+							...id_input2List
+						];
+						allInputs.forEach(input => {
+							input.disabled = true;
+							input.style.opacity = 0.5;
+						});
+						if (selected.value === "0") {
+							id_input0List.forEach(input => {
+								input.disabled = false;
+								input.style.opacity = 1;
+							});
+						} else if (selected.value === "1") {
+							id_input1List.forEach(input => {
+								input.disabled = false;
+								input.style.opacity = 1;
+							});
+						} else if (selected.value === "2") {
+							id_input2List.forEach(input => {
+								input.disabled = false;
+								input.style.opacity = 1;
+							});
+						}
+					}
+				</script>
+				<script>
+					function baseFeeRadioChange(selected) {
+						const id_basefee0List = document.querySelectorAll(".id_basefee0");
+						const id_basefee1List = document.querySelectorAll(".id_basefee1");
+						const allInputs = [
+							...id_basefee0List,
+							...id_basefee1List,
+						];
+						allInputs.forEach(input => {
+							input.disabled = true;
+							input.style.opacity = 0.5;
+						});
+						if (selected.value === "0") {
+							id_basefee0List.forEach(input => {
+								input.disabled = false;
+								input.style.opacity = 1;
+							});
+						} else if (selected.value === "1") {
+							id_basefee1List.forEach(input => {
+								input.disabled = false;
+								input.style.opacity = 1;
+							});
+						}
+					}
+				</script>
+				<script>
+					function addBaseFee() {
+						const $list = $(`
+					      <div class="baseFeeBlock">
+					        <table>
+					          <tr>
+					            <th>月曜</th>
+					            <th>火曜</th>
+					            <th>水曜</th>
+					            <th>木曜</th>
+					            <th>金曜</th>
+					            <th>土曜</th>
+					            <th>日曜</th>
+					            <th>祝日</th>
+								<th></th>
+					          </tr>
+					          <tr>
+								<td><input class="id_basefee1" type="radio" name="monday" value="monday"></td>
+								<td><input class="id_basefee1" type="radio" name="tuesday" value="tuesday"></td>
+								<td><input class="id_basefee1" type="radio" name="wednesday" value="wednesday"></td>
+								<td><input class="id_basefee1" type="radio" name="thursday" value="thursday"></td>
+								<td><input class="id_basefee1" type="radio" name="friday" value="friday"></td>
+								<td><input class="id_basefee1" type="radio" name="saturday" value="saturday"></td>
+								<td><input class="id_basefee1" type="radio" name="sunday" value="sunday"></td>
+								<td><input class="id_basefee1" type="radio" name="holiday" value="holiday"></td>
+								<td><button type="button" class="deleteBaseFeeBtn">削除</button></td>
+					          </tr>
+					        </table>
+					        <div>
+								<label>開始時刻:</label>
+								<select class="hour-select" name="start_hour"></select>
+								<label>時</label>
+								<label>　終了時刻:</label>
+								<select class="hour-select" name="end_hour"></select>
+								<label>時</label><br>
+					          <input type="number" class="id_basefee1" name="minutes" placeholder="検索窓：名称" min="0">
+					          <label>分</label>
+					          <input type="number" class="id_basefee1" name="minutes" placeholder="検索窓：名称" min="0">
+					          <label>円</label>
+					          <input type="number" class="id_basefee1" name="minutes" placeholder="検索窓：名称" min="0">
+					          <label>最大料金 円</label>
+					        </div>
+					      </div>
+					    `);
+						// 時間セレクトボックスにオプション追加
+						$list.find(".hour-select").each(function () {
+							for (let i = 0; i <= 23; i++) {
+								$(this).append(`<option value="${i}">${i}</option>`);
+							}
+						});
+
+						// 削除ボタンにイベントを追加
+						$list.find(".deleteBaseFeeBtn").on("click", function () {
+							$(this).closest(".baseFeeBlock").remove();
+						});
+						$("#baseFee").append($list);
+					}
+				</script>
+			</div>
+			<button type="button" id="submitBtn">登録</button>
+		</form>
+
+
+		<form>
+			<button type="button" onclick="location.href='/HomeAdmin'">戻る</button>
+		</form>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const form = document.getElementById("registParkingform");
+
+				const today = new Date().toISOString().split('T')[0];
+				document.getElementById("updateDate").value = today;
+
+				document.getElementById("submitBtn").addEventListener("click", function () {
+					if (!form.checkValidity()) {
+						form.reportValidity(); // ← ここでブラウザの警告（吹き出し）が出る
+						return;
+					}
+
 					const capacity = document.getElementById("capacity").value.trim();
-				   const hourlyRate = document.getElementById("hourlyRate").value.trim();
-	
-				
-	
-				   let isValid = true;
-				   let errorMessage = "";
-	
-				   // capacity：1以上の整数
-				   if (!/^[1-9][0-9]*$/.test(capacity)) {
-				     errorMessage += "収容台数は1以上の数値で入力してください。\n";
-				     isValid = false;
-				   }
-	
-				   // hourlyRate：0以上の数値（整数 or 小数）
-				   if (!/^(0|[1-9]\d*)(\.\d+)?$/.test(hourlyRate)) {
-				     errorMessage += "1時間当たりの料金は0以上の数値で入力してください。\n";
-				     isValid = false;
-				   }
-	
-				   if (!isValid) {
-				     alert(errorMessage);
-				     return;
-				   }
-				
-				
-				
-				
-				
-	                const address1 = document.getElementById("id_address1").value;
-	                const address2 = document.getElementById("address2").value;
-	                const address3 = document.getElementById("address3").value;
-	                const name = document.getElementById("name").value;
-	 
-	                const message = `この内容で登録しますか？\n\n県名: ${address1}\n市町村: ${address2}\n丁目: ${address3}\n駐車場名: ${name}\n収容台数: ${capacity}\n１時間当たりの料金: ${hourlyRate}`;
-	        
-	                const result = confirm(message);
-	                if (result) {
-	                  document.getElementById("registParkingform").requestSubmit();
-	                }
-	              });
-	            });
-				
-	          </script>
-		</main>
+					const hourlyRate = document.getElementById("hourlyRate").value.trim();
+
+
+
+					let isValid = true;
+					let errorMessage = "";
+
+					// capacity：1以上の整数
+					if (!/^[1-9][0-9]*$/.test(capacity)) {
+						errorMessage += "収容台数は1以上の数値で入力してください。\n";
+						isValid = false;
+					}
+
+					// hourlyRate：0以上の数値（整数 or 小数）
+					if (!/^(0|[1-9]\d*)(\.\d+)?$/.test(hourlyRate)) {
+						errorMessage += "1時間当たりの料金は0以上の数値で入力してください。\n";
+						isValid = false;
+					}
+
+					if (!isValid) {
+						alert(errorMessage);
+						return;
+					}
+
+
+
+
+
+					const address1 = document.getElementById("id_address1").value;
+					const address2 = document.getElementById("address2").value;
+					const address3 = document.getElementById("address3").value;
+					const name = document.getElementById("name").value;
+
+					const message = `この内容で登録しますか？\n\n県名: ${address1}\n市町村: ${address2}\n丁目: ${address3}\n駐車場名: ${name}\n収容台数: ${capacity}\n１時間当たりの料金: ${hourlyRate}`;
+
+					const result = confirm(message);
+					if (result) {
+						document.getElementById("registParkingform").requestSubmit();
+					}
+				});
+			});
+
+		</script>
+	</main>
 </body>
+
 </html>
