@@ -14,7 +14,9 @@
 			initBaseFeeRadioChange("[[${form.baseFeeRadio}]]");
 			initOptionRadioChange("[[${form.optionRadio}]]");
 			const dailyList = /*[[${form.dailyList}]]*/ [];
-			dailyList.forEach(daily  => addBaseFee(daily));
+			if (dailyList) {
+				dailyList.forEach(daily  => addBaseFee(daily));
+			}
 		});
 	</script>
 </head>
@@ -224,6 +226,8 @@
 									function addBaseFee(daily = {}) {
 										const $list = $(`
 									      <div class="baseFeeBlock">
+											<input type="hidden" name="dailyList[${index}].ratesId" value="${daily.ratesId || ''}" />
+											<input type="hidden" name="dailyList[${index}].rangeId" value="${daily.rangeId || ''}" />
 									        <table>
 									          <tr>
 									            <th>月曜</th>
