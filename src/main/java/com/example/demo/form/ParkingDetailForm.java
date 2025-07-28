@@ -1,8 +1,12 @@
 package com.example.demo.form;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.demo.entity.ParkinglotEntity;
+import com.example.demo.entity.RangeEntity;
+import com.example.demo.entity.RatesEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,31 +25,106 @@ public class ParkingDetailForm {
 	private int hourlyRate;
 	private  LocalDate updateDate;
 	
-	public ParkinglotEntity toEntity() {
-		ParkinglotEntity ent = new ParkinglotEntity();
-		ent.setId(this.id);
-		ent.setAddress1(this.address1);
-		ent.setAddress2(this.address2);
-		ent.setAddress3(this.address3);
-		ent.setName(this.name);
-		ent.setCapacity(this.capacity);
-		ent.setHourlyRate(this.hourlyRate);
-		ent.setUpdateDate(this.updateDate);
-		return ent;
-	}
+	// 料金情報
+	private int baseFeeRadio; // 基本料金ブロックのセレクター [0, 1]=[終日固定,基本料金]
+	private Integer optionRadio; // オプションブロックのセレクター [null, 0, 1]=[選択なし,24時間単位,24時切替]
+	private Integer amountDaily; // 終日料金[￥]
+	private Integer timeDailly; // 終日単位時間[分]
+	private Integer maxRate24h; // 駐車後24時間ごとの最大料金
+	private Integer maxRateDaily; // 日付締めでの最大料金
+	private List<RatesRangeDto> dailyList;
 	
-	public static ParkingDetailForm fromEntity(ParkinglotEntity entity) {
+	
+	
+	public ParkingDetailForm fromEntity(
+			ParkinglotEntity parkinglotEnt, 
+			List<RatesEntity> ratesEntList
+	) {
 		ParkingDetailForm form = new ParkingDetailForm();
-		form.setId(entity.getId());
-		form.setName(entity.getName());
-		form.setAddress1(entity.getAddress1());
-		form.setAddress2(entity.getAddress2());
-		form.setAddress3(entity.getAddress3());
-		form.setCapacity(entity.getCapacity());
-		form.setHourlyRate(entity.getHourlyRate());
-		form.setUpdateDate(entity.getUpdateDate());
+		// parkinglot
+		form.setId(parkinglotEnt.getId());
+		form.setName(parkinglotEnt.getName());
+		form.setAddress1(parkinglotEnt.getAddress1());
+		form.setAddress2(parkinglotEnt.getAddress2());
+		form.setAddress3(parkinglotEnt.getAddress3());
+		form.setCapacity(parkinglotEnt.getCapacity());
+		form.setHourlyRate(parkinglotEnt.getHourlyRate());
+		form.setUpdateDate(parkinglotEnt.getUpdateDate());
+		// rates
+		RatesEntity ratesEnt = ratesEntList.get(0);
+		form.setBaseFeeRadio(0); // 終日固定
+		if (ratesEnt.getMaxRate24h() != null) {
+			// 24時間単位での最大料金アリ
+			form.setOptionRadio(0);
+			form.setMaxRate24h(ratesEnt.getMaxRate24h());
+		}
+		else if (ratesEnt.getMaxRateDaily() != null) {
+			// 当日最大料金アリ
+			form.setOptionRadio(1);
+			form.setMaxRateDaily(ratesEnt.getMaxRateDaily());
+		}
+		// else : optionRadio = null
+		form.setAmountDaily(ratesEnt.getAmount());
+		form.setTimeDailly(ratesEnt.getTime());
+		List<RatesRangeDto> resultList = new ArrayList<>();
+		RatesRangeDto dto = new RatesRangeDto();
+		dto.setRatesId(ratesEnt.getRatesId());
+		resultList.add(dto);
+		form.setDailyList(resultList); // ratesIdが失われるためdailyList ０番要素に格納。
 		return form;
 	}
-	
-	
+	// fromEntity 引数にすべてのEntityをもつ
+	// 基本料金アリパターン
+	public ParkingDetailForm fromEntity(
+			ParkinglotEntity parkinglotEnt, 
+			List<RatesEntity> ratesEntList,
+			List<RangeEntity> rangeEntList
+	) {
+		ParkingDetailForm form = new ParkingDetailForm();
+		// parkinglot
+		form.setId(parkinglotEnt.getId());
+		form.setName(parkinglotEnt.getName());
+		form.setAddress1(parkinglotEnt.getAddress1());
+		form.setAddress2(parkinglotEnt.getAddress2());
+		form.setAddress3(parkinglotEnt.getAddress3());
+		form.setCapacity(parkinglotEnt.getCapacity());
+		form.setHourlyRate(parkinglotEnt.getHourlyRate());
+		form.setUpdateDate(parkinglotEnt.getUpdateDate());
+		// rates & range
+		form.setBaseFeeRadio(1); // 基本料金
+		if (ratesEntList.get(0).getMaxRate24h() != null) {
+			// 24時間単位での最大料金アリ
+			form.setOptionRadio(0);
+			form.setMaxRate24h(ratesEntList.get(0).getMaxRate24h());
+		}
+		else if (ratesEntList.get(0).getMaxRateDaily() != null) {
+			// 当日最大料金アリ
+			form.setOptionRadio(1);
+			form.setMaxRateDaily(ratesEntList.get(0).getMaxRateDaily());
+		}
+		List<RatesRangeDto> resultList = new ArrayList<>();
+		for (int i = 0; i < ratesEntList.size(); i++) {
+		    RatesEntity ratesEnt = ratesEntList.get(i);
+		    RangeEntity rangeEnt = rangeEntList.get(i);
+		    RatesRangeDto dto = new RatesRangeDto();
+		    dto.setRatesId(ratesEnt.getRatesId());
+		    dto.setRangeId(ratesEnt.getRangeId());
+		    dto.setStartTime(rangeEnt.getStartTime());
+		    dto.setEndTime(rangeEnt.getEndTime());
+		    dto.setMonday(rangeEnt.isMonday());
+		    dto.setTuesday(rangeEnt.isTuesday());
+		    dto.setWednesday(rangeEnt.isWednesday());
+		    dto.setThursday(rangeEnt.isThursday());
+		    dto.setFriday(rangeEnt.isFriday());
+		    dto.setSaturday(rangeEnt.isSaturday());
+		    dto.setSunday(rangeEnt.isSunday());
+		    dto.setHoliday(rangeEnt.isHoliday());
+		    if (ratesEnt.getMaxRateTimely() != null) dto.setMaxRateTimely(ratesEnt.getMaxRateTimely());
+		    dto.setAmount(ratesEnt.getAmount());
+		    dto.setTime(ratesEnt.getTime());
+		    resultList.add(dto);
+		}
+		form.setDailyList(resultList);
+		return form;
+	}
 }

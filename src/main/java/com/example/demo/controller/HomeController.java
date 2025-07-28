@@ -25,7 +25,8 @@ public class HomeController {
 	//詳細画面に遷移
 	@GetMapping("/ParkingDetail/{id}")
 	public String moveToParkingDetail(Model model,@PathVariable int id) {
-		ParkingDetailForm form = ParkingDetailForm.fromEntity(homeService.selectById(id).get(0));
+		ParkingDetailForm form = homeService.selectById(id);
+		System.out.println("form情報：" + form);
 		model.addAttribute("form",form);
 		return "ParkingDetail";
 	}
