@@ -152,7 +152,6 @@ function addBaseFee(index) {
 		reindexBaseFeeBlocks();
 	});
 	$("#baseFee").append($list);
-	index++;
 
 	function reindexBaseFeeBlocks() {
 		const blocks = document.querySelectorAll(".baseFeeBlock");
