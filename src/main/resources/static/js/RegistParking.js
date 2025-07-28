@@ -164,5 +164,53 @@ function addBaseFee(index) {
 			});
 		});
 	}
+}
 
+function mytest() {
+	const rows = document.getElementsByClassName("baseFeeBlock");
+	let array724 = []; 
+	for (let i = 0; i < 7; i++) {
+	  const row = [];
+	  for (let j = 0; j < 24; j++) {
+	    row.push(false);
+	  }
+	  array724.push(row);
+	}
+	let array724error = []; 
+	for (let i = 0; i < 7; i++) {
+	  const row = [];
+	  for (let j = 0; j < 24; j++) {
+	    row.push(false);
+	  }
+	  array724error.push(row);
+	}
+	for (let i = 0; i < rows.length; i++) {
+		const row = rows[i];
+		const startTime = row.querySelector('select[name$=".startTime"]');
+		const endTime = row.querySelector('select[name$=".endTime"]');
+		let startTimeValue = Number(startTime?.value);
+		let endTimeValue = Number(endTime?.value);
+		endTimeValue += 24;
+		const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+		days.forEach((day, dayIndex) => {
+			const checkbox = row.querySelector(`input[name$=".${day}"]`);
+			if(checkbox?.checked){
+				for(let j = startTimeValue; j < endTimeValue; j++){
+					if(j < 24){
+						if(array724[dayIndex][j]){
+							array724error[dayIndex][j] = true;
+						}else{
+							array724[dayIndex][j] = true;
+						}
+					} else{
+						if(array724[dayIndex][j - 24]){
+							array724error[dayIndex][j - 24] = true;
+						}else{
+							array724[dayIndex][j - 24] = true;
+						}
+					}		
+				}
+			}
+		});
+	}
 }
