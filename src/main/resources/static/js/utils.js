@@ -141,9 +141,9 @@ function makeParkingList(parkingList) {
 	const $list = $('<table class="parking-table-user"></table>');
 	$list.append(`
 		<tr>
-			<th>名前<button calss="${getsortBtnUserClass("name")}" data-key="name">${getSortIcon("name")}</button></th>
-			<th>住所<button calss="${getsortBtnUserClass("address")}" data-key="address">${getSortIcon("address")}</button></th>
-			<th>料金<button calss="${getsortBtnUserClass("hourlyRate")}" data-key="hourlyRate">${getSortIcon("hourlyRate")}</button></th>
+			<th>名前<button class="${getSortBtnUserClass("name")}" data-key="name">${getSortIcon("name")}</button></th>
+			<th>住所<button class="${getSortBtnUserClass("address")}" data-key="address">${getSortIcon("address")}</button></th>
+			<th>料金<button class="${getSortBtnUserClass("hourlyRate")}" data-key="hourlyRate">${getSortIcon("hourlyRate")}</button></th>
 			<th></th>
 		</tr>
 	`);
