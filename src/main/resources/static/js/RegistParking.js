@@ -184,6 +184,7 @@ function mytest() {
 	  array724error.push(row);
 	}
 	const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+	const daysJ = ["月曜", "火曜", "水曜", "木曜", "金曜", "土曜", "日曜"];
 	for (let i = 0; i < rows.length; i++) {
 		const row = rows[i];
 		const startTime = row.querySelector('select[name$=".startTime"]');
@@ -215,7 +216,7 @@ function mytest() {
 		});
 	}
 	let result = [];
-	days.forEach((day, dayIndex) => {
+	daysJ.forEach((day, dayIndex) => {
 		let start = null;
 		for (let i = 0; i < array724error[dayIndex].length; i++) {
 		  if (array724error[dayIndex][i]) {
@@ -243,6 +244,9 @@ function mytest() {
 		  }
 		}
 	});
-	// 出力
-	result.forEach(line => console.log(line));
+	if (result.length !== 0) {
+	  result.unshift(`期間が重複しています。`);
+	}
+	const outputDiv = document.getElementById("outputValidation");
+	outputDiv.innerHTML = result.map(line => `<div>${line}</div>`).join("");
 }
