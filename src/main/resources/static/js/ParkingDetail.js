@@ -34,3 +34,33 @@ $(function(){
     displayMap(lat, lon, label, 18);
   });
 });
+function feeCalculation(parkinglotId) {
+	console.log(parkinglotId);
+	let id_entryDate = $('#id_entryDate').val();
+	let id_entryTime = $('#id_entryTime').val();
+	let id_exitDate = $('#id_exitDate').val();
+	let id_exitTime = $('#id_exitTime').val();
+	if (id_entryDate != "" && id_entryTime != "" && id_exitDate != "" && id_exitTime != "") {
+		$('#id_errorMsg').text("");
+		var url = "/aaa?";
+		url += "id=" + parkinglotId;
+		url += "&entryDate=" + id_entryDate;
+		url += "&entryTime=" + id_entryTime;
+		url += "&exitDate=" + id_exitDate;
+		url += "&exitTime=" + id_exitTime;
+		fetch(url)
+			.then((response) => {
+				if (!response.ok) throw new Error(`通信エラー: ${response.status}`);
+				return response.json();
+			})
+			.then((result) => {
+				console.log(result);
+				$('#id_errorMsg').text(result);
+			})
+			.catch((error) => {
+				throw new Error("Get失敗");
+			});
+	} else {
+		$('#id_errorMsg').text("値を入力してください");
+	}
+}
