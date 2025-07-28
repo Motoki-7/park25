@@ -112,11 +112,11 @@ function makeAdminParkingList(parkingList) {
 				if(comp === 0)
 					comp = a.address2.localeCompare(b.address2,'ja');
 				if(comp === 0)
-					comp = a.address3.localeCompare(b.address3,'ja');
-				
+					comp = a.address3.localeCompare(b.address3,'ja');	
+			}else if (sortKey === "name"){
+				comp = a.name.localeCompare(b.name, 'ja');
 			}else if(sortKey === "hourlyRate"){
-				comp = a.hourlyRate - b.hourlyRate
-				
+				comp = a.hourlyRate - b.hourlyRate	
 			}else if(sortKey ==="capacity"){
 				comp = a.capacity - b.capacity;
 			}else if(sortKey === "updateDate"){
