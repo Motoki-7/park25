@@ -27,8 +27,8 @@ public class RegistParkingForm {
 	private  LocalDate updateDate;
 
 	// 料金情報
-	private int baseFeeRadio;	// 基本料金ブロックのセレクター
-	private Integer optionRadio; // オプションブロックのセレクター
+	private int baseFeeRadio;	// 基本料金ブロックのセレクター [0, 1]=[終日固定,基本料金]
+	private Integer optionRadio; // オプションブロックのセレクター [null, 0, 1]=[選択なし,24時間単位,24時切替]
 	private Integer amountDaily; // 終日料金[￥]
 	private Integer timeDailly;  // 終日単位時間[分]
 	private Integer maxRate24h; // 駐車後24時間ごとの最大料金
