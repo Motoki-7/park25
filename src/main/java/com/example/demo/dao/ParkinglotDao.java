@@ -94,8 +94,8 @@ public class ParkinglotDao {
 	//nameで検索
 	public List<ParkinglotEntity> selectByName(String name){
 		List<ParkinglotEntity> resultList = new ArrayList<ParkinglotEntity>();
-		String query = "SELECT * FROM parkinglot WHERE name = ?";
-		List<Map<String,Object>> searchResultList = jdbcTemplate.queryForList(query,name);
+		String query = "SELECT * FROM parkinglot WHERE name LIKE ?";
+		List<Map<String,Object>> searchResultList = jdbcTemplate.queryForList(query,"%"+name+"%");
 		System.out.println(searchResultList);
 		//１件だけ取得
 		for(Map<String,Object> resultMap : searchResultList) {
@@ -120,8 +120,8 @@ public class ParkinglotDao {
 	//両方で検索
 	public List<ParkinglotEntity> selectByNameAndAddress1(String name,String address1){
 		List<ParkinglotEntity> resultList = new ArrayList<ParkinglotEntity>();
-		String query = "SELECT * FROM parkinglot WHERE name = ? AND address1 = ?";
-		List<Map<String,Object>> searchResultList = jdbcTemplate.queryForList(query,name,address1);
+		String query = "SELECT * FROM parkinglot WHERE name LIKE ? AND address1 = ?";
+		List<Map<String,Object>> searchResultList = jdbcTemplate.queryForList(query,"%"+name+"%",address1);
 		System.out.println(searchResultList);
 		//１件だけ取得
 		for(Map<String,Object> resultMap : searchResultList) {

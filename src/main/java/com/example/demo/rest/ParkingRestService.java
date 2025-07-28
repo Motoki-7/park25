@@ -40,7 +40,6 @@ public class ParkingRestService {
 		else {
 			parkinglotList = parkinglotDao.selectByNameAndAddress1(name,address1);
 		}
-		
 		return parkinglotList;
 	}	
 	
