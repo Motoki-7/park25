@@ -118,9 +118,9 @@ function makeAdminParkingList(parkingList) {
 				comp = a.hourlyRate - b.hourlyRate
 				
 			}else if(sortKey ==="capacity"){
-				comp = a.capacty - b.capacity;
+				comp = a.capacity - b.capacity;
 			}else if(sortKey === "updateDate"){
-				comp = new Date(a.updateDate) - newDate(b.updateDate);
+				comp = new Date(a.updateDate) - new Date(b.updateDate);
 			}
 			return sortAsc ? comp : -comp;
 	});                                            

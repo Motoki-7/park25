@@ -38,7 +38,8 @@ $(document).ready(() => {
 	$('#resultList').on('click','.sortBtnAdmin',function(){
 		
 		const key = $(this).data('key');
-		const currentKey = localStorage.getItem("sortAsc") === "true";
+		const currentKey = localStorage.getItem("sortKey");
+		const currentAsc = localStorage.getItem("sortAsc") === "true";
 		
 		const newAsc = (key === currentKey) ? !currentAsc : true;
 		
