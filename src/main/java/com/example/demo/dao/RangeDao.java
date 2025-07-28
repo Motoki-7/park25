@@ -44,14 +44,14 @@ public class RangeDao {
 	public List<RangeEntity> selectById(int id) {
 
 		List<RangeEntity> resultList = new ArrayList<RangeEntity>();
-		String query = "SELECT * FROM `range` WHERE id = ?";
+		String query = "SELECT * FROM `range` WHERE rangeId = ?";
 
 		List<Map<String, Object>> searchResultList = jdbcTemplate.queryForList(query, id);
 		System.out.println(searchResultList);
 		//１件だけ取得
 		for (Map<String, Object> resultMap : searchResultList) {
 			RangeEntity ent = new RangeEntity();
-			ent.setRangeId((Integer) resultMap.get("RangeId"));
+			ent.setRangeId((Integer) resultMap.get("rangeId"));
 			ent.setStartTime((Integer) resultMap.get("startTime"));
 			ent.setEndTime((Integer) resultMap.get("endTime"));
 			ent.setMonday((Boolean) resultMap.get("monday"));
@@ -89,7 +89,7 @@ public class RangeDao {
 
 	//削除
 	public void delete(int id) {
-		String query = "DELETE FROM `range` WHERE id = ?";
+		String query = "DELETE FROM `range` WHERE rangeId = ?";
 		jdbcTemplate.update(query, id);
 
 	}
