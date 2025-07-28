@@ -35,7 +35,8 @@ public class HomeAdminController {
 	//EditParking.htmlに遷移
 	@GetMapping("/EditParking/{id}")
 	public String moveToEditParking(Model model, @PathVariable int id) {
-		EditParkingForm form = EditParkingForm.fromEntity(homeAdminService.selectByParkinglotId(id));
+		EditParkingForm form = homeAdminService.selectByParkinglotId(id);
+		System.out.println("form情報：" + form);
 		model.addAttribute("form", form);
 		return "EditParking";
 	}
