@@ -171,9 +171,48 @@ function makeAdminParkingList(parkingList) {
 }
 
 function makeParkingList(parkingList) {
+	const sortKey = localStorage.getItem("userSortKey");
+	const sortAsc = localStorage.getItem("userSortAsc") === "true";
+	
+	function getSortIcon(key){
+		if(sortKey === key){
+			return sortAsc ? "▲" : "▼";
+		}
+		return "▼";
+	}
+	
+	function getSortBtnUserClass(key){
+		const currentKey = localStorage.getItem("userSortKey");
+		return currentKey === key ? "sortBtnUser active" : "sortBtnUser";
+	}
+	
+	//並び替え
+	parkingList.sort((a,b) => {
+		let comp = 0;
+		
+		if(sortKey === "name"){
+			comp = a.name.localeCompare(b.name,"ja");
+		}else if (sortKey === "address"){
+			const addrA = '${a.address1}${a.address2}${a.address3}';
+			const addrB = '${b.address1}${b.address2}${b.address3}';
+			comp = addrA.localeCompare(addrB,"ja");
+		}else if(sortKey === "hourlyRate"){
+			comp = a.hourlyRate - b.hourlyRate;
+		}
+		return sortAsc ? comp : -comp;
+	});
+	
+	//テーブル作成
 	$("#resultList").empty();
-	var $list = $('<table class="parking-table-user"></table>');
-	$list.append('<tr><th>名前</th><th>住所</th><th>料金</th><th></th></tr>');
+	const $list = $('<table class="parking-table-user"></table>');
+	$list.append(`
+		<tr>
+			<th>名前<button class="${getSortBtnUserClass("name")}" data-key="name">${getSortIcon("name")}</button></th>
+			<th>住所<button class="${getSortBtnUserClass("address")}" data-key="address">${getSortIcon("address")}</button></th>
+			<th>料金<button class="${getSortBtnUserClass("hourlyRate")}" data-key="hourlyRate">${getSortIcon("hourlyRate")}</button></th>
+			<th></th>
+		</tr>
+	`);
 
 	$.each(parkingList, function(index, parking) {
 		const row = `

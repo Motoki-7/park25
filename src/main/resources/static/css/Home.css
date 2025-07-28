@@ -87,3 +87,19 @@ table tr:nth-child(even) {
     width: 100%;
   }
 }
+
+/* ソートボタン */
+.sortBtnUser{
+	background-color: #f0f0f0;
+	color:var(--accent); /* テーブル見出しと合わせる */
+	font-weight: bold;
+	border: 1px solid var(--border); /* テーブルの枠線と統一感 */
+	padding: 0.4em 1em;
+	border-radius: 4px;
+}
+/* ソートボタンをクリックした後の様式を変更 */
+.sortBtnUser.active{
+	background-color: var(--accent);
+	color: #fff;
+	border-color: var(--accent);
+}
