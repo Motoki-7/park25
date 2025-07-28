@@ -9,7 +9,6 @@
 	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/utils.js}"></script>
 	<script type="text/javascript" th:src="@{/js/RegistParking.js}"></script>
-	<script type="text/javascript" th:src="@{/js/feeSimUtils.js}"></script>
 	<script>
 		var index = 0;
 		$(document).ready(() => {
@@ -92,7 +91,7 @@
 							<label class="id_basefee1">時間別</label>
 						</td>
 						<td class="id_basefee1">
-							<button type="button" class="id_basefee1" onclick="addBaseFee(index)">クリック</button>
+							<button type="button" class="id_basefee1" onclick="addBaseFee(index); index++;">クリック</button>
 							<div id="baseFee"></div>
 						</td>
 					</tr>
@@ -124,7 +123,7 @@
 					</tr>
 				</table>
 			</div>
-			<button type="button" id="submitBtn">登録</button>
+			<button type="button" id="submitBtn" onclick="mytest()">登録</button>
 		</form>
 
 

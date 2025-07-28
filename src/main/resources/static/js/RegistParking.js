@@ -152,7 +152,6 @@ function addBaseFee(index) {
 		reindexBaseFeeBlocks();
 	});
 	$("#baseFee").append($list);
-	index++;
 
 	function reindexBaseFeeBlocks() {
 		const blocks = document.querySelectorAll(".baseFeeBlock");
@@ -184,14 +183,16 @@ function mytest() {
 	  }
 	  array724error.push(row);
 	}
+	const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 	for (let i = 0; i < rows.length; i++) {
 		const row = rows[i];
 		const startTime = row.querySelector('select[name$=".startTime"]');
 		const endTime = row.querySelector('select[name$=".endTime"]');
 		let startTimeValue = Number(startTime?.value);
 		let endTimeValue = Number(endTime?.value);
-		endTimeValue += 24;
-		const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+		if(startTimeValue >= endTimeValue){
+			endTimeValue += 24;
+		}
 		days.forEach((day, dayIndex) => {
 			const checkbox = row.querySelector(`input[name$=".${day}"]`);
 			if(checkbox?.checked){
@@ -213,4 +214,35 @@ function mytest() {
 			}
 		});
 	}
+	let result = [];
+	days.forEach((day, dayIndex) => {
+		let start = null;
+		for (let i = 0; i < array724error[dayIndex].length; i++) {
+		  if (array724error[dayIndex][i]) {
+		    if (start === null) {
+		      start = i;
+		    }
+		  } else {
+		    if (start !== null) {
+		      if (start === i - 1) {
+		        result.push(`${day} ${start}`);
+		      } else {
+		        result.push(`${day} ${start}から${i}`);
+		      }
+		      start = null;
+		    }
+		  }
+		}
+
+		// 最後が true で終わる場合の処理
+		if (start !== null) {
+		  if (start === array724error[dayIndex].length - 1) {
+		    result.push(`${day} ${start}`);
+		  } else {
+		    result.push(`${day} ${start}から${array724error[dayIndex].length - 24}`);
+		  }
+		}
+	});
+	// 出力
+	result.forEach(line => console.log(line));
 }
