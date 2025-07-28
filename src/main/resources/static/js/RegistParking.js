@@ -225,11 +225,7 @@ function mytest() {
 		    }
 		  } else {
 		    if (start !== null) {
-		      if (start === i - 1) {
-		        result.push(`${day} ${start}`);
-		      } else {
-		        result.push(`${day} ${start}から${i}`);
-		      }
+		        result.push(`${day} ${start}時から${i}時`);
 		      start = null;
 		    }
 		  }
@@ -237,16 +233,38 @@ function mytest() {
 
 		// 最後が true で終わる場合の処理
 		if (start !== null) {
-		  if (start === array724error[dayIndex].length - 1) {
-		    result.push(`${day} ${start}`);
-		  } else {
-		    result.push(`${day} ${start}から${array724error[dayIndex].length - 24}`);
-		  }
+		    result.push(`${day} ${start}時から${array724error[dayIndex].length - 24}時`);
 		}
 	});
 	if (result.length !== 0) {
 	  result.unshift(`期間が重複しています。`);
 	}
+	
+	let result2 = [];
+	daysJ.forEach((day, dayIndex) => {
+		let start = null;
+		for (let i = 0; i < array724[dayIndex].length; i++) {
+		  if (!array724[dayIndex][i]) {
+		    if (start === null) {
+		      start = i;
+		    }
+		  } else {
+		    if (start !== null) {
+		        result2.push(`${day} ${start}時から${i}時`);
+		      start = null;
+		    }
+		  }
+		}
+
+		// 最後が true で終わる場合の処理
+		if (start !== null) {
+		    result2.push(`${day} ${start}時から${array724[dayIndex].length - 24}時`);
+		}
+	});
+	if (result2.length !== 0) {
+	  result2.unshift(`未設定の期間があります。`);
+	}
+	const resultBuf = result.concat(result2);
 	const outputDiv = document.getElementById("outputValidation");
-	outputDiv.innerHTML = result.map(line => `<div>${line}</div>`).join("");
+	outputDiv.innerHTML = resultBuf.map(line => `<div>${line}</div>`).join("");
 }
