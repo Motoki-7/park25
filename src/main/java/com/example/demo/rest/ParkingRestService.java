@@ -6,13 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.ParkinglotDao;
+import com.example.demo.dao.RangeDao;
+import com.example.demo.dao.RatesDao;
 import com.example.demo.entity.ParkinglotEntity;
+import com.example.demo.entity.RatesEntity;
 
 @Service
 public class ParkingRestService {
 	
-	@Autowired
-	ParkinglotDao parkinglotDao;
+	@Autowired ParkinglotDao parkinglotDao;
+	@Autowired RatesDao ratesDao;
+	@Autowired RangeDao rangeDao;
 	
 	//条件検索
 	public List<ParkinglotEntity> select(String name, String address1){
@@ -36,13 +40,21 @@ public class ParkingRestService {
 		else {
 			parkinglotList = parkinglotDao.selectByNameAndAddress1(name,address1);
 		}
-		
 		return parkinglotList;
 	}	
 	
 	//削除処理
-	public void delete(int id) {
-		parkinglotDao.delete(id);
+	public void delete(int parkinglotId) {
+		parkinglotDao.delete(parkinglotId);
+		// IDリスト取得
+		List<RatesEntity> ratesEntList = ratesDao.selectIdListByParkinglotId(parkinglotId);
+		// 削除処理
+		for (RatesEntity ratesEnt : ratesEntList) {
+			if (ratesEnt.getRangeId() != null) {
+				rangeDao.delete(ratesEnt.getRangeId());
+			}
+			ratesDao.delete(ratesEnt.getRatesId());
+		}
 	}
 	
 	
