@@ -116,10 +116,11 @@ public class EditParkingService {
         // まず「最大料金オプション」があれば、それに従って24時間で割った値を返す
         Integer max24 = form.getMaxRate24h();
         Integer maxDay = form.getMaxRateDaily();
-        if (Boolean.TRUE.equals(form.getOptionRadio() == 0) && max24 != null) {
+        if (Boolean.TRUE.equals(form.getOptionRadio() == null)) {}
+        else if (Boolean.TRUE.equals(form.getOptionRadio() == 0) && max24 != null) {
             return max24 / 24;
         }
-        if (Boolean.TRUE.equals(form.getOptionRadio() == 1) && maxDay != null) {
+        else if (Boolean.TRUE.equals(form.getOptionRadio() == 1) && maxDay != null) {
             return maxDay / 24;
         }
 
