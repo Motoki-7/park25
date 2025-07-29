@@ -96,7 +96,8 @@
 						</td>
 					</tr>
 				</table>
-				<div id="outputValidation" style="color: red;"></div>
+				<div id="outputBaseFeeCheckboxesValidation" style="color: red;"></div>
+				<div id="outputRangeValidation" style="color: red;"></div>
 				<h2>オプション</h2>
 				<table>
 					<tr>
@@ -123,7 +124,7 @@
 					</tr>
 				</table>
 			</div>
-			<button type="button" id="submitBtn" onclick="mytest()">登録</button>
+			<button type="button" id="submitBtn">登録</button>
 		</form>
 
 
@@ -143,7 +144,9 @@
 						form.reportValidity(); // ← ここでブラウザの警告（吹き出し）が出る
 						return;
 					}
-
+					if (!baseFeeCheckboxesValidation() || !rangeValidation()) {
+						return;
+					}
 					const capacity = document.getElementById("capacity").value.trim();
 					const hourlyRate = document.getElementById("hourlyRate").value.trim();
 

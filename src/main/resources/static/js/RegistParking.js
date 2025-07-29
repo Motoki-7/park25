@@ -165,7 +165,7 @@ function addBaseFee(index) {
 	}
 }
 
-function mytest() {
+function rangeValidation() {
 	const rows = document.getElementsByClassName("baseFeeBlock");
 	let array724 = []; 
 	for (let i = 0; i < 7; i++) {
@@ -265,6 +265,28 @@ function mytest() {
 	  result2.unshift(`未設定の期間があります。`);
 	}
 	const resultBuf = result.concat(result2);
-	const outputDiv = document.getElementById("outputValidation");
+	const outputDiv = document.getElementById("outputRangeValidation");
 	outputDiv.innerHTML = resultBuf.map(line => `<div>${line}</div>`).join("");
+	if(resultBuf.length == 0){
+		return true;
+	}
+	return false;
+}
+
+function baseFeeCheckboxesValidation() {
+	const blocks = document.querySelectorAll(".baseFeeBlock");
+	let isValid = true;
+	$('#outputBaseFeeCheckboxesValidation').text("");
+	for (const block of blocks) {
+		const checkboxes = block.querySelectorAll('input[type="checkbox"]');
+		const isChecked = Array.from(checkboxes).some(cb => cb.checked);
+
+		if (!isChecked) {
+			$('#outputBaseFeeCheckboxesValidation').text("曜日が設定されていない項目があります。");
+			isValid = false;
+			break; // ← これが now 有効
+		}
+	}
+
+	return isValid;
 }
