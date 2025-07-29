@@ -14,7 +14,8 @@
 			initBaseFeeRadioChange("[[${form.baseFeeRadio}]]");
 			initOptionRadioChange("[[${form.optionRadio}]]");
 			const dailyList = /*[[${form.dailyList}]]*/[];
-			if (dailyList) {
+			const baseFeeRadio = /*[[${form.baseFeeRadio}]]*/ "";
+			if (dailyList && baseFeeRadio == 1) {
 				dailyList.forEach(daily => addBaseFee(daily));
 			}
 		});
