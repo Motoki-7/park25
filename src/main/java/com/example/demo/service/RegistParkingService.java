@@ -93,13 +93,15 @@ public class RegistParkingService {
 		int timeUnit = form.getTimeDailly(); // 単位時間 (分)
 		Integer max24 = form.getMaxRate24h(); // 24時間上限
 		Integer maxDay = form.getMaxRateDaily(); // 日付締め上限
-
-		if (Boolean.TRUE.equals(form.getOptionRadio() == 0) && max24 != null) {
-			return calc24hCapFee(in, out, amount, timeUnit, max24);
-		} else if (Boolean.TRUE.equals(form.getOptionRadio() == 1) && maxDay != null) {
-			return calcDailyCapFee(in, out, amount, timeUnit, maxDay);
-		} else {
+		
+		// null 判定最初に
+		if (Boolean.TRUE.equals(form.getOptionRadio() == null)) {
 			return calcFee(in, out, amount, timeUnit);
+		}else if (Boolean.TRUE.equals(form.getOptionRadio() == 0) && max24 != null) {
+			return calc24hCapFee(in, out, amount, timeUnit, max24);
+		} else {
+			// else if (Boolean.TRUE.equals(form.getOptionRadio() == 1) && maxDay != null)
+			return calcDailyCapFee(in, out, amount, timeUnit, maxDay);
 		}
 	}
 
