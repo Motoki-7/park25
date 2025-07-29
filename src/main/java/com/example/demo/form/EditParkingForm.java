@@ -22,8 +22,8 @@ public class EditParkingForm {
 	private String address3;
 	private String name;
 	private int capacity;
-	private int hourlyRate;
-	private LocalDate updateDate;
+	private int hourlyRate;		// Service登録時、自動で計算し登録
+	private LocalDate updateDate; // ControllerへForm譲渡前にViewで自動格納
 
 	// 料金情報
 	private int baseFeeRadio; // 基本料金ブロックのセレクター [0, 1]=[終日固定,基本料金]
@@ -45,7 +45,8 @@ public class EditParkingForm {
 		ent.setAddress3(this.address3);
 		ent.setName(this.name);
 		ent.setCapacity(this.capacity);
-		ent.setHourlyRate(this.hourlyRate);
+//		ent.setHourlyRate(this.hourlyRate);
+//		！Serviceで自動計算しsetterでFormに格納する！
 		ent.setUpdateDate(this.updateDate);
 		return ent;
 	}
