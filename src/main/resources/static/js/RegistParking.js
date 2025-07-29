@@ -101,6 +101,7 @@ function addBaseFee(index) {
 					      <div class="baseFeeBlock">
 					        <table>
 					          <tr>
+							  	<th></th>
 					            <th>月曜</th>
 					            <th>火曜</th>
 					            <th>水曜</th>
@@ -112,6 +113,7 @@ function addBaseFee(index) {
 								<th></th>
 					          </tr>
 							  <tr>
+							  	<td><input class="id_basefee1 allCheck" type="checkbox"></td>
 							    <td><input class="id_basefee1" type="checkbox" name="dailyList[${index}].monday" value="true"></td>
 							    <td><input class="id_basefee1" type="checkbox" name="dailyList[${index}].tuesday" value="true"></td>
 							    <td><input class="id_basefee1" type="checkbox" name="dailyList[${index}].wednesday" value="true"></td>
@@ -154,6 +156,19 @@ function addBaseFee(index) {
 	$list.find(".deleteBaseFeeBtn").on("click", function() {
 		$(this).closest(".baseFeeBlock").remove();
 		reindexBaseFeeBlocks();
+	});
+	// 全選択ボタンにイベントを追加
+	$list.find(".allCheck").on("click", function() {
+		const isChecked = $(this).is(":checked");
+
+		// 同じ baseFeeBlock 内の、dailyList で始まるチェックボックスをすべて取得
+		$(this)
+			.closest(".baseFeeBlock")
+			.find('input[type="checkbox"]')
+			.filter(function () {
+				return $(this).attr("name")?.startsWith("dailyList");
+			})
+			.prop("checked", isChecked);
 	});
 	$("#baseFee").append($list);
 	reindexBaseFeeBlocks();
@@ -296,16 +311,22 @@ function baseFeeCheckboxesValidation() {
 	const blocks = document.querySelectorAll(".baseFeeBlock");
 	let isValid = true;
 	$('#outputBaseFeeCheckboxesValidation').text("");
+
 	for (const block of blocks) {
 		const checkboxes = block.querySelectorAll('input[type="checkbox"]');
-		const isChecked = Array.from(checkboxes).some(cb => cb.checked);
+
+		// allCheck クラス以外のチェックボックスだけを見る
+		const targetCheckboxes = Array.from(checkboxes).filter(cb => !cb.classList.contains("allCheck"));
+
+		const isChecked = targetCheckboxes.some(cb => cb.checked);
 
 		if (!isChecked) {
 			$('#outputBaseFeeCheckboxesValidation').text("曜日が設定されていない項目があります。");
 			isValid = false;
-			break; // ← これが now 有効
+			break;
 		}
 	}
 
 	return isValid;
 }
+
