@@ -84,50 +84,50 @@ function makeAdminParkingList(parkingList) {
 		"徳島県", "香川県", "愛媛県", "高知県",
 		"福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"
 	];
-	
+
 	const sortKey = localStorage.getItem("sortKey");
 	const sortAsc = localStorage.getItem("sortAsc") === "true";
-	
-	function getSortIcon(key){
-		
-		if(sortKey === key){
-			return sortAsc ? "▲":"▼";
-			
+
+	function getSortIcon(key) {
+
+		if (sortKey === key) {
+			return sortAsc ? "▲" : "▼";
+
 		}
-		return "▼";	
+		return "▼";
 	}
-	
-	function getSortBtnAdminClass(key){
-		
+
+	function getSortBtnAdminClass(key) {
+
 		const currentKey = localStorage.getItem("sortKey");
 		return currentKey === key ? "sortBtnAdmin active" : "sortBtnAdmin";
-		
+
 	}
-	
-	parkingList.sort((a,b) => {
-		 let comp = 0;
-		 if(sortKey ==="address1"){
-			
+
+	parkingList.sort((a, b) => {
+		let comp = 0;
+		if (sortKey === "address1") {
+
 			comp = prefectures.indexOf(a.address1) - prefectures.indexOf(b.address1);
-				if(comp === 0)
-					comp = a.address2.localeCompare(b.address2,'ja');
-				if(comp === 0)
-					comp = a.address3.localeCompare(b.address3,'ja');	
-			}else if (sortKey === "name"){
-				comp = a.name.localeCompare(b.name, 'ja');
-			}else if(sortKey === "hourlyRate"){
-				comp = a.hourlyRate - b.hourlyRate	
-			}else if(sortKey ==="capacity"){
-				comp = a.capacity - b.capacity;
-			}else if(sortKey === "updateDate"){
-				comp = new Date(a.updateDate) - new Date(b.updateDate);
-			}
-			return sortAsc ? comp : -comp;
-	});                                            
-	
-	
-	
-	
+			if (comp === 0)
+				comp = a.address2.localeCompare(b.address2, 'ja');
+			if (comp === 0)
+				comp = a.address3.localeCompare(b.address3, 'ja');
+		} else if (sortKey === "name") {
+			comp = a.name.localeCompare(b.name, 'ja');
+		} else if (sortKey === "hourlyRate") {
+			comp = a.hourlyRate - b.hourlyRate
+		} else if (sortKey === "capacity") {
+			comp = a.capacity - b.capacity;
+		} else if (sortKey === "updateDate") {
+			comp = new Date(a.updateDate) - new Date(b.updateDate);
+		}
+		return sortAsc ? comp : -comp;
+	});
+
+
+
+
 	$("#resultList").empty();
 	const $list = $('<table class="parking-table"></table>');
 	$list.append(`
@@ -171,37 +171,50 @@ function makeAdminParkingList(parkingList) {
 }
 
 function makeParkingList(parkingList) {
+	const prefectures = [
+		"北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
+		"茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
+		"新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県",
+		"岐阜県", "静岡県", "愛知県", "三重県",
+		"滋賀県", "京都府", "大阪府", "兵庫県", "奈良県", "和歌山県",
+		"鳥取県", "島根県", "岡山県", "広島県", "山口県",
+		"徳島県", "香川県", "愛媛県", "高知県",
+		"福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"
+	];
 	const sortKey = localStorage.getItem("userSortKey");
 	const sortAsc = localStorage.getItem("userSortAsc") === "true";
-	
-	function getSortIcon(key){
-		if(sortKey === key){
+
+	function getSortIcon(key) {
+		if (sortKey === key) {
 			return sortAsc ? "▲" : "▼";
 		}
 		return "▼";
 	}
-	
-	function getSortBtnUserClass(key){
+
+	function getSortBtnUserClass(key) {
 		const currentKey = localStorage.getItem("userSortKey");
 		return currentKey === key ? "sortBtnUser active" : "sortBtnUser";
 	}
-	
+
 	//並び替え
-	parkingList.sort((a,b) => {
+	parkingList.sort((a, b) => {
 		let comp = 0;
-		
-		if(sortKey === "name"){
-			comp = a.name.localeCompare(b.name,"ja");
-		}else if (sortKey === "address"){
-			const addrA = '${a.address1}${a.address2}${a.address3}';
-			const addrB = '${b.address1}${b.address2}${b.address3}';
-			comp = addrA.localeCompare(addrB,"ja");
-		}else if(sortKey === "hourlyRate"){
+
+		if (sortKey === "name") {
+			comp = a.name.localeCompare(b.name, "ja");
+		} else if (sortKey === "address") {
+
+			comp = prefectures.indexOf(a.address1) - prefectures.indexOf(b.address1);
+			if (comp === 0)
+				comp = a.address2.localeCompare(b.address2, 'ja');
+			if (comp === 0)
+				comp = a.address3.localeCompare(b.address3, 'ja');
+		} else if (sortKey === "hourlyRate") {
 			comp = a.hourlyRate - b.hourlyRate;
 		}
 		return sortAsc ? comp : -comp;
 	});
-	
+
 	//テーブル作成
 	$("#resultList").empty();
 	const $list = $('<table class="parking-table-user"></table>');
@@ -246,14 +259,14 @@ function createAddress1Pulldown(initValue) {
 	];
 
 	const select = document.getElementById("id_address1");
-	
+
 	prefectures.forEach(pref => {
 		const option = document.createElement("option");
 		option.value = pref;
 		option.textContent = pref;
 		select.appendChild(option);
 	});
-	if(initValue){
+	if (initValue) {
 		select.value = initValue;
 	}
 }

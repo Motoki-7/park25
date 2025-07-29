@@ -61,7 +61,7 @@ function feeCalculation(parkinglotId) {
 			})
 			.then((result) => {
 				console.log(result);
-				$('#id_calcResult').text(result + "円");
+				$('#id_calcResult').text("駐車料金：" + result[0] + "円　" + "駐車時間：" + Math.floor(result[1] / 60) + "時間" + result[1] % 60 + "分");
 			})
 			.catch((error) => {
 				throw new Error("Get失敗");
@@ -73,6 +73,7 @@ function feeCalculation(parkinglotId) {
 
 function feeDisplay(formBuf){
 	const table = document.createElement("table");
+	table.classList.add("fee-table");
 	table.border = "1";
 	const dailyList = formBuf.dailyList;
 	const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "holiday"];
@@ -83,7 +84,7 @@ function feeDisplay(formBuf){
 		td1.textContent = "全日";
 		row.appendChild(td1);
 		const td2 = document.createElement("td");
-		const feeBuf = dailyList[0].timeDailly + "分/" + dailyList[0].amountDaily + "円";
+		const feeBuf = formBuf.timeDailly + "分/" + formBuf.amountDaily + "円";
 		td2.textContent = "00:00-00:00　" + feeBuf || "";
 		row.appendChild(td2);
 		table.appendChild(row);
