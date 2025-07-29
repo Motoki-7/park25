@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import java.time.Duration;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,20 +107,14 @@ public class RegistParkingService {
             return 0;
         }
 
-        double weightedSum = 0;
-        double totalHours  = 0;
+        double sum = 0;
         for (RatesRangeDto dto : list) {
-            // 1時間あたり料金
+            // 各パターンの1時間あたり料金 = amount / time * 60
             double hrRate = dto.getAmount() * 60.0 / dto.getTime();
-            // このレンジの継続時間（時間単位、小数可）
-            double hrs = computeRangeHours(dto);
-            weightedSum += hrRate * hrs;
-            totalHours  += hrs;
+            sum += hrRate;
         }
-        if (totalHours <= 0) {
-            return 0;
-        }
-        return (int) Math.floor(weightedSum / totalHours);
+        // 単純平均し、小数点以下切り捨て
+        return (int) Math.floor(sum / list.size());
     }
 
     /**
@@ -131,25 +123,25 @@ public class RegistParkingService {
      * - s<e  → 同日 (e-s)
      * - s>e  → 深夜越え (start→24h＋0→end)
      */
-    private double computeRangeHours(RatesRangeDto dto) {
-        int s = dto.getStartTime();
-        int e = dto.getEndTime();
-        LocalTime start = LocalTime.of(s / 100, s % 100);
-        LocalTime end   = LocalTime.of(e / 100, e % 100);
-
-        Duration duration;
-        if (s == e) {
-            // 終日
-            duration = Duration.ofHours(24);
-        } else if (s < e) {
-            // 同日
-            duration = Duration.between(start, end);
-        } else {
-            // 深夜越え
-            Duration toMidnight = Duration.between(start, LocalTime.MAX).plusSeconds(1);
-            Duration fromMid   = Duration.between(LocalTime.MIN, end);
-            duration = toMidnight.plus(fromMid);
-        }
-        return duration.toMinutes() / 60.0;
-    }
+//    private double computeRangeHours(RatesRangeDto dto) {
+//        int s = dto.getStartTime();
+//        int e = dto.getEndTime();
+//        LocalTime start = LocalTime.of(s / 100, s % 100);
+//        LocalTime end   = LocalTime.of(e / 100, e % 100);
+//
+//        Duration duration;
+//        if (s == e) {
+//            // 終日
+//            duration = Duration.ofHours(24);
+//        } else if (s < e) {
+//            // 同日
+//            duration = Duration.between(start, end);
+//        } else {
+//            // 深夜越え
+//            Duration toMidnight = Duration.between(start, LocalTime.MAX).plusSeconds(1);
+//            Duration fromMid   = Duration.between(LocalTime.MIN, end);
+//            duration = toMidnight.plus(fromMid);
+//        }
+//        return duration.toMinutes() / 60.0;
+//    }
 }
