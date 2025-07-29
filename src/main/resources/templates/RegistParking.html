@@ -97,7 +97,8 @@
 					</tr>
 				</table>
 				<div id="outputBaseFeeCheckboxesValidation" style="color: red;"></div>
-				<div id="outputRangeValidation" style="color: red;"></div>
+				<div id="outputRangeValidationUsed" style="color: red;"></div>
+				<div id="outputRangeValidationNotSet" style="color: red;"></div>
 				<h2>オプション</h2>
 				<table>
 					<tr>
@@ -144,13 +145,18 @@
 						form.reportValidity(); // ← ここでブラウザの警告（吹き出し）が出る
 						return;
 					}
-					if (!baseFeeCheckboxesValidation() || !rangeValidation()) {
+					let boolValidation = true;
+					if(!baseFeeCheckboxesValidation()){
+						boolValidation = false;
+					}
+					if(!rangeValidation()){
+						boolValidation = false;
+					}
+					if (!boolValidation) {
 						return;
 					}
 					const capacity = document.getElementById("capacity").value.trim();
 					const hourlyRate = document.getElementById("hourlyRate").value.trim();
-
-
 
 					let isValid = true;
 					let errorMessage = "";

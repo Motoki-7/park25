@@ -268,10 +268,11 @@ function rangeValidation() {
 	if (result2.length !== 0) {
 	  result2.unshift(`未設定の期間があります。`);
 	}
-	const resultBuf = result.concat(result2);
-	const outputDiv = document.getElementById("outputRangeValidation");
-	outputDiv.innerHTML = resultBuf.map(line => `<div>${line}</div>`).join("");
-	if(resultBuf.length == 0){
+	const outputDivUsed = document.getElementById("outputRangeValidationUsed");
+	const outputDivNotSet = document.getElementById("outputRangeValidationNotSet");
+	outputDivUsed.innerHTML = result.map(line => `<div>${line}</div>`).join("");
+	outputDivNotSet.innerHTML = result2.map(line => `<div>${line}</div>`).join("");
+	if(result.length == 0 && result2.length == 0){
 		return true;
 	}
 	return false;
