@@ -2,7 +2,6 @@ package com.example.demo.rest;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +38,13 @@ public class ParkingRestController {
 	
 	// 詳細画面：料金シミュレーション
 	@GetMapping("/aaa")
-	public List<String> calculation (
+	public List<Integer> calculation (
 			@RequestParam("id") int id,
 			@RequestParam("entryDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate entryDate,
 			@RequestParam("exitDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate exitDate,
 		    @RequestParam("entryTime") @DateTimeFormat(pattern = "HH:mm") LocalTime entryTime,
 		    @RequestParam("exitTime") @DateTimeFormat(pattern = "HH:mm") LocalTime exitTime
 	){
-		List<String> res = new ArrayList<>();
-		
-		return res;
+		return parkingRestService.calculate(id,entryDate,exitDate,entryTime,exitTime);
 	}
 }
