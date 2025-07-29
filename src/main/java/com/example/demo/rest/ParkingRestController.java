@@ -37,7 +37,7 @@ public class ParkingRestController {
 	}
 	
 	// 詳細画面：料金シミュレーション
-	@GetMapping("/aaa")
+	@GetMapping("/calc")
 	public List<Integer> calculation (
 			@RequestParam("id") int id,
 			@RequestParam("entryDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate entryDate,

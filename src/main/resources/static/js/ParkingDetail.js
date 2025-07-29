@@ -48,7 +48,7 @@ function feeCalculation(parkinglotId) {
 			$('#id_errorMsg').text("入庫時刻は出庫時刻より前でなければなりません。");
 			return ;
 		}
-		var url = "/aaa?";
+		var url = "/calc?";
 		url += "id=" + parkinglotId;
 		url += "&entryDate=" + id_entryDate;
 		url += "&entryTime=" + id_entryTime;
