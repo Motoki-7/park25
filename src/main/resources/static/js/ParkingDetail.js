@@ -75,17 +75,38 @@ function feeDisplay(formBuf){
 	const table = document.createElement("table");
 	table.border = "1";
 	const dailyList = formBuf.dailyList;
+	const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "holiday"];
+	const daysJ = ["月", "火", "水", "木", "金", "土", "日", "祝"];
 	if(formBuf.baseFeeRadio == 0){
 		const row = document.createElement("tr");
 		const td1 = document.createElement("td");
 		td1.textContent = "全日";
 		row.appendChild(td1);
 		const td2 = document.createElement("td");
-		td2.textContent = "00:00-00:00　" || "";
+		const feeBuf = dailyList[0].timeDailly + "分/" + dailyList[0].amountDaily + "円";
+		td2.textContent = "00:00-00:00　" + feeBuf || "";
 		row.appendChild(td2);
 		table.appendChild(row);
 	}else if(formBuf.baseFeeRadio == 1){
-		
+		for (let i = 0; i < dailyList.length; i++) {
+		  const row = document.createElement("tr");
+		  const daily = dailyList[i];
+		  const td1 = document.createElement("td");
+		  let stringBuf = "";
+		  for(let j = 0; j < days.length; j++){
+			if(daily[days[j]]){
+			  stringBuf += daysJ[j];
+			}
+		  }
+		  td1.textContent = stringBuf;
+		  row.appendChild(td1);
+		  const td2 = document.createElement("td");
+		  const timeBuf = daily.startTime + ":00" + "-" + daily.endTime + ":00" + "　";
+		  const feeBuf = daily.time + "分/" + daily.amount + "円　" + (daily.maxRateTimely ? "最大" + daily.maxRateTimely + "円": "");
+		  td2.textContent =  timeBuf + feeBuf;
+		  row.appendChild(td2);
+		  table.appendChild(row);
+		}  
 	}else{
 		
 	}
