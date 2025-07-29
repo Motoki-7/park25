@@ -1,0 +1,210 @@
+/* RegistParking2.css */
+/* 共通スタイル変数 */
+:root {
+  --form-max-width: 900px;
+  --form-padding: 2em;
+  --form-radius: 8px;
+  --form-shadow: 0 2px 4px #ddd;
+  --input-padding: 0.5em;
+  --input-font-size: 1em;
+  --input-border-radius: 4px;
+}
+
+/* フォーム全体 */
+#registParkingform {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--form-radius);
+  box-shadow: var(--form-shadow);
+  box-sizing: border-box;
+  padding: var(--form-padding);
+  width: 90%;
+  max-width: var(--form-max-width);
+  margin: 0 auto;
+}
+
+/* 各入力行 */
+#registParkingform .form-row {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1.2em;
+  flex-wrap: nowrap; /* 折り返し防止 */
+}
+
+/* ラベル */
+#registParkingform .form-row label {
+  width: 180px;
+  min-width: 150px;
+  text-align: right;
+  font-weight: bold;
+  color: var(--accent);
+  margin-right: 1em;
+  flex-shrink: 0;
+  white-space: nowrap; /* 折り返し防止 */
+}
+
+/* 入力・セレクト共通 */
+#registParkingform .form-row input,
+#registParkingform .form-row select {
+  flex: 1;
+  min-width: 200px;
+  max-width: 100%;
+  padding: var(--input-padding);
+  border: 1px solid var(--border);
+  border-radius: var(--input-border-radius);
+  font-size: var(--input-font-size);
+  box-sizing: border-box;
+}
+
+/* 画面幅が狭いときは縦並びに */
+@media (max-width: 480px) {
+  #registParkingform .form-row {
+    flex-wrap: wrap;
+  }
+  #registParkingform .form-row label {
+    width: 100%;
+    text-align: left;
+    margin: 0 0 0.3em;
+  }
+}
+
+/* 更新／戻るボタンの共通スタイル */
+#submitBtn,
+form > button[type="button"] {
+  width: 100%;
+  padding: 0.7em;
+  margin-top: 1em;
+  font-size: 1.1em;
+  border-radius: var(--input-border-radius);
+  border: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* 更新ボタン */
+#submitBtn {
+  background: var(--primary);
+  color: var(--accent);
+}
+#submitBtn:hover {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+/* 戻るボタン */
+form > button[type="button"] {
+  background: #eee;
+  color: var(--accent);
+  margin-bottom: 2em;
+}
+form > button[type="button"]:hover {
+  background: var(--primary);
+  color: var(--accent);
+}
+
+/* ページタイトル */
+.page-title {
+  font-size: 1.8em;
+  font-weight: bold;
+  text-align: center;
+  color: var(--accent);
+  margin: 0.5em 0 1.5em;
+}
+/*.form-layout {*/
+/*	display: flex;*/
+/*	gap: 2em;  ブロック間の余白 */
+/*	align-items: flex-start;  上揃え */
+/*}*/
+/*.form-input-block {*/
+/*	flex: 1;  必要なら等幅、または固定幅にしてもOK */
+/*	min-width: 300px;*/
+/*	max-width: 500px;*/
+/*}*/
+
+/*.fee-option-block{*/
+/*	flex: 1;  必要なら等幅、または固定幅にしてもOK */
+/*	min-width: 300px;*/
+/*}*/
+/* 各入力行 */
+.fee-form-row
+ {
+  display: flex;
+  margin-bottom: 1.2em;
+  align-items: center;
+  gap: 1em;
+  flex-wrap: nowrap; /* 折り返し防止 */
+}
+
+/* 各入力行 */
+.fee-form-row div
+ {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  flex-wrap: nowrap; /* 折り返し防止 */
+}
+
+/* ラベル */
+.fee-form-row label{
+  width: 150px;
+  min-width: 150px;
+  text-align: left;
+  font-weight: bold;
+  color: var(--accent);
+  margin-right: 1em;
+  flex-shrink: 0;
+  white-space: nowrap; /* 折り返し防止 */
+}
+.fee-form-row span{
+	text-align: right;
+	font-weight: bold;
+	color: var(--accent);
+	margin-right: 1em;
+	flex-shrink: 0;
+	white-space: nowrap; /* 折り返し防止 */
+}
+
+/* 入力・セレクト共通 */
+.fee-form-row div input{
+  flex: 1;
+  min-width: 150px;
+  max-width: 800px;
+  padding: var(--input-padding);
+  border: 1px solid var(--border);
+  border-radius: var(--input-border-radius);
+  font-size: var(--input-font-size);
+  box-sizing: border-box;
+  white-space: nowrap; /* 折り返し防止 */
+}
+#baseFeeDiv,
+#baseFeeDiv div{
+	display: block;
+}
+.time_selecter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;        /* 必要なら折り返す */
+  gap: 0.5em;             /* 項目間の余白 */
+  margin-bottom: 1em;
+}
+
+.time_selecter select {
+  width: 100%;
+  min-width: 80px;
+  max-width: 120px;
+  padding: 0.4em;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+.baseFeeBlock{
+	margin-bottom: 1em;
+}
+.baseFeeBlock td input{
+	min-width: 50px;
+}
+.baseFeeBlock td button{
+	min-width: 72px;
+}
+h2{
+	margin-top: 1em;
+}

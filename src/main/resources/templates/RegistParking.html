@@ -4,8 +4,8 @@
 <head>
 
 	<meta charset="utf-8" />
-	<!--	<link rel="stylesheet" href="/css/BaseAdmin.css">-->
-	<!--	<link rel="stylesheet" href="/css/RegistParking.css">-->
+	<link rel="stylesheet" href="/css/BaseAdmin.css">
+	<link rel="stylesheet" href="/css/RegistParking2.css">
 	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/utils.js}"></script>
 	<script type="text/javascript" th:src="@{/js/RegistParking.js}"></script>
@@ -33,97 +33,100 @@
 
 		<form id="registParkingform" method="post" th:action="@{/RegistParking/post}" th:object="${form}">
 			<input type="hidden" th:field="*{updateDate}" id="updateDate" />
-			<div>
-				<div class="form-row">
-					<label for="id_address1">都道府県：</label>
-					<select id="id_address1" name="address1" required>
-						<option value="" disabled selected>プルダウン：都道府県選択</option>
-					</select>
-				</div>
+			<div class="form-layout">
+				<div class="form-input-block">
+					<h2>駐車場情報</h2>
+					<div class="form-row">
+						<label for="id_address1">都道府県：</label>
+						<select id="id_address1" name="address1" required>
+							<option value="" disabled selected>プルダウン：都道府県選択</option>
+						</select>
+					</div>
 
-				<div class="form-row">
-					<label for="address2">市区町村：</label>
-					<input th:field="*{address2}" id="address2" required />
-				</div>
+					<div class="form-row">
+						<label for="address2">市区町村：</label>
+						<input th:field="*{address2}" id="address2" required />
+					</div>
 
-				<div class="form-row">
-					<label for="address3">丁目：</label>
-					<input th:field="*{address3}" id="address3" required />
-				</div>
+					<div class="form-row">
+						<label for="address3">丁目：</label>
+						<input th:field="*{address3}" id="address3" required />
+					</div>
 
-				<div class="form-row">
-					<label for="name">駐車場名：</label>
-					<input th:field="*{name}" id="name" required />
-				</div>
+					<div class="form-row">
+						<label for="name">駐車場名：</label>
+						<input th:field="*{name}" id="name" required />
+					</div>
 
-				<div class="form-row">
-					<label for="capacity">収容台数：</label>
-					<input th:field="*{capacity}" id="capacity" type="text" pattern="^[0-9]+$" title="半角数字のみを入力してください"
-						required />
-				</div>
+					<div class="form-row">
+						<label for="capacity">収容台数：</label>
+						<input th:field="*{capacity}" id="capacity" type="text" pattern="^[0-9]+$"
+							title="半角数字のみを入力してください" required />
+					</div>
 
-				<div class="form-row">
-					<label for="hourlyRate">1時間当たりの料金：</label>
-					<input th:field="*{hourlyRate}" id="hourlyRate" type="text" pattern="^[0-9]+$"
-						title="半角数字のみを入力してください" required />
+					<div class="form-row">
+						<label for="hourlyRate">1時間当たりの料金：</label>
+						<input th:field="*{hourlyRate}" id="hourlyRate" type="text" pattern="^[0-9]+$"
+							title="半角数字のみを入力してください" required />
+					</div>
 				</div>
-			</div>
-			<div>
-				<h2>基本料金</h2>
-				<table>
-					<tr>
-						<td>
+				<div class="fee-option-block">
+					<h2>駐車場料金</h2>
+					<div class="fee-form-row">
+						<label>
 							<input type="radio" th:field="*{baseFeeRadio}" value="0" onclick="baseFeeRadioChange(this)">
-							<label class="id_basefee0">終日固定</label>
-						</td>
-						<td class="id_basefee0">
+							<span class="id_basefee0">終日固定</span>
+						</label>
+						<div class="id_basefee0">
 							<input type="number" class="id_basefee0" th:field="*{amountDaily}" placeholder="終日固定料金"
 								min="0" required>
-							<label>円</label>
+							<span>円</span>
 							<input type="number" class="id_basefee0" th:field="*{timeDailly}" placeholder="終日固定時間"
 								min="0" required>
-							<label>分</label>
-						</td>
-					</tr>
-					<tr>
-						<td>
+							<span>分</span>
+						</div>
+					</div>
+					<div class="fee-form-row">
+						<label>
 							<input type="radio" th:field="*{baseFeeRadio}" value="1" onclick="baseFeeRadioChange(this)">
-							<label class="id_basefee1">時間別</label>
-						</td>
-						<td class="id_basefee1">
-							<button type="button" class="id_basefee1" onclick="addBaseFee(index); index++;">クリック</button>
+							<span class="id_basefee1">時間別</span>
+						</label>
+						<div class="id_basefee1", id="baseFeeDiv">
+							<button type="button" class="id_basefee1"
+								onclick="addBaseFee(index); index++;">追加</button>
 							<div id="baseFee"></div>
-						</td>
-					</tr>
-				</table>
-				<div id="outputBaseFeeCheckboxesValidation" style="color: red;"></div>
-				<div id="outputRangeValidationUsed" style="color: red;"></div>
-				<div id="outputRangeValidationNotSet" style="color: red;"></div>
-				<h2>オプション</h2>
-				<table>
-					<tr>
-						<td>
-							<input class="optionCheckbox" type="checkbox" th:field="*{optionRadio}" value="0" onclick="optionRadioChange(this)">
-							<label class="id_option0">駐車後24時間最大</label>
-						</td>
-						<td class="id_option0">
+						</div>
+					</div>
+					<div id="outputBaseFeeCheckboxesValidation" style="color: red;"></div>
+					<div id="outputRangeValidationUsed" style="color: red;"></div>
+					<div id="outputRangeValidationNotSet" style="color: red;"></div>
+					<h2>オプション</h2>
+					
+					<div class="fee-form-row">
+						<label>
+							<input class="optionCheckbox" type="checkbox" th:field="*{optionRadio}" value="0"
+								onclick="optionRadioChange(this)">
+							<span class="id_option0">駐車後24時間最大</span>
+						</label>
+						<div class="id_option0">
 							<input type="number" class="id_option0" th:field="*{maxRate24h}" placeholder="駐車後24時間最大"
 								min="0" required>
-							<label>円</label>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<input class="optionCheckbox" type="checkbox" th:field="*{optionRadio}" value="1" onclick="optionRadioChange(this)">
-							<label class="id_option1">当日最大</label>
-						</td>
-						<td class="id_option1">
+							<span>円</span>
+						</div>
+					</div>
+					<div class="fee-form-row">
+						<label>
+							<input class="optionCheckbox" type="checkbox" th:field="*{optionRadio}" value="1"
+								onclick="optionRadioChange(this)">
+							<span class="id_option1">当日最大</span>
+						</label>
+						<div class="id_option1">
 							<input type="number" class="id_option1" th:field="*{maxRateDaily}" placeholder="当日最大"
 								min="0" required>
-							<label>円</label>
-						</td>
-					</tr>
-				</table>
+							<span>円</span>
+						</div>
+					</div>
+				</div>
 			</div>
 			<button type="button" id="submitBtn">登録</button>
 		</form>
@@ -146,10 +149,10 @@
 						return;
 					}
 					let boolValidation = true;
-					if(!baseFeeCheckboxesValidation()){
+					if (!baseFeeCheckboxesValidation()) {
 						boolValidation = false;
 					}
-					if(!rangeValidation()){
+					if (!rangeValidation()) {
 						boolValidation = false;
 					}
 					if (!boolValidation) {
