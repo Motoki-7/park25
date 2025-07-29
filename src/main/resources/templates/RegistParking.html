@@ -64,11 +64,11 @@
 							title="半角数字のみを入力してください" required />
 					</div>
 
-					<div class="form-row">
-						<label for="hourlyRate">1時間当たりの料金：</label>
-						<input th:field="*{hourlyRate}" id="hourlyRate" type="text" pattern="^[0-9]+$"
-							title="半角数字のみを入力してください" required />
-					</div>
+<!--					<div class="form-row">-->
+<!--						<label for="hourlyRate">1時間当たりの料金：</label>-->
+<!--						<input th:field="*{hourlyRate}" id="hourlyRate" type="text" pattern="^[0-9]+$"-->
+<!--							title="半角数字のみを入力してください" required />-->
+<!--					</div>-->
 				</div>
 				<div class="fee-option-block">
 					<h2>駐車場料金</h2>
@@ -159,7 +159,6 @@
 						return;
 					}
 					const capacity = document.getElementById("capacity").value.trim();
-					const hourlyRate = document.getElementById("hourlyRate").value.trim();
 
 					let isValid = true;
 					let errorMessage = "";
@@ -167,12 +166,6 @@
 					// capacity：1以上の整数
 					if (!/^[1-9][0-9]*$/.test(capacity)) {
 						errorMessage += "収容台数は1以上の数値で入力してください。\n";
-						isValid = false;
-					}
-
-					// hourlyRate：0以上の数値（整数 or 小数）
-					if (!/^(0|[1-9]\d*)(\.\d+)?$/.test(hourlyRate)) {
-						errorMessage += "1時間当たりの料金は0以上の数値で入力してください。\n";
 						isValid = false;
 					}
 
@@ -189,7 +182,7 @@
 					const address3 = document.getElementById("address3").value;
 					const name = document.getElementById("name").value;
 
-					const message = `この内容で登録しますか？\n\n県名: ${address1}\n市町村: ${address2}\n丁目: ${address3}\n駐車場名: ${name}\n収容台数: ${capacity}\n１時間当たりの料金: ${hourlyRate}`;
+					const message = `この内容で登録しますか？\n\n県名: ${address1}\n市町村: ${address2}\n丁目: ${address3}\n駐車場名: ${name}\n収容台数: ${capacity}\n`;
 
 					const result = confirm(message);
 					if (result) {
