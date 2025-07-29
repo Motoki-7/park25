@@ -1,0 +1,107 @@
+/* タイトル */
+.page-title{
+  font-size:1.8em;
+  font-weight:bold;
+  margin:0.5em 0 1em;
+  text-align:center;
+  color:var(--accent);
+}
+
+/* ボタン行（検索・一覧・戻るなど） */
+.button-row,
+.search-buttons{
+  display:flex;
+  justify-content:center;
+  gap:1em;
+  flex-wrap:wrap;
+  margin-bottom:1em;
+}
+
+input[type="button"],
+input[type="submit"]{
+  padding:.5em 1.5em;
+  margin-right:.8em;   /* 必要なら残す。行末の余白が気になる場合は削除 */
+}
+
+/* 新規ボタン（右上固定） */
+.button-new{
+  position:absolute;
+  top:0;
+  right:0;
+  font-weight:bold;
+  padding:.6em 1.2em;
+  border-radius:6px;
+  box-shadow:0 2px 6px #ccc;
+  transition:background .2s;
+}
+
+/* 検索入力欄 */
+#id_name{ min-width:15em; }
+
+/* テーブル */
+.parking-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:1em;
+  background:#fff;
+  box-shadow:0 2px 6px #ddd;
+}
+
+.parking-table th,
+.parking-table td{
+  border:1px solid var(--border);
+  padding:.6em .8em;
+  text-align:left;
+  font-size:.95em;
+}
+
+.parking-table th{
+  background:var(--primary);
+  color:var(--accent);
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+.parking-table tr:nth-child(even){
+  background:#fdf8e6; /* 交互色 */
+}
+
+/* 背景色を全体にかけたい場合（従来 var(--sub-accent)） */
+.parking-table--alt{
+  background:var(--sub-accent);
+}
+
+/* ===================== */
+/* レスポンシブ           */
+/* ===================== */
+@media (max-width:600px){
+  .button-new{
+    position:static;
+    margin-left:auto;
+  }
+  .parking-table th,
+  .parking-table td{
+    padding:.5em;
+    font-size:.9em;
+  }
+  #id_name{ min-width:unset; width:100%; }
+}
+
+.sortBtnAdmin{
+	background-color: #f0f0f0; /* 控えめな背景 */
+	color: var(--accent);      /* テーブル見出しと合わせる */
+	font-weight: bold;
+	border: 1px solid var(--border); /* テーブルの枠線と統一感 */
+	padding: 0.4em 1em;
+	border-radius: 4px;
+	transition: background-color 0.2s, color 0.2s;
+}
+ 
+ 
+.sortBtnAdmin.active {
+	background-color: var(--accent);
+	color: #fff;
+	border-color: var(--accent);
+}
+
+

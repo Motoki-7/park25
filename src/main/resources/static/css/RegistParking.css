@@ -1,0 +1,150 @@
+/* 共通スタイル変数 */
+:root {
+  --form-max-width: 700px;
+  --form-padding: 2em;
+  --form-radius: 8px;
+  --form-shadow: 0 2px 4px #ddd;
+  --input-padding: 0.5em;
+  --input-font-size: 1em;
+  --input-border-radius: 4px;
+}
+
+/* フォーム全体 */
+#registParkingform {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--form-radius);
+  box-shadow: var(--form-shadow);
+  box-sizing: border-box;
+  padding: var(--form-padding);
+  width: 90%;
+  max-width: var(--form-max-width);
+  margin: 0 auto;
+}
+
+/* 各入力行 */
+#registParkingform div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1.2em;
+  flex-wrap: wrap;
+}
+
+/* ラベル */
+#registParkingform label {
+  width: 180px;
+  min-width: 150px;
+  text-align: right;
+  font-weight: bold;
+  color: var(--accent);
+  margin-right: 1em;
+  flex-shrink: 0;
+}
+
+/* 入力・セレクト共通 */
+#registParkingform input,
+#registParkingform select {
+  flex: 1;
+  min-width: 200px;
+  max-width: 100%;
+  padding: var(--input-padding);
+  border: 1px solid var(--border);
+  border-radius: var(--input-border-radius);
+  font-size: var(--input-font-size);
+  box-sizing: border-box;
+}
+
+/* 既存に追加 or 上書き */
+#registParkingform .form-row {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1.2em;
+  flex-wrap: nowrap; /* 折り返し防止 */
+}
+
+#registParkingform .form-row label {
+  width: 8em;           /* 好きな固定幅 */
+  min-width: 8em;
+  text-align: right;
+  white-space: nowrap;  /* 折り返し防止 */
+  font-weight: bold;
+  margin-right: 0.5em;
+  flex-shrink: 0;
+}
+
+#registParkingform .form-row input,
+#registParkingform .form-row select {
+  flex: 1;
+  min-width: 0;  /* flex内で縮められるように */
+  padding: var(--input-padding);
+  border: 1px solid var(--border);
+  border-radius: var(--input-border-radius);
+  font-size: var(--input-font-size);
+  box-sizing: border-box;
+}
+
+/* 画面幅が狭いときは縦並びに */
+@media (max-width: 480px) {
+  #registParkingform .form-row {
+    flex-wrap: wrap;
+  }
+  #registParkingform .form-row label {
+    width: 100%;
+    text-align: left;
+    margin: 0 0 0.3em;
+  }
+}
+
+/* タイトル */
+.page-title{
+  font-size:1.8em;
+  font-weight:bold;
+  margin:0.5em 0 1em;
+  text-align:center;
+  color:var(--accent);
+}
+
+/* 登録/戻るボタンの共通スタイル */
+#submitBtn,
+form > button[type="button"] {
+  width: 100%;
+  padding: 0.7em;
+  margin-top: 1em;
+  font-size: 1.1em;
+  border-radius: 4px;
+  border: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* 登録ボタン */
+#submitBtn {
+  background: var(--primary);
+  color: var(--accent);
+}
+#submitBtn:hover {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+/* 戻るボタン */
+form > button[type="button"] {
+  background: #eee;
+  color: var(--accent);
+  margin-bottom: 2em;
+}
+form > button[type="button"]:hover {
+  background: var(--primary);
+  color: var(--accent);
+}
+
+/* タイトル */
+.page-title {
+  font-size: 1.8em;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5em;
+  color: var(--accent);
+}
