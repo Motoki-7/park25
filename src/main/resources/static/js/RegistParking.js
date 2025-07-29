@@ -132,7 +132,7 @@ function addBaseFee(index) {
 									<select class="id_basefee1 hour-select" name="dailyList[${index}].endTime"></select>
 									<span>時</span>
 								</div>
-								<div>
+								<div class="fee-input-row">
 						          <input type="number" class="id_basefee1" name="dailyList[${index}].time" min="0" required>
 						          <span>分</span>
 						          <input type="number" class="id_basefee1" name="dailyList[${index}].amount" min="0" required>

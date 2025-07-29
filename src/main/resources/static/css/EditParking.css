@@ -1,7 +1,8 @@
-/* EditParking.css */
-/* 共通スタイル変数 */
+/* RegistParking2.css */
+
+/* --------- 変数定義 --------- */
 :root {
-  --form-max-width: 700px;
+  --form-max-width: 900px;
   --form-padding: 2em;
   --form-radius: 8px;
   --form-shadow: 0 2px 4px #ddd;
@@ -10,7 +11,7 @@
   --input-border-radius: 4px;
 }
 
-/* フォーム全体 */
+/* --------- フォーム全体 --------- */
 #editParkingform {
   background: #fff;
   border: 1px solid var(--border);
@@ -23,32 +24,37 @@
   margin: 0 auto;
 }
 
-/* 各入力行 */
-#editParkingform .form-row {
+/* --------- 入力行共通 --------- */
+.form-row,
+.fee-form-row {
   display: flex;
   align-items: center;
   gap: 1em;
   margin-bottom: 1.2em;
-  flex-wrap: nowrap; /* 折り返し防止 */
+  flex-wrap: nowrap;
 }
 
-/* ラベル */
-#editParkingform .form-row label {
+.form-row label,
+.fee-form-row label {
   width: 180px;
   min-width: 150px;
-  text-align: right;
   font-weight: bold;
   color: var(--accent);
   margin-right: 1em;
+  white-space: nowrap;
   flex-shrink: 0;
-  white-space: nowrap; /* 折り返し防止 */
+  text-align: right;
 }
 
-/* 入力・セレクト共通 */
-#editParkingform .form-row input,
-#editParkingform .form-row select {
+.fee-form-row label {
+  text-align: left;
+}
+
+.form-row input,
+.form-row select,
+.fee-form-row div input {
   flex: 1;
-  min-width: 200px;
+  min-width: 150px;
   max-width: 100%;
   padding: var(--input-padding);
   border: 1px solid var(--border);
@@ -57,40 +63,46 @@
   box-sizing: border-box;
 }
 
-/* 画面幅が狭いときは縦並びに */
+.fee-form-row div,
+.option-input-block {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  flex: 2;
+}
+
+.fee-form-row span {
+  font-weight: bold;
+  color: var(--accent);
+  margin-right: 1em;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* --------- レスポンシブ対応 --------- */
 @media (max-width: 480px) {
-  #editParkingform .form-row {
+  .form-row {
     flex-wrap: wrap;
   }
-  #editParkingform .form-row label {
+  .form-row label {
     width: 100%;
     text-align: left;
     margin: 0 0 0.3em;
   }
 }
 
-/* タイトル */
-.page-title{
-  font-size:1.8em;
-  font-weight:bold;
-  margin:0.5em 0 1em;
-  text-align:center;
-  color:var(--accent);
-}
-
-/* 更新／戻るボタンの共通スタイル */
+/* --------- ボタン共通 --------- */
 #submitBtn,
-form > button[type="button"] {
+form > button[type="button"],
+.full-width-btn {
   width: 100%;
-  padding: 0.7em;
-  margin-top: 1em;
-  font-size: 1.1em;
+  padding: var(--input-padding);
+  font-size: var(--input-font-size);
   border-radius: var(--input-border-radius);
-  border: none;
-  transition: background 0.2s, color 0.2s;
+  border: 1px solid var(--border);
+  box-sizing: border-box;
 }
 
-/* 更新ボタン */
 #submitBtn {
   background: var(--primary);
   color: var(--accent);
@@ -100,7 +112,6 @@ form > button[type="button"] {
   color: var(--primary);
 }
 
-/* 戻るボタン */
 form > button[type="button"] {
   background: #eee;
   color: var(--accent);
@@ -111,11 +122,79 @@ form > button[type="button"]:hover {
   color: var(--accent);
 }
 
-/* ページタイトル */
+/* --------- タイトル --------- */
 .page-title {
   font-size: 1.8em;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 1.5em;
   color: var(--accent);
+  margin: 0.5em 0 1.5em;
+}
+
+/* --------- 時間選択 --------- */
+.time_selecter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+
+.time_selecter select {
+  width: 100%;
+  min-width: 80px;
+  max-width: 120px;
+  padding: 0.4em;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+/* --------- 時間別料金テーブル --------- */
+#baseFeeDiv,
+#baseFeeDiv div {
+  display: block;
+  flex: 1;
+}
+
+.baseFeeBlock {
+  margin-bottom: 1em;
+}
+
+.baseFeeBlock td input {
+  min-width: 50px;
+}
+
+.baseFeeBlock td button {
+  min-width: 72px;
+}
+
+.fee-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  flex-wrap: nowrap;
+  margin-bottom: 0.8em;
+}
+
+.fee-input-row input {
+  flex: unset !important;
+  min-width: 80px !important;
+  max-width: 150px !important;
+  padding: var(--input-padding);
+  font-size: var(--input-font-size);
+  border: 1px solid var(--border);
+  border-radius: var(--input-border-radius);
+  box-sizing: border-box;
+}
+
+.fee-input-row span {
+  white-space: nowrap;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+/* --------- セクションタイトル --------- */
+h2 {
+  text-align: left;
+  margin-top: 1em;
 }

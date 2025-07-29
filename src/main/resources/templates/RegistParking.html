@@ -91,8 +91,8 @@
 							<input type="radio" th:field="*{baseFeeRadio}" value="1" onclick="baseFeeRadioChange(this)">
 							<span class="id_basefee1">時間別</span>
 						</label>
-						<div class="id_basefee1", id="baseFeeDiv">
-							<button type="button" class="id_basefee1"
+						<div class="id_basefee1" , id="baseFeeDiv">
+							<button type="button" class="id_basefee1 full-width-btn"
 								onclick="addBaseFee(index); index++;">追加</button>
 							<div id="baseFee"></div>
 						</div>
@@ -101,14 +101,14 @@
 					<div id="outputRangeValidationUsed" style="color: red;"></div>
 					<div id="outputRangeValidationNotSet" style="color: red;"></div>
 					<h2>オプション</h2>
-					
+
 					<div class="fee-form-row">
 						<label>
 							<input class="optionCheckbox" type="checkbox" th:field="*{optionRadio}" value="0"
 								onclick="optionRadioChange(this)">
 							<span class="id_option0">駐車後24時間最大</span>
 						</label>
-						<div class="id_option0">
+						<div class="id_option0 option-input-block">
 							<input type="number" class="id_option0" th:field="*{maxRate24h}" placeholder="駐車後24時間最大"
 								min="0" required>
 							<span>円</span>
@@ -120,7 +120,7 @@
 								onclick="optionRadioChange(this)">
 							<span class="id_option1">当日最大</span>
 						</label>
-						<div class="id_option1">
+						<div class="id_option1 option-input-block">
 							<input type="number" class="id_option1" th:field="*{maxRateDaily}" placeholder="当日最大"
 								min="0" required>
 							<span>円</span>
