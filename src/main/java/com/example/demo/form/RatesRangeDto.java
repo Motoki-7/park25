@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class RatesRangeDto {
-	private int ratesId;
+	private Integer ratesId;
 	private Integer rangeId;
 	
 	private Integer startTime;

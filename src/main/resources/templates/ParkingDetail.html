@@ -11,7 +11,9 @@
 	<script type="text/javascript" th:src="@{/js/jquery-3.7.1.min.js}"></script>
 	<script th:inline="javascript">
 		let parkinglotId = /*[[${form.id}]]*/ "";
+		let formBuf = /*[[${form}]]*/ {};
 		$(document).ready(() => {
+			feeDisplay(formBuf);
 			$('#id_calc').click(() => {
 				feeCalculation(parkinglotId);
 			});
@@ -34,35 +36,27 @@
 		<!-- 3. 情報と地図を横並びにするラッパー -->
 		<div class="detail-container">
 			<div class="detail-info">
+				<h2>駐車場情報</h2>
 				<div>住所：<span th:text="${form.address1} + ${form.address2} + ${form.address3}"></span></div>
 				<div>駐車場名：<span th:text="${form.name}"></span></div>
 				<div>収容台数：<span th:text="${form.capacity}"></span>台</div>
 				<div>１時間当たりの料金：<span th:text="${form.hourlyRate}"></span>円</div>
-			</div>
-			<div>
-				<table>
-					<tr>
-						<td>
-							<label>入庫時刻</label>
-						</td>
-						<td>
-							<input type="date" id="id_entryDate" name="date" required>
-							<input type="time" id="id_entryTime" name="time" required>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label>出庫時刻</label>
-						</td>
-						<td>
-							<input type="date" id="id_exitDate" name="date" required>
-							<input type="time" id="id_exitTime" name="time" required>
-						</td>
-					</tr>
-				</table>
-				<div id="id_calcResult"></div>
-				<div id="id_errorMsg" style="color: red;"></div>
-				<input type="button" id="id_calc" value="計算">
+				<h2>駐車場料金</h2>
+				<div id="tableContainer"></div>
+				<h2>料金シミュレーション</h2>
+				<div>
+					入庫時刻：
+					<input type="date" id="id_entryDate" name="date" required>
+					<input type="time" id="id_entryTime" name="time" required>
+				</div>
+				<div>
+					出庫時刻：
+					<input type="date" id="id_exitDate" name="date" required>
+					<input type="time" id="id_exitTime" name="time" required>
+					<div id="id_errorMsg" style="color: red;"></div>
+					<div id="id_calcResult">-円</div>
+					<input type="button" id="id_calc" value="計算">
+				</div>
 			</div>
 			<div id="map"></div>
 		</div>
