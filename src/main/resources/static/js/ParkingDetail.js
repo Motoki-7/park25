@@ -42,7 +42,7 @@ function feeCalculation(parkinglotId) {
 	let id_exitTime = $('#id_exitTime').val();
 	if (id_entryDate != "" && id_entryTime != "" && id_exitDate != "" && id_exitTime != "") {
 		$('#id_errorMsg').text("");
-		var url = "/aaa?";
+		var url = "/calc?";
 		url += "id=" + parkinglotId;
 		url += "&entryDate=" + id_entryDate;
 		url += "&entryTime=" + id_entryTime;
