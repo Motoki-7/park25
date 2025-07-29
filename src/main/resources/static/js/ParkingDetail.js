@@ -40,8 +40,15 @@ function feeCalculation(parkinglotId) {
 	let id_entryTime = $('#id_entryTime').val();
 	let id_exitDate = $('#id_exitDate').val();
 	let id_exitTime = $('#id_exitTime').val();
+	$('#id_calcResult').text("-" + "円");
 	if (id_entryDate != "" && id_entryTime != "" && id_exitDate != "" && id_exitTime != "") {
 		$('#id_errorMsg').text("");
+		const entry = new Date(`${id_entryDate}T${id_entryTime}`);
+		const exit = new Date(`${id_exitDate}T${id_exitTime}`);
+		if (entry >= exit) {
+			$('#id_errorMsg').text("入庫時刻は出庫時刻より前でなければなりません。");
+			return ;
+		}
 		var url = "/aaa?";
 		url += "id=" + parkinglotId;
 		url += "&entryDate=" + id_entryDate;
@@ -55,7 +62,7 @@ function feeCalculation(parkinglotId) {
 			})
 			.then((result) => {
 				console.log(result);
-				$('#id_errorMsg').text(result);
+				$('#id_calcResult').text(result + "円");
 			})
 			.catch((error) => {
 				throw new Error("Get失敗");
