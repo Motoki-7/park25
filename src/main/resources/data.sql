@@ -49,7 +49,7 @@ VALUES ('東京都','品川区西五反田','1丁目','タイムズパーク24�
 ('福島県', '福島市三河南町', '8', 'タイムズ福島駅西口', 23, 200, '2025-07-19');
 
 INSERT INTO rates(parkinglotId,rangeId,amount,time,maxRateTimely,maxRate24h,maxRateDaily) 
-VALUES (1, 1, 200, 15, 2000, 3000, 5000);
+VALUES (1, 1, 200, 15, 2000, 3000, null);
 
 INSERT INTO range(startTime,endTime,monday,tuesday,wednesday,thursday,friday,saturday,sunday,holiday) 
 VALUES (0900, 2200, true, true, true, true, true, true, true, true);
