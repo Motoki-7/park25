@@ -205,10 +205,14 @@ function rangeValidation() {
 							array724[dayIndex][j] = true;
 						}
 					} else{
-						if(array724[dayIndex][j - 24]){
-							array724error[dayIndex][j - 24] = true;
+						let dayIndexbuf = dayIndex + 1;
+						if(dayIndexbuf > 6){
+							dayIndexbuf = 0;
+						}
+						if(array724[dayIndexbuf][j - 24]){
+							array724error[dayIndexbuf][j - 24] = true;
 						}else{
-							array724[dayIndex][j - 24] = true;
+							array724[dayIndexbuf][j - 24] = true;
 						}
 					}		
 				}
