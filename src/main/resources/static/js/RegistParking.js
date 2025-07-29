@@ -171,6 +171,10 @@ function addBaseFee(index) {
 }
 
 function rangeValidation() {
+	const isSelected = document.getElementById("baseFeeRadioButton0").checked;
+	if (isSelected) {
+	    return true;
+	}
 	const rows = document.getElementsByClassName("baseFeeBlock");
 	let array724 = [];
 	for (let i = 0; i < 7; i++) {
@@ -284,6 +288,10 @@ function rangeValidation() {
 }
 
 function baseFeeCheckboxesValidation() {
+	const isSelected = document.getElementById("baseFeeRadioButton0").checked;
+	if (isSelected) {
+	    return true;
+	}
 	const blocks = document.querySelectorAll(".baseFeeBlock");
 	let isValid = true;
 	$('#outputBaseFeeCheckboxesValidation').text("");

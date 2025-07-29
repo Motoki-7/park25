@@ -121,7 +121,12 @@ form > button[type="button"]:hover {
   background: var(--primary);
   color: var(--accent);
 }
-
+input[type="checkbox"],
+input[type="radio"] {
+  transform: scale(1.8);
+  margin-right: 0.5em;
+  cursor: pointer;
+}
 /* --------- タイトル --------- */
 .page-title {
   font-size: 1.8em;

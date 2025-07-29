@@ -77,7 +77,7 @@
 					<h2>駐車場料金</h2>
 					<div class="fee-form-row">
 						<label>
-							<input type="radio" th:field="*{baseFeeRadio}" value="0" onclick="baseFeeRadioChange(this)">
+							<input type="radio" id="baseFeeRadioButton0" th:field="*{baseFeeRadio}" value="0" onclick="baseFeeRadioChange(this)">
 							<span class="id_basefee0">終日固定</span>
 						</label>
 						<div class="id_basefee0">
@@ -382,6 +382,10 @@
 		</script>
 		<script>
 			function rangeValidation() {
+				const isSelected = document.getElementById("baseFeeRadioButton0").checked;
+				if (isSelected) {
+				    return true;
+				}
 				const rows = document.getElementsByClassName("baseFeeBlock");
 				let array724 = [];
 				for (let i = 0; i < 7; i++) {
@@ -495,6 +499,10 @@
 			}
 
 			function baseFeeCheckboxesValidation() {
+				const isSelected = document.getElementById("baseFeeRadioButton0").checked;
+				if (isSelected) {
+				    return true;
+				}
 				const blocks = document.querySelectorAll(".baseFeeBlock");
 				let isValid = true;
 				$('#outputBaseFeeCheckboxesValidation').text("");
