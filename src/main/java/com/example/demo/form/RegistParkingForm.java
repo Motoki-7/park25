@@ -46,7 +46,7 @@ public class RegistParkingForm {
 		ent.setAddress3(this.address3);
 		ent.setName(this.name);
 		ent.setCapacity(this.capacity);
-		ent.setHourlyRate(this.hourlyRate);
+//		ent.setHourlyRate(this.hourlyRate);
 		ent.setUpdateDate(this.updateDate);
 		return ent;
 	}
