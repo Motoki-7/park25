@@ -150,14 +150,15 @@ function addBaseFee(index) {
 			$(this).append(`<option value="${i}">${i}</option>`);
 		}
 	});
-
 	// 削除ボタンにイベントを追加
 	$list.find(".deleteBaseFeeBtn").on("click", function() {
 		$(this).closest(".baseFeeBlock").remove();
 		reindexBaseFeeBlocks();
 	});
 	$("#baseFee").append($list);
+	reindexBaseFeeBlocks();
 
+	
 	function reindexBaseFeeBlocks() {
 		const blocks = document.querySelectorAll(".baseFeeBlock");
 		blocks.forEach((block, newIndex) => {

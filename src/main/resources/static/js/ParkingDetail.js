@@ -75,21 +75,6 @@ function feeDisplay(formBuf){
 	const table = document.createElement("table");
 	table.border = "1";
 	const dailyList = formBuf.dailyList;
-	// 通常のデータ行
-	for (let i = 0; i < dailyList.length; i++) {
-	  const row = document.createElement("tr");
-	  const daily = dailyList[i];
-	  
-	  const td1 = document.createElement("td");
-	  td1.textContent = daily.monday || "";
-	  row.appendChild(td1);
-	  
-	  const td2 = document.createElement("td");
-	  td2.textContent = daily.tuesday || "";
-	  row.appendChild(td2);
-	  
-	  table.appendChild(row);
-	}
 	if(formBuf.baseFeeRadio == 0){
 		const row = document.createElement("tr");
 		const td1 = document.createElement("td");

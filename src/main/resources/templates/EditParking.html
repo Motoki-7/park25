@@ -294,7 +294,7 @@
 				});
 				$list.find("select[name='dailyList[" + index + "].startTime']").val(daily.startTime ?? "0");
 				$list.find("select[name='dailyList[" + index + "].endTime']").val(daily.endTime ?? "0");
-
+				
 				// 削除ボタンにイベントを追加
 				$list.find(".deleteBaseFeeBtn").on("click", function () {
 					$(this).closest(".baseFeeBlock").remove();
@@ -302,7 +302,7 @@
 				});
 				$("#baseFee").append($list);
 				index++;
-
+				reindexBaseFeeBlocks();
 				function reindexBaseFeeBlocks() {
 					const blocks = document.querySelectorAll(".baseFeeBlock");
 					blocks.forEach((block, newIndex) => {
