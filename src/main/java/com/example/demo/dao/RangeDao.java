@@ -42,7 +42,6 @@ public class RangeDao {
 
 	//検索
 	public List<RangeEntity> selectById(int id) {
-
 		List<RangeEntity> resultList = new ArrayList<RangeEntity>();
 		String query = "SELECT * FROM `range` WHERE rangeId = ?";
 
@@ -64,7 +63,7 @@ public class RangeDao {
 			ent.setHoliday((Boolean) resultMap.get("holiday"));
 			resultList.add(ent);
 		}
-		System.out.println(resultList);
+//		System.out.println(resultList);
 		return resultList;
 
 	}
@@ -84,13 +83,11 @@ public class RangeDao {
 				ent.isSunday(),
 				ent.isHoliday(),
 				ent.getRangeId());
-
 	}
 
 	//削除
 	public void delete(int id) {
 		String query = "DELETE FROM `range` WHERE rangeId = ?";
 		jdbcTemplate.update(query, id);
-
 	}
 }

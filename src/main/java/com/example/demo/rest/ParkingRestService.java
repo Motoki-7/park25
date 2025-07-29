@@ -68,66 +68,135 @@ public class ParkingRestService {
 			ratesDao.delete(ratesEnt.getRatesId());
 		}
 	}
-	
-	
-	
-	// 計算シミュレーション
+
+    // 料金シミュレーション
 	public List<Integer> calculate(
-			int id, 
-			LocalDate entryDate, LocalDate exitDate, 
-			LocalTime entryTime, LocalTime exitTime
-	){
-		// 1. 入退庫日時の準備
+            int id,
+            LocalDate entryDate, LocalDate exitDate,
+            LocalTime entryTime, LocalTime exitTime
+    ) {
+        // 1) 入退庫日時チェック
         LocalDateTime in  = LocalDateTime.of(entryDate, entryTime);
         LocalDateTime out = LocalDateTime.of(exitDate,  exitTime);
         if (out.isBefore(in)) {
             throw new IllegalArgumentException("退庫日時が入庫日時より前です");
         }
 
-        // 2. 駐車場・料金パターン情報取得
-        ParkingDetailForm form = selectById(id);  // 料金情報一式をDTOに詰める :contentReference[oaicite:4]{index=4}
+        // 2) View→Form
+        ParkingDetailForm form = selectById(id);
 
-        long totalMinutes = Duration.between(in, out).toMinutes();
-        int totalFee = 0;
+        // 3) 総分数
+        int totalMinutes = (int) Duration.between(in, out).toMinutes();
 
-        // 3. 日単位でループ（跨がる場合に対応）
-        LocalDateTime cursor = in;
-        while (!cursor.isAfter(out)) {
-            LocalDate today = cursor.toLocalDate();
-            LocalDateTime dayEnd = today.atTime(LocalTime.MAX);
-            LocalDateTime segmentEnd = out.isBefore(dayEnd) ? out : dayEnd;
-
-            // 4. 当日の料金計算
-            int dayFee = calcDailyFee(form, cursor, segmentEnd);
-
-            // 5. 24時間／日付締めの最大料金適用
-            if (form.getOptionRadio() != null) {
-                if (form.getOptionRadio() == 0 && form.getMaxRate24h() != null) {
-                    dayFee = Math.min(dayFee, form.getMaxRate24h());
-                } else if (form.getOptionRadio() == 1 && form.getMaxRateDaily() != null) {
-                    dayFee = Math.min(dayFee, form.getMaxRateDaily());
-                }
-            }
-            totalFee += dayFee;
-
-            // 翌日の00:00に移動
-            cursor = segmentEnd.plusSeconds(1);
+        // 4) 料金計算
+        int totalFee;
+        if (form.getBaseFeeRadio() == 0) {
+            // 終日固定パターン
+            totalFee = calculateFixedFee(form, in, out);
+        } else {
+            // 基本料金パターン（複数の RatesRangeDto に対応）
+            totalFee = calculateBasicFee(form, in, out);
         }
 
-        return Arrays.asList(totalFee, (int) totalMinutes);
-	}
-	 /** 指定区間内で、各時間帯レンジごとの料金を計算し合算 */
-	private int calcDailyFee(ParkingDetailForm form, LocalDateTime in, LocalDateTime out) {
-        int fee = 0;
-        LocalDate date = in.toLocalDate();
-        DayOfWeek dow = date.getDayOfWeek();
+        return Arrays.asList(totalFee, totalMinutes);
+    }
 
-        for (RatesRangeDto dto : form.getDailyList()) {
-            // 1) 曜日＋祝日チェック
-            if (HolidayUtils.isHoliday(date)) {
-                if (!dto.isHoliday()) {
-                    continue;  // 祝日レンジでなければスキップ
-                }
+    // --- 終日固定パターン ---
+    private int calculateFixedFee(
+            ParkingDetailForm form,
+            LocalDateTime in, LocalDateTime out
+    ) {
+        int amount   = form.getAmountDaily();
+        int timeUnit = form.getTimeDailly();
+        Integer max24   = form.getMaxRate24h();
+        Integer maxDay  = form.getMaxRateDaily();
+
+        if (Boolean.TRUE.equals(form.getOptionRadio() == 0) && max24 != null) {
+            return calc24hCapFee(in, out, amount, timeUnit, max24);
+        } else if (Boolean.TRUE.equals(form.getOptionRadio() == 1) && maxDay != null) {
+            return calcDailyCapFee(in, out, amount, timeUnit, maxDay);
+        } else {
+            return calcFee(in, out, amount, timeUnit);
+        }
+    }
+
+    private int calc24hCapFee(
+            LocalDateTime in, LocalDateTime out,
+            int amount, int timePer, int max24
+    ) {
+        long totalMin = Duration.between(in, out).toMinutes();
+        long days     = totalMin / (24 * 60);
+        int fee = (int) (days * max24);
+
+        long rem = totalMin % (24 * 60);
+        if (rem > 0) {
+            int units  = (int) Math.ceil((double) rem / timePer);
+            int part   = units * amount;
+            fee += Math.min(part, max24);
+        }
+        return fee;
+    }
+
+    private int calcDailyCapFee(
+            LocalDateTime in, LocalDateTime out,
+            int amount, int timePer, int maxDaily
+    ) {
+        int fee = 0;
+        LocalDateTime cursor = in;
+        while (!cursor.isAfter(out)) {
+            LocalDate   day    = cursor.toLocalDate();
+            LocalDateTime dayEnd = day.atTime(LocalTime.MAX);
+            LocalDateTime segEnd = out.isBefore(dayEnd) ? out : dayEnd;
+
+            long min = Duration.between(cursor, segEnd).toMinutes();
+            int units = (int) Math.ceil((double) min / timePer);
+            fee += Math.min(units * amount, maxDaily);
+
+            cursor = segEnd.plusSeconds(1);
+        }
+        return fee;
+    }
+
+    private int calcFee(
+            LocalDateTime in, LocalDateTime out,
+            int amount, int timePer
+    ) {
+        long min = Duration.between(in, out).toMinutes();
+        int units = (int) Math.ceil((double) min / timePer);
+        return units * amount;
+    }
+
+    // --- 基本料金パターン ---
+    private int calculateBasicFee(
+            ParkingDetailForm form,
+            LocalDateTime in, LocalDateTime out
+    ) {
+        int fee = 0;
+        LocalDateTime cursor = in;
+        while (!cursor.isAfter(out)) {
+            LocalDate   day    = cursor.toLocalDate();
+            LocalDateTime dayEnd = day.atTime(LocalTime.MAX);
+            LocalDateTime segEnd = out.isBefore(dayEnd) ? out : dayEnd;
+
+            fee += calcDailyBasicFee(form.getDailyList(), day, cursor, segEnd);
+            cursor = segEnd.plusSeconds(1);
+        }
+        return fee;
+    }
+
+    private int calcDailyBasicFee(
+            List<RatesRangeDto> dailyList,
+            LocalDate date,
+            LocalDateTime in, LocalDateTime out
+    ) {
+        int fee = 0;
+        DayOfWeek dow   = date.getDayOfWeek();
+        boolean  hol   = HolidayUtils.isHoliday(date);
+
+        for (RatesRangeDto dto : dailyList) {
+            // 1) 曜日／祝日フィルタ
+            if (hol) {
+                if (!dto.isHoliday()) continue;
             } else {
                 switch (dow) {
                     case MONDAY:    if (!dto.isMonday())    continue; break;
@@ -140,35 +209,39 @@ public class ParkingRestService {
                 }
             }
 
-            // 2) 時間帯オーバーラップ判定
-            LocalTime rStart = LocalTime.of(dto.getStartTime() / 100, dto.getStartTime() % 100);
-            LocalTime rEnd   = LocalTime.of(dto.getEndTime()   / 100, dto.getEndTime()   % 100);
-            LocalDateTime segStart = in.isAfter(date.atTime(rStart)) ? in : date.atTime(rStart);
-            LocalDateTime segEnd   = out.isBefore(date.atTime(rEnd))  ? out : date.atTime(rEnd);
-
-            if (!segStart.isBefore(segEnd)) {
-                continue;  // 重ならなければスキップ
+            // 2) 時間帯のDateTime化
+            LocalDateTime startDT, endDT;
+            int  s = dto.getStartTime(), e = dto.getEndTime();
+            if (s == e) {
+                // 終日
+                startDT = date.atTime(LocalTime.MIN);
+                endDT   = date.plusDays(1).atTime(LocalTime.MIN);
+            } else {
+                LocalTime tStart = LocalTime.of(s / 100, s % 100);
+                LocalTime tEnd   = LocalTime.of(e / 100, e % 100);
+                startDT = date.atTime(tStart);
+                endDT   = (s < e)
+                          ? date.atTime(tEnd)
+                          : date.plusDays(1).atTime(tEnd);  // 深夜越え
             }
 
-            // 3) 単位時間チャージ
-            int segmentFee = calcFee(segStart, segEnd, dto.getAmount(), dto.getTime());
+            // 3) 重なり判定
+            LocalDateTime segStart = in.isAfter(startDT) ? in : startDT;
+            LocalDateTime segEnd   = out.isBefore(endDT)  ? out : endDT;
+            if (!segStart.isBefore(segEnd)) continue;
 
-            // 4) 範囲最大料金適用
+            // 4) 単位時間チャージ＋範囲上限
+            long     mins  = Duration.between(segStart, segEnd).toMinutes();
+            int      units = (int) Math.ceil((double) mins / dto.getTime());
+            int      part  = units * dto.getAmount();
             if (dto.getMaxRateTimely() != null) {
-                segmentFee = Math.min(segmentFee, dto.getMaxRateTimely());
+                part = Math.min(part, dto.getMaxRateTimely());
             }
-
-            fee += segmentFee;
+            fee += part;
         }
-
         return fee;
     }
-    /** 既存：in→out の時間を timePer 分単位で feePer 円ずつ課金 */
-    private int calcFee(LocalDateTime in, LocalDateTime out, int feePer, int timePer) {
-        long minutes = Duration.between(in, out).toMinutes();
-        int units = (int) Math.ceil((double) minutes / timePer);
-        return units * feePer;  // :contentReference[oaicite:7]{index=7}
-    }
+    
 	// データの取得 <ParkingDetailForm.java>
 	private ParkingDetailForm selectById(int parkinglotId){
 		ParkingDetailForm form = new ParkingDetailForm();
