@@ -47,4 +47,23 @@ $(document).ready(() => {
 			findParkingAll(makeParkingList);
 		}
 	});
+	
+	//リセットボタン
+	$('#id_reset').click(() => {
+		// 入力欄をクリア
+		$('#id_name').val('');
+		$('#id_address1').val('');
+
+		// localStorageをクリア（検索条件・ソート条件）
+		localStorage.removeItem("userSearchName");
+		localStorage.removeItem("userSearchAddress1");
+		localStorage.removeItem("userSortKey");
+		localStorage.removeItem("userSortAsc");
+		localStorage.removeItem("userSelected");
+
+		// 結果をクリア
+		$('#resultList').empty();
+		$('#id_errorMsg').text('');
+	});
+	
 });
