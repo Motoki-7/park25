@@ -1,9 +1,4 @@
 --本番環境用--------------------------
---INSERT IGNORE INTO parkinglot(id,address1,address2,address3,name,capacity,hourlyRate,updateDate) 
---VALUES (1,'東京都','品川区西五反田','1丁目','タイムズパーク24グループ本社ビル',50,1320,'2025-07-20');
- 
- 
---ローカルテスト用--------------------------
 INSERT INTO parkinglot(address1,address2,address3,name,capacity,hourlyRate,updateDate)
 VALUES ('東京都','品川区西五反田','1丁目','タイムズパーク24グループ本社ビル',50,1320,'2025-07-20'),
 ('東京都', '新宿区新宿', '1丁目', 'タイムズ新宿御苑前第３', 2, 1320, '2025-07-03'),
@@ -84,7 +79,7 @@ VALUES (1, null, 330, 15, null, 3000, null),
 (19,null,220,30,null,null,900)
 ;
 
-INSERT INTO range(startTime,endTime,monday,tuesday,wednesday,thursday,friday,saturday,sunday,holiday) 
+INSERT INTO `range`(startTime,endTime,monday,tuesday,wednesday,thursday,friday,saturday,sunday,holiday) 
 VALUES (0, 0, true, true, true, true, true, true, true, true),
 (0, 0, true, true, true, true, true, false, false, false),
 (0, 0, false, false, false, false, false, true, true, true),
