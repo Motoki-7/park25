@@ -115,18 +115,19 @@ public class ParkingRestService {
         Integer max24   = form.getMaxRate24h();
         Integer maxDay  = form.getMaxRateDaily();
         
-        // [optionRadio = 0] 24時間ごとの最大料金アリ
-        if (Boolean.TRUE.equals(form.getOptionRadio() == 0) && max24 != null) {
-            return calc24hCapFee(in, out, amount, timeUnit, max24);
-        }
-        // [optionRadio = 1] 日付締めによる最大料金アリ
-        else if (Boolean.TRUE.equals(form.getOptionRadio() == 1) && maxDay != null) {
-            return calcDailyCapFee(in, out, amount, timeUnit, maxDay);
-        }
-        // [optionRadio = null] 最大料金ナシ
-        else {
-            return calcFee(in, out, amount, timeUnit);
-        }
+     // [optionRadio = null] 最大料金ナシ
+     //    最初にnullチェックを行わないとnull参照でエラーになる
+      if (Boolean.TRUE.equals(form.getOptionRadio() == null)) {
+    	  return calcFee(in, out, amount, timeUnit);
+      }
+      // [optionRadio = 0] 24時間ごとの最大料金アリ
+      else if (Boolean.TRUE.equals(form.getOptionRadio() == 1) && maxDay != null) {
+    	  return calc24hCapFee(in, out, amount, timeUnit, max24);
+      }
+      // [optionRadio = 1] 日付締めによる最大料金アリ
+      else {
+    	  return calcDailyCapFee(in, out, amount, timeUnit, maxDay);
+      }
     }
     // 終日固定：24時間ごとの最大料金アリ
     private int calc24hCapFee(
