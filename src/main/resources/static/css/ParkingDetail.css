@@ -1,5 +1,5 @@
 :root {
-  --form-max-width: 900px;
+  --form-max-width: 1600px;
   --form-padding: 2em;
   --form-radius: 8px;
   --form-shadow: 0 2px 4px #ddd;
@@ -24,14 +24,13 @@
   justify-content: center;
   align-items: stretch;
   gap: 2em;
-  width: 95%;
-  max-width: 1200px;
+  max-width: 1600px;
   margin-bottom: 1em;
 }
 
 .detail-info {
-  flex: 1;
   min-height: 600px;
+  width: 40%;
   background: var(--sub-accent);
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -64,8 +63,7 @@
 
 /* 地図エリア */
 #map {
-  flex: 1;
-  width: 600px;
+  width: 800px;
   border: 1px solid var(--border);
   border-radius: 4px;
 }
