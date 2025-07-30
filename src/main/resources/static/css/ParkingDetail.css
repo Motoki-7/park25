@@ -1,3 +1,13 @@
+:root {
+  --form-max-width: 1600px;
+  --form-padding: 2em;
+  --form-radius: 8px;
+  --form-shadow: 0 2px 4px #ddd;
+  --input-padding: 0.5em;
+  --input-font-size: 1em;
+  --input-border-radius: 4px;
+}
+
 /* タイトル */
 .page-title {
   font-size: 1.8em;
@@ -12,16 +22,15 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   gap: 2em;
-  width: 95%;
-  max-width: 1200px;
+  max-width: 1600px;
   margin-bottom: 1em;
 }
 
 .detail-info {
-  flex: 1;
   min-height: 600px;
+  width: 40%;
   background: var(--sub-accent);
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -35,11 +44,26 @@
   font-size: 1.1em;
 }
 
+.detail-info input{
+  flex: 1;
+  min-width: 150px;
+  max-width: 100%;
+  padding: var(--input-padding);
+  border: 1px solid var(--border);
+  border-radius: var(--input-border-radius);
+  font-size: var(--input-font-size);
+  box-sizing: border-box;
+}
+
+#id_calc {
+  width: 100%;
+  padding: 0.5em;
+  font-size: 1em;
+}
+
 /* 地図エリア */
 #map {
-  flex: 1;
-  height: 600px;
-  width: 600px;
+  width: 800px;
   border: 1px solid var(--border);
   border-radius: 4px;
 }
@@ -75,3 +99,24 @@ form > button[type="submit"]:hover {
     justify-content: flex-start; /* 縦詰め */
   }
 }
+
+.fee-table {
+  margin: 1em auto;            /* 中央揃え */
+  border-collapse: collapse;   /* 線の重なり防止 */
+  width: 90%;                  /* 必要に応じて幅調整 */
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.fee-table td, .fee-table th {
+  border: 1px solid #ccc;
+  padding: 0.6em 1em;
+  text-align: center;
+}
+
+.fee-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+

@@ -32,4 +32,51 @@ $(document).ready(() => {
 	$('#id_address1').on('change', function () {
 		localStorage.setItem("adminSearchAddress1", $(this).val());
 	});
+	
+	
+	// ▼▲ボタン押下時のイベント（ソート切り替え）
+	$('#resultList').on('click','.sortBtnAdmin',function(){
+		
+		const key = $(this).data('key');
+		const currentKey = localStorage.getItem("sortKey");
+		const currentAsc = localStorage.getItem("sortAsc") === "true";
+		
+		const newAsc = (key === currentKey) ? !currentAsc : true;
+		
+		
+		localStorage.setItem("sortKey",key);
+		localStorage.setItem("sortAsc",newAsc);
+		
+		
+		const savedSelected = localStorage.getItem("adminSelected");
+		
+		if(savedSelected === "findParking"){
+			findParking(makeAdminParkingList);
+			
+		}else if (savedSelected === "findParkingAll"){
+			
+			findParkingAll(makeAdminParkingList);
+			
+		}	
+	});
+	
+	//リセットボタン
+	$('#id_reset').click(() => {
+		// 入力欄をクリア
+		$('#id_name').val('');
+		$('#id_address1').val('');
+
+		// localStorageをクリア（検索条件・ソート条件）
+		localStorage.removeItem("adminSearchName");
+		localStorage.removeItem("adminSearchAddress1");
+		localStorage.removeItem("sortKey");
+		localStorage.removeItem("sortAsc");
+		localStorage.removeItem("adminSelected");
+
+		// 結果をクリア
+		$('#resultList').empty();
+		$('#id_errorMsg').text('');
+	});
+	
+	
 });

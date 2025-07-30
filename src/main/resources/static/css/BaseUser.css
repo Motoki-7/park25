@@ -60,8 +60,9 @@ body {
 
 main, form {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px;
   text-align: center;
+  align-items: center;
 }
 
 .input-block {

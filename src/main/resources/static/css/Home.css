@@ -1,89 +1,109 @@
 /* タイトル */
 .page-title {
-  font-size: 1.8em;
-  font-weight: bold;
-  margin: 0.5em 0 1em;
-  text-align: center;
-  color: var(--accent);
+	font-size: 1.8em;
+	font-weight: bold;
+	margin: 0.5em 0 1em;
+	text-align: center;
+	color: var(--accent);
 }
 
 /* ボタン行（検索・一覧など） */
 .button-row,
 .search-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1em;
-  flex-wrap: wrap;
-  margin-bottom: 1em;
+	display: flex;
+	justify-content: center;
+	gap: 1em;
+	flex-wrap: wrap;
+	margin-bottom: 1em;
 }
 
 /* ボタン共通スタイル */
 input[type="button"],
 input[type="submit"] {
-  padding: 0.5em 1.5em;
-/*  margin-right: 0.8em;*/
+	padding: 0.5em 1.5em;
+	/*  margin-right: 0.8em;*/
 }
 
 /* 検索入力欄幅調整 */
 #id_name {
-  min-width: 15em;
+	min-width: 15em;
 }
 
 /* 表のスタイル */
 .parking-table-user {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1em;
-  background: var(--sub-accent);
+	max-width: 1200px;
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1em auto;
+	background: var(--sub-accent);
 }
 
 .parking-table-user th,
 .parking-table-user td {
-  border: 1px solid var(--border);
-  padding: 0.75em;
-  text-align: left;
+	border: 1px solid var(--border);
+	padding: 0.75em;
+	text-align: left;
 }
 
 .parking-table-user th {
-  background: var(--primary);
-  color: var(--accent);
-  font-weight: bold;
+	background: var(--primary);
+	color: var(--accent);
+	font-weight: bold;
 }
 
 .parking-table-user tr:nth-child(even) {
-  background: #fff;
+	background: #fff;
 }
 
 /* 通常テーブル（標準） */
 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1.5em;
-  background: white;
-  box-shadow: 0 2px 6px #ddd;
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1.5em auto;
+	background: white;
+	box-shadow: 0 2px 6px #ddd;
 }
 
 table th {
-  background-color: var(--primary);
-  color: var(--accent);
-  padding: 0.6em;
-  border: 1px solid var(--border);
+	background-color: var(--primary);
+	color: var(--accent);
+	padding: 0.6em;
+	border: 1px solid var(--border);
 }
 
 table td {
-  padding: 0.5em;
-  border: 1px solid var(--border);
-  font-size: 0.95em;
+	padding: 0.5em;
+	border: 1px solid var(--border);
+	font-size: 0.95em;
 }
 
 table tr:nth-child(even) {
-  background-color: #fdf8e6;
+	background-color: #fdf8e6;
 }
 
 /* レスポンシブ対応 */
 @media (max-width: 600px) {
-  #id_name {
-    min-width: unset;
-    width: 100%;
-  }
+	#id_name {
+		min-width: unset;
+		width: 100%;
+	}
+}
+
+/* ソートボタン */
+.sortBtnUser {
+	background-color: #f0f0f0;
+	color: var(--accent);
+	/* テーブル見出しと合わせる */
+	font-weight: bold;
+	border: 1px solid var(--border);
+	/* テーブルの枠線と統一感 */
+	padding: 0.4em 1em;
+	border-radius: 4px;
+}
+
+/* ソートボタンをクリックした後の様式を変更 */
+.sortBtnUser.active {
+	background-color: var(--accent);
+	color: #fff;
+	border-color: var(--accent);
 }
